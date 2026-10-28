@@ -15,8 +15,8 @@
     }
 
     body {
-      background-color: #070a09;
-      color: #e2d9c2;
+      background-color: #060908;
+      color: #ede2c9;
       font-family: 'Courier New', Courier, monospace;
       display: flex;
       flex-direction: column;
@@ -34,7 +34,7 @@
       justify-content: center;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle, #131a17 0%, #050706 100%);
+      background: radial-gradient(circle, #1a241f 0%, #050807 100%);
     }
 
     #viewport-container {
@@ -42,14 +42,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 4px solid #27332e;
+      border: 3px solid #3c4f44;
       border-radius: 8px;
       background: #000;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 18px rgba(0,0,0,0.95);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.95), inset 0 0 15px rgba(0,0,0,0.85);
       overflow: hidden;
     }
 
-    canvas {
+    canvas#gameCanvas {
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       width: 100%;
@@ -57,34 +57,215 @@
       display: block;
     }
 
-    /* HUD Superiore */
+    /* HUD Superiore con Mini Mappa GTA Style */
     #hud {
       position: absolute;
-      top: 6px;
-      left: 8px;
-      right: 8px;
+      top: 5px;
+      left: 6px;
+      right: 6px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      font-size: 8.5px;
-      color: #e6dfce;
-      text-shadow: 1px 1px 2px #000;
-      letter-spacing: 0.5px;
+      align-items: flex-start;
       pointer-events: none;
-      z-index: 10;
+      z-index: 20;
+    }
+
+    #hud-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(8, 14, 11, 0.85);
+      padding: 3px 6px 3px 3px;
+      border-radius: 20px;
+      border: 1.5px solid #584a32;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+
+    #minimap-canvas {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid #dfa84a;
+      background: #111e17;
+      image-rendering: pixelated;
+      box-shadow: inset 0 0 4px #000;
+    }
+
+    #zone-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #zone-title {
+      font-size: 8px;
+      font-weight: bold;
+      color: #dfa84a;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      max-width: 90px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #weather-tag {
+      font-size: 7px;
+      color: #8da698;
     }
 
     #hud-right {
       display: flex;
-      gap: 9px;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      background: rgba(8, 14, 11, 0.82);
+      padding: 4px 6px;
+      border-radius: 4px;
+      border: 1px solid #3c4f44;
+      font-size: 8.5px;
+      color: #f1ebd8;
+      text-shadow: 1px 1px 2px #000;
     }
 
-    #save-indicator {
-      font-size: 7.5px;
-      color: #55db88;
+    #autosave-indicator {
+      font-size: 6.5px;
+      color: #4ed982;
+      font-weight: bold;
+      letter-spacing: 0.5px;
       opacity: 0;
-      transition: opacity 0.4s;
+      transition: opacity 0.3s;
+    }
+
+    /* Schermata Titoli / Menu Principale */
+    #title-screen {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, #1a241f 0%, #070d0b 80%, #020403 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+      text-align: center;
+    }
+
+    #title-logo {
+      font-size: 16px;
+      font-weight: 900;
+      color: #f3be58;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px rgba(243, 190, 88, 0.4), 0 3px 6px #000;
+      margin-bottom: 2px;
+    }
+
+    #title-sub {
+      font-size: 8.5px;
+      color: #9cb1a5;
+      font-style: italic;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .title-btn {
+      width: 170px;
+      background: #19241f;
+      border: 1.5px solid #4a5c52;
+      color: #e5dac2;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 8px 10px;
+      margin: 4px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 0 #0d1310;
+      transition: all 0.15s;
+    }
+
+    .title-btn:hover, .title-btn:active {
+      background: #31463b;
+      border-color: #dfa84a;
+      color: #fff;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #0d1310;
+    }
+
+    .title-btn:disabled {
+      opacity: 0.4;
+      border-color: #26332b;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Finestra di Conferma Sovrascrittura */
+    #confirm-modal {
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 6, 5, 0.94);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 110;
+      padding: 18px;
+      text-align: center;
+    }
+
+    #confirm-box {
+      background: #151e1a;
+      border: 2px solid #8c3b3b;
+      border-radius: 6px;
+      padding: 14px;
+      width: 90%;
+      max-width: 250px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.9);
+    }
+
+    #confirm-title {
+      color: #f17a7a;
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    #confirm-msg {
+      font-size: 9px;
+      color: #d1c7b2;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 9.5px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid #444;
+    }
+
+    #btn-confirm-yes {
+      background: #7a2828;
+      color: #fff;
+      border-color: #a83d3d;
+    }
+
+    #btn-confirm-no {
+      background: #25332c;
+      color: #e5dac2;
+      border-color: #4b6154;
     }
 
     /* Finestra di Dialogo & Taccuino */
@@ -93,32 +274,32 @@
       bottom: 8px;
       left: 8px;
       right: 8px;
-      background: rgba(12, 17, 15, 0.96);
+      background: rgba(11, 16, 14, 0.96);
       border: 2px solid #8c7853;
       border-radius: 4px;
-      padding: 9px 11px;
-      color: #f1ebd8;
+      padding: 8px 10px;
+      color: #f5eedc;
       font-size: 11.5px;
       line-height: 1.35;
       display: none;
       z-index: 50;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.85);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.9);
     }
 
     #dialogue-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #3e4a42;
+      border-bottom: 1px solid #3c4b42;
       padding-bottom: 3px;
       margin-bottom: 5px;
     }
 
     #dialogue-speaker {
-      color: #dfa84a;
+      color: #f3be58;
       font-weight: bold;
       text-transform: uppercase;
-      font-size: 11px;
+      font-size: 10.5px;
       letter-spacing: 1px;
     }
 
@@ -129,74 +310,54 @@
     }
 
     #dialogue-text {
-      min-height: 38px;
+      min-height: 36px;
       white-space: pre-line;
     }
 
     #dialogue-prompt {
       text-align: right;
-      font-size: 9px;
-      color: #7d9685;
+      font-size: 8.5px;
+      color: #8da496;
       animation: blink 0.9s infinite alternate;
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
-    /* Schermata Iniziale (Title Screen) & Menu di Pausa */
-    .overlay-screen {
+    /* Menu di Pausa / START */
+    #pause-menu {
       position: absolute;
       inset: 0;
-      background: rgba(5, 9, 7, 0.96);
-      display: flex;
+      background: rgba(6, 10, 8, 0.94);
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 70;
-      padding: 16px;
-      text-align: center;
-    }
-
-    #title-screen h1 {
-      font-size: 17px;
-      letter-spacing: 3px;
-      color: #dfa84a;
-      text-shadow: 0 0 10px rgba(223, 168, 74, 0.5);
-      margin-bottom: 2px;
-    }
-
-    #title-screen .subtitle {
-      font-size: 8.5px;
-      color: #7b9487;
-      letter-spacing: 1.5px;
-      margin-bottom: 16px;
-      text-transform: uppercase;
-    }
-
-    #pause-menu {
-      display: none;
       z-index: 60;
+      border: 2px solid #52422c;
+      padding: 16px;
+      backdrop-filter: blur(2px);
     }
 
     #pause-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
-      color: #dfa84a;
+      color: #f3be58;
       letter-spacing: 2px;
       margin-bottom: 12px;
       border-bottom: 1px solid #4a3e2a;
       padding-bottom: 4px;
-      width: 80%;
+      width: 75%;
       text-align: center;
     }
 
     .menu-item {
       width: 85%;
-      max-width: 210px;
+      max-width: 190px;
       background: #17211d;
       border: 1px solid #34483e;
       color: #e5dac2;
       font-family: inherit;
       font-size: 10.5px;
-      padding: 8px 10px;
+      padding: 7px 9px;
       margin: 4px 0;
       cursor: pointer;
       display: flex;
@@ -208,70 +369,14 @@
 
     .menu-item:hover, .menu-item:active {
       background: #2b3d35;
-      border-color: #8c7853;
+      border-color: #dfa84a;
       color: #fff;
-    }
-
-    .menu-item:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      border-color: #222d28;
     }
 
     .menu-tag {
       font-size: 9px;
       color: #dfa84a;
       font-weight: bold;
-    }
-
-    /* Modal Conferma Sovrascrittura Partita */
-    #confirm-modal {
-      position: absolute;
-      inset: 0;
-      background: rgba(3, 5, 4, 0.98);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 80;
-      padding: 16px;
-      border: 2px solid #8c3b3b;
-    }
-
-    #confirm-modal p {
-      font-size: 10.5px;
-      line-height: 1.4;
-      color: #e2c0be;
-      margin-bottom: 14px;
-      text-align: center;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-      width: 100%;
-      justify-content: center;
-    }
-
-    .modal-btn {
-      padding: 6px 14px;
-      font-family: inherit;
-      font-size: 10px;
-      font-weight: bold;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-
-    .btn-danger {
-      background: #6d2222;
-      color: #fff;
-      border: 1px solid #a83d3d;
-    }
-
-    .btn-cancel {
-      background: #25332c;
-      color: #d1c7af;
-      border: 1px solid #485c52;
     }
 
     @keyframes blink {
@@ -287,20 +392,20 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 16px;
-      z-index: 20;
+      z-index: 25;
     }
 
     .dpad {
       position: relative;
-      width: 124px;
-      height: 124px;
+      width: 120px;
+      height: 120px;
     }
 
     .dpad-btn {
       position: absolute;
-      background: #242e2a;
-      border: 2px solid #3c4c44;
-      color: #a4b8ad;
+      background: #232d29;
+      border: 2px solid #3b4d44;
+      color: #b0c4b9;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -308,43 +413,43 @@
       font-size: 15px;
       border-radius: 6px;
       cursor: pointer;
-      box-shadow: 0 4px 0 #111714;
+      box-shadow: 0 4px 0 #101613;
     }
 
     .dpad-btn:active, .dpad-btn.pressed {
       background: #465b52;
-      box-shadow: 0 1px 0 #111714;
+      box-shadow: 0 1px 0 #101613;
       transform: translateY(3px);
     }
 
-    #btn-up    { width: 40px; height: 40px; top: 0; left: 42px; }
-    #btn-down  { width: 40px; height: 40px; bottom: 0; left: 42px; }
-    #btn-left  { width: 40px; height: 40px; top: 42px; left: 0; }
-    #btn-right { width: 40px; height: 40px; top: 42px; right: 0; }
+    #btn-up    { width: 38px; height: 38px; top: 0; left: 41px; }
+    #btn-down  { width: 38px; height: 38px; bottom: 0; left: 41px; }
+    #btn-left  { width: 38px; height: 38px; top: 41px; left: 0; }
+    #btn-right { width: 38px; height: 38px; top: 41px; right: 0; }
     .dpad-center {
       position: absolute;
-      width: 40px;
-      height: 40px;
-      top: 42px;
-      left: 42px;
-      background: #18201d;
-      border: 1px solid #293630;
+      width: 38px;
+      height: 38px;
+      top: 41px;
+      left: 41px;
+      background: #17201c;
+      border: 1px solid #28362f;
     }
 
-    /* Centro: Tasto START */
+    /* Tasto START & Gruppo Sistema */
     .system-controls {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .start-btn {
-      width: 66px;
-      height: 28px;
+      width: 64px;
+      height: 26px;
       background: #252825;
       border: 2px solid #4a524c;
-      border-radius: 14px;
+      border-radius: 13px;
       color: #c9bfab;
       font-size: 9.5px;
       font-weight: bold;
@@ -364,7 +469,7 @@
     }
 
     .audio-indicator {
-      font-size: 8px;
+      font-size: 7.5px;
       color: #79877e;
       letter-spacing: 0.5px;
     }
@@ -376,12 +481,19 @@
       align-items: center;
     }
 
+    .right-cluster {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
     .act-btn {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: #3a2e22;
-      border: 2px solid #846743;
+      background: #3e3124;
+      border: 2px solid #8e7049;
       color: #f7e8ce;
       font-size: 13px;
       font-weight: bold;
@@ -394,19 +506,21 @@
     }
 
     .act-btn span {
-      font-size: 7.5px;
-      color: #b59b77;
+      font-size: 7px;
+      color: #beaa8d;
       margin-top: 1px;
       text-transform: uppercase;
     }
 
     .act-btn:active, .act-btn.pressed {
-      background: #5d4834;
+      background: #624c36;
       box-shadow: 0 1px 0 #18120b;
       transform: translateY(3px);
     }
 
-    /* Orientamento Portrait vs Landscape */
+    /* ========================================================= */
+    /* ORIENTAMENTO: VERTICALE (PORTRAIT) VS ORIZZONTALE (LANDSCAPE) */
+    /* ========================================================= */
     @media (orientation: portrait) {
       #game-wrapper {
         flex-direction: column;
@@ -420,6 +534,10 @@
       }
       #touch-controls {
         flex-direction: row;
+        justify-content: space-around;
+      }
+      .right-cluster {
+        flex-direction: row;
       }
     }
 
@@ -428,32 +546,39 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        padding: 0 12px;
+        padding: 0 10px;
       }
       #viewport-container {
         height: 88vh;
         width: 97.7vh;
-        max-width: 440px;
-        max-height: 396px;
+        max-width: 430px;
+        max-height: 387px;
         order: 2;
-      }
-      .dpad {
-        order: 1;
-        transform: scale(0.9);
-      }
-      .system-controls {
-        order: 2;
-        position: absolute;
-        bottom: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      .action-group {
-        order: 3;
-        transform: scale(0.9);
       }
       #touch-controls {
         display: contents;
+      }
+      .dpad {
+        order: 1;
+        transform: scale(0.92);
+      }
+      /* IN ORIZZONTALE: START SOTTO I TASTI A E B */
+      .right-cluster {
+        order: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        transform: scale(0.92);
+      }
+      .action-group {
+        order: 1;
+        display: flex;
+        gap: 12px;
+      }
+      .system-controls {
+        order: 2;
+        margin-top: 2px;
       }
     }
   </style>
@@ -462,21 +587,26 @@
 
 <div id="game-wrapper">
   <div id="viewport-container">
-    <!-- HUD Superiore -->
+    <!-- HUD Superiore con Mini Mappa GTA Style -->
     <div id="hud">
-      <span id="zone-title">SACRIFICE GLADE</span>
+      <div id="hud-left">
+        <canvas id="minimap-canvas" width="48" height="48"></canvas>
+        <div id="zone-info">
+          <span id="zone-title">SACRIFICE GLADE</span>
+          <span id="weather-tag">CLEAR</span>
+        </div>
+      </div>
       <div id="hud-right">
-        <span id="save-indicator">AUTO-SAVED</span>
-        <!-- Orologio senza icone -->
         <span id="time-display">12:00</span>
         <span id="clues-counter">CLUES: 0/7</span>
+        <span id="autosave-indicator">AUTO-SAVED</span>
       </div>
     </div>
 
-    <!-- Schermo di Gioco 160x144 -->
+    <!-- Schermo Principale di Gioco 160x144 -->
     <canvas id="gameCanvas" width="160" height="144"></canvas>
 
-    <!-- Dialogo / Fascicolo d'indagine -->
+    <!-- Dialoghi e Notifiche -->
     <div id="dialogue-box">
       <div id="dialogue-header">
         <span id="dialogue-speaker">DET. HAYES</span>
@@ -486,35 +616,38 @@
       <div id="dialogue-prompt">[Press (A) to continue]</div>
     </div>
 
-    <!-- Schermata di Inizio Gioco -->
-    <div class="overlay-screen" id="title-screen">
-      <h1>BAYOU NOIR</h1>
-      <div class="subtitle">The King in the Marsh</div>
-      <button class="menu-item" id="title-continue-btn" disabled>
+    <!-- Schermata Titoli / Menu Principale -->
+    <div id="title-screen">
+      <div id="title-logo">BAYOU NOIR</div>
+      <div id="title-sub">The King in the Marsh • Case File #95-04</div>
+      <button class="title-btn" id="btn-title-continue">
         <span id="lbl-title-continue">CONTINUE</span>
-        <span class="menu-tag">▶</span>
+        <span>▶</span>
       </button>
-      <button class="menu-item" id="title-new-btn">
+      <button class="title-btn" id="btn-title-new">
         <span id="lbl-title-new">NEW GAME</span>
-        <span class="menu-tag">+</span>
+        <span>★</span>
       </button>
-      <button class="menu-item" id="title-lang-btn">
+      <button class="title-btn" id="btn-title-lang">
         <span id="lbl-title-lang">LANGUAGE</span>
-        <span class="menu-tag" id="title-lang-tag">ENGLISH</span>
+        <span id="title-lang-val">ENGLISH</span>
       </button>
     </div>
 
-    <!-- Modal Conferma Sovrascrittura Salvataggio -->
+    <!-- Finestra Modale Conferma Nuovo Gioco -->
     <div id="confirm-modal">
-      <p id="confirm-msg">An existing save game was found.<br>Starting a new game will overwrite your progress.<br>Proceed?</p>
-      <div class="modal-actions">
-        <button class="modal-btn btn-danger" id="confirm-overwrite-btn">OVERWRITE</button>
-        <button class="modal-btn btn-cancel" id="confirm-cancel-btn">CANCEL</button>
+      <div id="confirm-box">
+        <div id="confirm-title" id="lbl-modal-title">OVERWRITE SAVE?</div>
+        <div id="confirm-msg" id="lbl-modal-msg">A saved case already exists. Starting a new game will erase your current progress. Proceed?</div>
+        <div class="confirm-actions">
+          <button class="modal-btn" id="btn-confirm-yes">YES, OVERWRITE</button>
+          <button class="modal-btn" id="btn-confirm-no">CANCEL</button>
+        </div>
       </div>
     </div>
 
     <!-- Menu Pausa / START -->
-    <div class="overlay-screen" id="pause-menu">
+    <div id="pause-menu">
       <div id="pause-title">PAUSE / MENU</div>
       <button class="menu-item" id="menu-resume-btn">
         <span id="label-resume">RESUME GAME</span>
@@ -532,14 +665,14 @@
         <span id="label-journal">DETECTIVE NOTES</span>
         <span class="menu-tag">B</span>
       </button>
-      <button class="menu-item" id="menu-quit-btn">
-        <span id="label-quit">MAIN MENU</span>
-        <span class="menu-tag">↩</span>
+      <button class="menu-item" id="menu-titlescreen-btn">
+        <span id="label-mainmenu">MAIN MENU</span>
+        <span class="menu-tag">⏏</span>
       </button>
     </div>
   </div>
 
-  <!-- Controlli Tattili Adattivi Mobile -->
+  <!-- Controlli Tattili Schermo Interattivi -->
   <div id="touch-controls">
     <!-- D-Pad -->
     <div class="dpad">
@@ -550,22 +683,23 @@
       <button class="dpad-btn" id="btn-down">▼</button>
     </div>
 
-    <!-- Tasto START & Info Audio -->
-    <div class="system-controls">
-      <button class="start-btn" id="btn-start">START</button>
-      <span class="audio-indicator" id="audio-tag">♪ NOIR AMBIENT</span>
-    </div>
+    <!-- Cluster Destro: Tasti A/B e START posizionato subito sotto in landscape -->
+    <div class="right-cluster">
+      <div class="action-group">
+        <button class="act-btn" id="btn-inspect">
+          A
+          <span id="lbl-btn-a">EXAMINE</span>
+        </button>
+        <button class="act-btn" id="btn-log">
+          B
+          <span id="lbl-btn-b">NOTES</span>
+        </button>
+      </div>
 
-    <!-- Pulsanti d'Azione A / B -->
-    <div class="action-group">
-      <button class="act-btn" id="btn-inspect">
-        A
-        <span id="lbl-btn-a">EXAMINE</span>
-      </button>
-      <button class="act-btn" id="btn-log">
-        B
-        <span id="lbl-btn-b">NOTES</span>
-      </button>
+      <div class="system-controls">
+        <button class="start-btn" id="btn-start">START</button>
+        <span class="audio-indicator" id="audio-tag">♪ NOIR SOUND</span>
+      </div>
     </div>
   </div>
 </div>
@@ -573,18 +707,21 @@
 <script>
 /**
  * BAYOU NOIR: THE KING IN THE MARSH
- * Modulo Avanzato:
- * 1. HUD Orologio senza icone
- * 2. Il tempo scorre SOLO a gioco attivo (non quando spento/in pausa/nei menu)
- * 3. Schermata iniziale con Carica / Nuova Partita e conferma sovrascrittura
- * 4. Salvataggio automatico (localStorage)
- * 5. Differenziazione cromatica netta (mattino luminoso, pomeriggio dorato, tramonto sangue, notte buia con lanterna)
- * 6. Meteo dinamico (pioggia pixel art e banchi di nebbia galleggianti)
+ * - Grafica pixel art vivida e ad alto contrasto di giorno
+ * - Illuminazione notturna a gradazione cromatica chiara e senza oscurità profonda
+ * - Mini mappa GTA Style in alto a sinistra con radar e blip
+ * - Layout mobile orizzontale con START sotto i tasti A e B
+ * - Sistema meteo dinamico (Pioggia & Nebbia)
+ * - Schermata iniziale con Continue / New Game (conferma) e Salvataggio Automatico
  */
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
+
+const minimapCanvas = document.getElementById('minimap-canvas');
+const miniCtx = minimapCanvas.getContext('2d');
+miniCtx.imageSmoothingEnabled = false;
 
 const VIEW_W = 160;
 const VIEW_H = 144;
@@ -601,34 +738,34 @@ const dialogueRole = document.getElementById('dialogue-role');
 const dialogueText = document.getElementById('dialogue-text');
 const dialoguePrompt = document.getElementById('dialogue-prompt');
 const zoneTitle = document.getElementById('zone-title');
+const weatherTag = document.getElementById('weather-tag');
 const timeDisplay = document.getElementById('time-display');
 const cluesCounter = document.getElementById('clues-counter');
-const saveIndicator = document.getElementById('save-indicator');
-
-// Overlay Schermi
-const titleScreen = document.getElementById('title-screen');
+const autosaveIndicator = document.getElementById('autosave-indicator');
 const pauseMenu = document.getElementById('pause-menu');
+const titleScreen = document.getElementById('title-screen');
 const confirmModal = document.getElementById('confirm-modal');
-const confirmMsg = document.getElementById('confirm-msg');
-const titleContinueBtn = document.getElementById('title-continue-btn');
+const btnTitleContinue = document.getElementById('btn-title-continue');
 
 // Bottoni UI Testi
 const lblBtnA = document.getElementById('lbl-btn-a');
 const lblBtnB = document.getElementById('lbl-btn-b');
 const currentLangTag = document.getElementById('current-lang-tag');
-const titleLangTag = document.getElementById('title-lang-tag');
 const currentMusicTag = document.getElementById('current-music-tag');
+const titleLangVal = document.getElementById('title-lang-val');
 const labelResume = document.getElementById('label-resume');
 const labelLanguage = document.getElementById('label-language');
 const labelMusic = document.getElementById('label-music');
 const labelJournal = document.getElementById('label-journal');
-const labelQuit = document.getElementById('label-quit');
+const labelMainMenu = document.getElementById('label-mainmenu');
 const lblTitleContinue = document.getElementById('lbl-title-continue');
 const lblTitleNew = document.getElementById('lbl-title-new');
 const lblTitleLang = document.getElementById('lbl-title-lang');
+const lblModalTitle = document.getElementById('lbl-modal-title');
+const lblModalMsg = document.getElementById('lbl-modal-msg');
 
 // -------------------------------------------------------------
-// LOCALIZZAZIONE (EN / IT)
+// LOCALIZZAZIONE (EN di default / IT)
 // -------------------------------------------------------------
 let currentLang = 'en';
 
@@ -643,35 +780,41 @@ const I18N = {
     language: "LANGUAGE",
     music: "MUSIC",
     journal: "DETECTIVE NOTES",
-    quit: "MAIN MENU",
+    mainMenu: "MAIN MENU",
     musicOn: "ON",
     musicOff: "OFF",
-    saved: "AUTO-SAVED",
+    autosave: "AUTO-SAVED",
     titleContinue: "CONTINUE",
     titleNew: "NEW GAME",
     titleLang: "LANGUAGE",
-    confirmOverwrite: "An existing save file was found.\nStarting a new game will overwrite your progress.\nDo you want to proceed?",
-    btnOverwrite: "OVERWRITE",
-    btnCancel: "CANCEL",
+    modalTitle: "OVERWRITE SAVE?",
+    modalMsg: "A saved case already exists. Starting a new game will erase your current progress. Proceed?",
+    modalYes: "YES, OVERWRITE",
+    modalNo: "CANCEL",
+    weather: {
+      clear: "CLEAR SKY",
+      rain: "BAYOU RAIN",
+      fog: "DENSE MIST"
+    },
     zones: {
       glade: "SACRIFICE GLADE",
       church: "BLACK SPRING CHURCH",
       canal: "GHOST CANAL",
-      road: "ROUTE 17 (PELICAN FORK)",
+      road: "ROUTE 17 HIGHWAY",
       reeds: "DEEP CANEBRAKE"
     },
     defaultThought: {
       speaker: "DET. HAYES",
       role: "THOUGHT",
-      text: "The dampness soaks straight into the bone. Something is rotting deep within this parish... and the sheriff knows more than he lets on."
+      text: "The swamp air is thick. Every road out here loops back into the mud... and the sheriff knows more than he lets on."
     },
     emptyJournal: {
       title: "HAYES' NOTEBOOK",
       sub: "CASE FILE #95-04",
-      text: "No formal evidence collected yet.\nExplore the clearing south, interrogate the deputy along the highway, and speak with the blind fisherman by the pier."
+      text: "No formal evidence collected yet.\nExplore the clearing south, inspect the patrol car along Route 17, and talk with the fisherman by the pier."
     },
     journalHeader: "--- CASE FILE: CLARA FONTENOT ({0}/7) ---\n\n",
-    inspectDoor: "Standing outside {0}.\nThe structure is weathered and sinking into the mud, but the air carries stale incense and wax."
+    inspectDoor: "Standing outside {0}.\nThe wooden porch groans under your weight. The scent of candle wax hangs heavy."
   },
   it: {
     btnExamine: "ESAMINA",
@@ -683,35 +826,41 @@ const I18N = {
     language: "LINGUA",
     music: "MUSICA",
     journal: "TACCUINO INDAGINE",
-    quit: "MENU PRINCIPALE",
+    mainMenu: "MENU PRINCIPALE",
     musicOn: "ATTIVA",
     musicOff: "MUTATA",
-    saved: "SALVATO",
+    autosave: "SALVATO",
     titleContinue: "CONTINUA",
     titleNew: "NUOVA PARTITA",
     titleLang: "LINGUA",
-    confirmOverwrite: "È presente una partita salvata.\nIniziare una nuova partita sovrascriverà tutti i progressi.\nVuoi procedere?",
-    btnOverwrite: "SOVRASCRIVI",
-    btnCancel: "ANNULLA",
+    modalTitle: "SOVRASCRIVERE?",
+    modalMsg: "Esiste già una partita salvata. Iniziare una nuova partita cancellerà i progressi correnti. Continuare?",
+    modalYes: "SÌ, SOVRASCRIVI",
+    modalNo: "ANNULLA",
+    weather: {
+      clear: "SERENO",
+      rain: "PIOGGIA PALUSTRE",
+      fog: "NEBBIA FITTA"
+    },
     zones: {
       glade: "RADURA DEL SACRIFICIO",
       church: "CHIESA SORGENTE NERA",
       canal: "CANALE DEGLI SPETTRI",
-      road: "STATALE 17 (BIVIO PELICAN)",
+      road: "STATALE 17 (BIVIO)",
       reeds: "CANNETO PROFONDO"
     },
     defaultThought: {
       speaker: "DET. HAYES",
       role: "PENSIERO",
-      text: "L'umidità qui penetra fin dentro le ossa. C'è qualcosa di profondamente malato in questa parrocchia... e lo sceriffo sa più di quanto ammetta."
+      text: "L'umidità qui penetra fin dentro le ossa. C'è qualcosa di profondamente malato in questa contea... e lo sceriffo nasconde la verità."
     },
     emptyJournal: {
       title: "TACCUINO DI HAYES",
       sub: "FASCICOLO DELITTO #95-04",
-      text: "Nessun indizio ancora formalizzato.\nEsplora la radura a sud, interroga il vice sceriffo lungo la statale e parla col pescatore al pontile."
+      text: "Nessun indizio ancora formalizzato.\nEsplora la radura a sud, ispeziona la volante sulla Statale 17 e interroga il pescatore al molo."
     },
     journalHeader: "--- RAPPORTO CASO CLARA FONTENOT ({0}/7) ---\n\n",
-    inspectDoor: "Davanti all'ingresso di: {0}.\nLa struttura è pericolante, ma l'aria dentro è carica di cera spenta e incenso rituale."
+    inspectDoor: "Davanti all'ingresso di: {0}.\nIl portico in legno scricchiola sotto gli stivali. L'odore di cera e resina è soffocante."
   }
 };
 
@@ -725,162 +874,25 @@ function setLanguage(lang) {
   labelLanguage.innerText = t.language;
   labelMusic.innerText = t.music;
   labelJournal.innerText = t.journal;
-  labelQuit.innerText = t.quit;
-  currentLangTag.innerText = currentLang === 'en' ? 'ENGLISH' : 'ITALIANO';
-  titleLangTag.innerText = currentLang === 'en' ? 'ENGLISH' : 'ITALIANO';
-  currentMusicTag.innerText = isMusicEnabled ? t.musicOn : t.musicOff;
-  saveIndicator.innerText = t.saved;
+  labelMainMenu.innerText = t.mainMenu;
   lblTitleContinue.innerText = t.titleContinue;
   lblTitleNew.innerText = t.titleNew;
   lblTitleLang.innerText = t.titleLang;
-  confirmMsg.innerText = t.confirmOverwrite;
-  document.getElementById('confirm-overwrite-btn').innerText = t.btnOverwrite;
-  document.getElementById('confirm-cancel-btn').innerText = t.btnCancel;
+  lblModalTitle.innerText = t.modalTitle;
+  lblModalMsg.innerText = t.modalMsg;
+  document.getElementById('btn-confirm-yes').innerText = t.modalYes;
+  document.getElementById('btn-confirm-no').innerText = t.modalNo;
+  currentLangTag.innerText = currentLang === 'en' ? 'ENGLISH' : 'ITALIANO';
+  titleLangVal.innerText = currentLang === 'en' ? 'ENGLISH' : 'ITALIANO';
+  currentMusicTag.innerText = isMusicEnabled ? t.musicOn : t.musicOff;
   cluesCounter.innerText = t.cluesHud.replace('{0}', collectedClues.size);
+  autosaveIndicator.innerText = t.autosave;
   updateZoneTitle();
+  updateWeatherTag();
 }
 
 // -------------------------------------------------------------
-// SISTEMA DI SALVATAGGIO AUTOMATICO (localStorage)
-// -------------------------------------------------------------
-const SAVE_KEY = "bayou_noir_save_slot_01";
-
-function hasSaveGame() {
-  return localStorage.getItem(SAVE_KEY) !== null;
-}
-
-function autoSaveGame() {
-  if (gameState !== 'PLAYING') return;
-
-  const savePayload = {
-    playerX: player.x,
-    playerY: player.y,
-    playerDir: player.dir,
-    worldTimeSeconds: worldTimeSeconds,
-    collectedClues: Array.from(collectedClues),
-    currentLang: currentLang,
-    weatherState: weather.current,
-    weatherTimer: weather.timer
-  };
-
-  try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(savePayload));
-    flashSaveIndicator();
-  } catch (err) {
-    console.warn("Storage auto-save not available:", err);
-  }
-}
-
-function loadSavedGame() {
-  const raw = localStorage.getItem(SAVE_KEY);
-  if (!raw) return false;
-
-  try {
-    const data = JSON.parse(raw);
-    player.x = data.playerX ?? 220;
-    player.y = data.playerY ?? 310;
-    player.dir = data.playerDir ?? 'down';
-    worldTimeSeconds = data.worldTimeSeconds ?? 60;
-    collectedClues.clear();
-    if (Array.isArray(data.collectedClues)) {
-      data.collectedClues.forEach(id => collectedClues.add(id));
-    }
-    if (data.currentLang) setLanguage(data.currentLang);
-    if (data.weatherState) weather.current = data.weatherState;
-    if (data.weatherTimer) weather.timer = data.weatherTimer;
-
-    camera.x = player.x - VIEW_W / 2;
-    camera.y = player.y - VIEW_H / 2;
-    updateTimeDisplay();
-    cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', collectedClues.size);
-    return true;
-  } catch (e) {
-    console.error("Save corrupted, reset needed:", e);
-    return false;
-  }
-}
-
-function resetGameToFresh() {
-  player.x = 220;
-  player.y = 310;
-  player.dir = 'down';
-  worldTimeSeconds = 60; // Inizia a metà mattina (08:24)
-  collectedClues.clear();
-  weather.current = 'CLEAR';
-  weather.timer = 40;
-  camera.x = player.x - VIEW_W / 2;
-  camera.y = player.y - VIEW_H / 2;
-  updateTimeDisplay();
-  cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', 0);
-  autoSaveGame();
-}
-
-let saveIndicatorTimer = null;
-function flashSaveIndicator() {
-  saveIndicator.style.opacity = '1';
-  clearTimeout(saveIndicatorTimer);
-  saveIndicatorTimer = setTimeout(() => {
-    saveIndicator.style.opacity = '0';
-  }, 1400);
-}
-
-// Salva quando l'utente chiude o cambia scheda
-window.addEventListener('beforeunload', () => {
-  autoSaveGame();
-});
-
-// -------------------------------------------------------------
-// STATI DI GIOCO (TITLE, PLAYING, PAUSED)
-// -------------------------------------------------------------
-let gameState = 'TITLE'; // 'TITLE' | 'PLAYING' | 'PAUSED'
-
-function checkContinueButton() {
-  if (hasSaveGame()) {
-    titleContinueBtn.disabled = false;
-  } else {
-    titleContinueBtn.disabled = true;
-  }
-}
-
-function startGameFromTitle(continueExisting) {
-  initAudio();
-  if (continueExisting) {
-    loadSavedGame();
-  } else {
-    resetGameToFresh();
-  }
-  titleScreen.style.display = 'none';
-  gameState = 'PLAYING';
-}
-
-function returnToTitleScreen() {
-  autoSaveGame();
-  pauseMenu.style.display = 'none';
-  dialogueBox.style.display = 'none';
-  isDialogueOpen = false;
-  gameState = 'TITLE';
-  titleScreen.style.display = 'flex';
-  checkContinueButton();
-}
-
-function togglePauseMenu() {
-  if (gameState === 'TITLE') return;
-  initAudio();
-
-  if (gameState === 'PLAYING') {
-    gameState = 'PAUSED';
-    pauseMenu.style.display = 'flex';
-    autoSaveGame();
-    if (isDialogueOpen) dialogueBox.style.display = 'none';
-  } else if (gameState === 'PAUSED') {
-    gameState = 'PLAYING';
-    pauseMenu.style.display = 'none';
-    if (isDialogueOpen) dialogueBox.style.display = 'block';
-  }
-}
-
-// -------------------------------------------------------------
-// COLONNA SONORA PROCEDURALE
+// COLONNA SONORA PROCEDURALE (Web Audio API - True Detective Vibe)
 // -------------------------------------------------------------
 let audioCtx = null;
 let isMusicEnabled = true;
@@ -901,41 +913,37 @@ function playPluckNote(freq, time, decay = 2.4) {
   if (!audioCtx || !isMusicEnabled) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-
   osc.type = 'triangle';
   osc.frequency.setValueAtTime(freq, time);
   osc.frequency.linearRampToValueAtTime(freq * 0.992, time + decay);
 
-  gain.gain.setValueAtTime(0.25, time);
+  gain.gain.setValueAtTime(0.24, time);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + decay);
 
   osc.connect(gain);
   gain.connect(masterGain);
-
   osc.start(time);
   osc.stop(time + decay);
 }
 
-function playSubDrone(freq, time, duration = 4.0) {
+function playSubDrone(freq, time, duration = 4.2) {
   if (!audioCtx || !isMusicEnabled) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-
   osc.type = 'sawtooth';
   osc.frequency.setValueAtTime(freq, time);
 
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(140, time);
+  filter.frequency.setValueAtTime(150, time);
 
   gain.gain.setValueAtTime(0.01, time);
-  gain.gain.linearRampToValueAtTime(0.15, time + 1.2);
+  gain.gain.linearRampToValueAtTime(0.14, time + 1.2);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
 
   osc.connect(filter);
   filter.connect(gain);
   gain.connect(masterGain);
-
   osc.start(time);
   osc.stop(time + duration);
 }
@@ -945,16 +953,14 @@ function startProceduralSoundtrack() {
   let step = 0;
 
   function scheduleNext() {
-    if (!isMusicEnabled || gameState === 'PAUSED') {
-      musicTimer = setTimeout(scheduleNext, 1800);
+    if (!isMusicEnabled) {
+      musicTimer = setTimeout(scheduleNext, 2000);
       return;
     }
-
     const now = audioCtx.currentTime;
     if (step % 4 === 0) {
       playSubDrone(55.0, now, 5.0);
     }
-
     const note = notes[step % notes.length];
     playPluckNote(note, now + 0.1, 2.5);
 
@@ -962,7 +968,6 @@ function startProceduralSoundtrack() {
     const interval = 1200 + (Math.sin(step) * 300);
     musicTimer = setTimeout(scheduleNext, interval);
   }
-
   scheduleNext();
 }
 
@@ -977,180 +982,91 @@ function toggleMusic() {
 }
 
 // -------------------------------------------------------------
-// CICLO GIORNO / NOTTE & ILLUMINAZIONE NETTA
+// CICLO GIORNO / NOTTE (5 Minuti reali di gameplay attivo)
 // -------------------------------------------------------------
-const DAY_CYCLE_DURATION = 300; // 300s = esatti 5 minuti di gameplay attivo
-let worldTimeSeconds = 60; // Il tempo avanza SOLO durante il gameplay
+const DAY_CYCLE_DURATION = 300; // 300s = esatti 5 minuti
+let worldTimeSeconds = 60;
 
 function updateDayNightCycle(deltaTime) {
-  // Il tempo avanza ESCLUSIVAMENTE quando si sta giocando attivamente
-  if (gameState !== 'PLAYING') return;
-
   worldTimeSeconds = (worldTimeSeconds + deltaTime) % DAY_CYCLE_DURATION;
-  updateTimeDisplay();
-}
-
-function updateTimeDisplay() {
   const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
-  // Ciclo 24 ore: 0.00 = 06:00, 0.25 = 12:00, 0.50 = 18:00, 0.75 = 00:00
   const virtualHour = Math.floor((progress * 24 + 6) % 24);
   const virtualMin = Math.floor((progress * 24 * 60) % 60);
   timeDisplay.innerText = `${String(virtualHour).padStart(2, '0')}:${String(virtualMin).padStart(2, '0')}`;
 }
 
-/**
- * Illuminazione differenziata:
- * 1. Mattina (06:00 - 11:59): Luminosa, limpida, toni caldi e chiari.
- * 2. Pomeriggio (12:00 - 17:59): Piena luce del sole, massima visibilità.
- * 3. Tramonto (18:00 - 20:59): Forte viraggio ambra/arancio/rosso sangue.
- * 4. Notte fonda (21:00 - 04:59): Oscurità profonda con alone lanterna/torcia attorno al detective.
- * 5. Alba (05:00 - 05:59): Luce rosata/azzurrina del primo mattino.
- */
-function getLightingProfile() {
-  const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
-  const virtualHour = (progress * 24 + 6) % 24;
+// Gradazioni di tono e luce chiare (senza mai oscurare la mappa)
+function getDayNightAmbientColor() {
+  const p = worldTimeSeconds / DAY_CYCLE_DURATION;
 
-  if (virtualHour >= 6 && virtualHour < 12) {
-    // MATTINA: Chiara, trasparente, leggerissimo velo dorato fresco
-    const f = (virtualHour - 6) / 6;
-    return {
-      type: 'MORNING',
-      r: 240, g: 245, b: 230,
-      alpha: 0.04,
-      lanternAlpha: 0.0
-    };
-  } else if (virtualHour >= 12 && virtualHour < 18) {
-    // POMERIGGIO: Sole pieno della Louisiana, perfetta visibilità
-    return {
-      type: 'AFTERNOON',
-      r: 255, g: 250, b: 220,
-      alpha: 0.0,
-      lanternAlpha: 0.0
-    };
-  } else if (virtualHour >= 18 && virtualHour < 21) {
-    // TRAMONTO: Sfumatura rossastra e ambrata molto marcata
-    const f = (virtualHour - 18) / 3;
-    return {
-      type: 'SUNSET',
-      r: Math.floor(180 + f * 40),
-      g: Math.floor(70 * (1 - f * 0.4)),
-      b: 20,
-      alpha: 0.28 + f * 0.22,
-      lanternAlpha: f * 0.35
-    };
-  } else if (virtualHour >= 21 || virtualHour < 5) {
-    // NOTTE: Buio profondo con alone torcia
-    return {
-      type: 'NIGHT',
-      r: 3, g: 6, b: 16,
-      alpha: 0.82,
-      lanternAlpha: 1.0
-    };
-  } else {
-    // ALBA (05:00 - 06:00): Transizione nebbiosa da notte a luce
-    const f = virtualHour - 5;
-    return {
-      type: 'DAWN',
-      r: Math.floor(120 * f),
-      g: Math.floor(130 * f),
-      b: Math.floor(160 * f + 40),
-      alpha: 0.55 * (1 - f),
-      lanternAlpha: (1 - f) * 0.5
-    };
+  // 1. Mattina (06:00 - 11:59): limpida, chiara con leggerissimo calore dorato
+  if (p < 0.25) {
+    return { r: 255, g: 240, b: 200, a: 0.04, blend: 'source-over' };
+  }
+  // 2. Pomeriggio (12:00 - 17:59): massima visibilità e brillantezza (zero scurimento)
+  else if (p < 0.50) {
+    return { r: 255, g: 255, b: 255, a: 0.0, blend: 'source-over' };
+  }
+  // 3. Tramonto (18:00 - 20:59): tono ambrato / arancione caldo atmosferico
+  else if (p < 0.65) {
+    const factor = (p - 0.50) / 0.15;
+    return { r: 215, g: 110, b: 40, a: 0.18 * factor, blend: 'multiply' };
+  }
+  // 4. Sera e Notte (21:00 - 04:59): tono blu-indaco fresco lunare, MAI nero/buio pesto!
+  else if (p < 0.90) {
+    const factor = Math.sin(((p - 0.65) / 0.25) * Math.PI);
+    return { r: 20, g: 45, b: 85, a: 0.18 + factor * 0.12, blend: 'multiply' };
+  }
+  // 5. Alba (05:00 - 05:59): transizione rosata/pesca delicata
+  else {
+    const factor = (p - 0.90) / 0.10;
+    return { r: 230, g: 170, b: 140, a: 0.12 * (1 - factor), blend: 'source-over' };
   }
 }
 
 // -------------------------------------------------------------
-// METEO DINAMICO (PIOGGIA & NEBBIA)
+// METEO DINAMICO (Sereno, Pioggia, Nebbia)
 // -------------------------------------------------------------
-const weather = {
-  current: 'CLEAR', // 'CLEAR' | 'FOGGY' | 'RAIN'
-  timer: 45,        // durata dello stato prima del cambio
-  rainDrops: [],
-  fogPatches: []
-};
-
-// Inizializza gocce di pioggia
-for (let i = 0; i < 40; i++) {
-  weather.rainDrops.push({
+let currentWeather = 'clear'; // 'clear', 'rain', 'fog'
+let weatherTimer = 0;
+const rainDrops = [];
+for (let i = 0; i < 45; i++) {
+  rainDrops.push({
     x: Math.random() * VIEW_W,
     y: Math.random() * VIEW_H,
     len: 4 + Math.random() * 4,
-    speed: 5 + Math.random() * 3
-  });
-}
-
-// Inizializza banchi di nebbia
-for (let i = 0; i < 5; i++) {
-  weather.fogPatches.push({
-    x: (i * 45) % VIEW_W,
-    y: 20 + i * 24,
-    w: 55 + (i % 3) * 20,
-    h: 18 + (i % 2) * 10,
-    speed: 0.2 + (i % 3) * 0.1
+    speed: 3 + Math.random() * 2
   });
 }
 
 function updateWeather(deltaTime) {
-  if (gameState !== 'PLAYING') return;
-
-  weather.timer -= deltaTime;
-  if (weather.timer <= 0) {
-    // Cambia stato meteo in modo naturale
-    const states = ['CLEAR', 'CLEAR', 'FOGGY', 'RAIN'];
-    const nextStates = states.filter(s => s !== weather.current);
-    weather.current = nextStates[Math.floor(Math.random() * nextStates.length)];
-    weather.timer = 50 + Math.random() * 45; // 50-95 secondi per ogni evento meteo
+  weatherTimer += deltaTime;
+  if (weatherTimer > 45) { // Cambia meteo ogni ~45 secondi di gioco
+    weatherTimer = 0;
+    const rnd = Math.random();
+    if (rnd < 0.45) currentWeather = 'clear';
+    else if (rnd < 0.75) currentWeather = 'rain';
+    else currentWeather = 'fog';
+    updateWeatherTag();
   }
 
-  // Aggiorna posizioni particelle pioggia
-  if (weather.current === 'RAIN') {
-    weather.rainDrops.forEach(d => {
+  if (currentWeather === 'rain') {
+    rainDrops.forEach(d => {
       d.y += d.speed;
-      d.x -= 1.2;
-      if (d.y > VIEW_H) {
-        d.y = -5;
-        d.x = Math.random() * (VIEW_W + 30);
-      }
-    });
-  }
-
-  // Aggiorna banchi di nebbia
-  if (weather.current === 'FOGGY' || weather.current === 'RAIN') {
-    weather.fogPatches.forEach(f => {
-      f.x += f.speed;
-      if (f.x > VIEW_W + 40) {
-        f.x = -f.w - 20;
-      }
+      d.x -= 0.6;
+      if (d.y > VIEW_H) { d.y = -6; d.x = Math.random() * (VIEW_W + 40); }
+      if (d.x < -10) d.x = VIEW_W + 10;
     });
   }
 }
 
-function drawWeatherEffects() {
-  if (weather.current === 'RAIN') {
-    ctx.strokeStyle = 'rgba(160, 195, 220, 0.55)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    weather.rainDrops.forEach(d => {
-      ctx.moveTo(d.x, d.y);
-      ctx.lineTo(d.x - 2, d.y + d.len);
-    });
-    ctx.stroke();
-  }
-
-  if (weather.current === 'FOGGY' || weather.current === 'RAIN') {
-    const fogAlpha = weather.current === 'FOGGY' ? 0.22 : 0.13;
-    ctx.fillStyle = `rgba(180, 195, 190, ${fogAlpha})`;
-    weather.fogPatches.forEach(f => {
-      ctx.beginPath();
-      ctx.ellipse(f.x, f.y, f.w / 2, f.h / 2, 0, 0, Math.PI * 2);
-      ctx.fill();
-    });
-  }
+function updateWeatherTag() {
+  const t = I18N[currentLang].weather;
+  weatherTag.innerText = t[currentWeather];
 }
 
 // -------------------------------------------------------------
-// DATI STORIA, INDIZI & NPC MULTILINGUA
+// DATI STORIA, PERSONAGGI E INDIZI MULTILINGUA
 // -------------------------------------------------------------
 const cluesDatabase = [
   {
@@ -1158,8 +1074,8 @@ const cluesDatabase = [
     zone: { en: 'Crime Scene (Cypress)', it: 'Scena del Delitto' },
     title: { en: "Victim: Clara Fontenot", it: "Vittima: Clara Fontenot" },
     text: {
-      en: "The victim is bound at the base of the ancient cypress. On her head is a crown of deer antlers laced with swamp briars. A black spiral is carved deeply into her back. No signs of struggle: she was brought here after death.",
-      it: "La vittima è legata alla base del cipresso secolare. Sul capo ha una corona di corna di cervo intrecciate con rami palustri. Sulla schiena è incisa a fondo una spirale nera. Nessun segno di lotta sul posto: è stata portata qui già priva di vita."
+      en: "The victim is bound at the base of the ancient cypress. On her head is a crown of deer antlers laced with swamp briars. A black spiral is carved into her back. Brought here post-mortem.",
+      it: "La vittima è legata alla base del cipresso secolare con una corona di corna di cervo e rovi palustri. Una spirale nera è incisa sulla schiena. È stata portata qui post-mortem."
     }
   },
   {
@@ -1167,26 +1083,26 @@ const cluesDatabase = [
     zone: { en: 'Canebrake Edge', it: 'Margine della Palude' },
     title: { en: "Devil's Nests", it: "Trappole per Diavoli" },
     text: {
-      en: "Geometric stick sculptures woven from swamp reeds, fishing twine, and mouse bones hanging from the branches. An old cajun superstition meant to 'trap death in the mud'.",
-      it: "Decine di sculture geometriche fatte con canne, spago da pesca e teschi di topo appese ai rami. Una vecchia usanza pagana cajun per 'intrappolare la morte nel fango'."
+      en: "Geometric stick sculptures woven from swamp reeds, twine, and animal skulls. An old cajun superstition meant to 'catch death before it enters the parish'.",
+      it: "Sculture geometriche intrecciate con canne, spago e teschi di topo appese ai rami. Una vecchia usanza cajun per 'intrappolare la morte prima che entri nella contea'."
     }
   },
   {
     id: 'tire_tracks',
-    zone: { en: 'Route 17 Crossroads', it: 'Bivio Strada Statale' },
-    title: { en: "Heavy Tire Marks", it: "Tracce di Pneumatici Pesanti" },
+    zone: { en: 'Route 17 Crossroads', it: 'Bivio Statale 17' },
+    title: { en: "Heavy Tire Marks", it: "Tracce di Pneumatici" },
     text: {
-      en: "Deep ruts left by a heavy dually pickup truck. The rear right tire has an irregular diagonal cut in the tread. Traveled north before sunrise.",
-      it: "Solchi profondi lasciati da un furgone con ruote tassellate. La gomma posteriore destra ha una cicatrice diagonale evidente. Il furgone si è diretto verso nord prima dell'alba."
+      en: "Deep ruts left by a heavy dually pickup truck with a damaged right rear tire tread. The vehicle sped north towards the revival church grounds.",
+      it: "Solchi profondi lasciati da un furgone pesante a ruote gemellate con il battistrada destro danneggiato. Il mezzo si è diretto a nord verso la chiesa."
     }
   },
   {
     id: 'church_ledger',
     zone: { en: 'Black Spring Church', it: 'Chiesa della Sorgente' },
-    title: { en: "Torn Church Registry", it: "Registro Parrocchiale Strappato" },
+    title: { en: "Torn Church Registry", it: "Registro Parrocchiale" },
     text: {
-      en: "Found beneath the rotting pews. Pages for the 1983 baptisms and 'St. Agatha Orphanage' are missing. A major benefactor signature repeatedly appears: The Tuttle Foundation.",
-      it: "Fra i banchi ammuffiti c'è il registro del 1983. Mancano le pagine relative ai battesimi e ai bambini della 'Missione Sant'Agata'. Spicca una donazione firmata dalla Fondazione Tuttle."
+      en: "Beneath the moldy floorboards lies the 1983 registry. Pages concerning orphaned children are torn out. Several large endowments signed by the Tuttle Foundation.",
+      it: "Sotto le assi marce del pavimento c'è il registro del 1983. Le pagine dei minori orfani sono state strappate. Risaltano cospicue donazioni della Fondazione Tuttle."
     }
   },
   {
@@ -1194,31 +1110,31 @@ const cluesDatabase = [
     zone: { en: 'Secluded Cabin', it: 'Capanno Isolato' },
     title: { en: "Yellow King Altar", it: "Idolo del Re Giallo" },
     text: {
-      en: "A cloak stitched from faded yellow rags and golden leaves draped over deer bones. Hidden within is a 1985 photograph: five masked figures wearing animal skulls beside the bayou.",
-      it: "Un mantello fatto di brandelli di stoffa ocra e fogliame dorato poggiato su un trespolo d'ossa. All'interno c'è una foto in bianco e nero sbiadita: cinque figure mascherate con teste di animale nei canneti."
+      en: "An altar draped in yellow linen and bleached deer horns. Concealed beneath is a 1985 photograph showing five masked figures in animal robes along the bayou.",
+      it: "Un altare coperto di tela ocra e corna di cervo sbiancate. Sotto è nascosta una fotografia del 1985 con cinque figure mascherate con pelli animali nel bayou."
     }
   },
   {
     id: 'deputy_statement',
     zone: { en: 'Patrol Cruiser', it: 'Auto di Pattuglia' },
-    title: { en: "Deputy Thibodeaux's Statement", it: "Dichiarazione del Vice Thibodeaux" },
+    title: { en: "Deputy's Confession", it: "Confessione del Vice" },
     text: {
-      en: "The deputy confesses that Sheriff Childress ordered the case treated as an accidental hunting incident and forbade notifying state authorities. His hands shake uncontrollably.",
-      it: "Il vice ammette che lo sceriffo locale ha ordinato di non allertare l'FBI e di catalogare il fatto come 'incidente di caccia o delitto passionale'. Ha le mani che tremano mentre parla."
+      en: "Deputy Thibodeaux confesses that Sheriff Childress ordered the case covered up as a hunting mishap and strictly forbade calling in State Police detectives.",
+      it: "Il vice Thibodeaux confessa che lo Sceriffo Childress ha ordinato di insabbiare il caso come 'incidente di caccia' vietando l'intervento della Polizia di Stato."
     }
   },
   {
     id: 'fisherman_rumor',
-    zone: { en: 'Pier & Bait Shop', it: 'Pontile dell\'Emporio' },
-    title: { en: "Blind Gary's Testimony", it: "Testimonianza di Gary il Cieco" },
+    zone: { en: 'Pier & Bait Shop', it: 'Pontile di Gary' },
+    title: { en: "Blind Gary's Testimony", it: "Testimonianza di Gary" },
     text: {
-      en: "'At night, I hear a flat-bottom skiff gliding with its lights dead toward Carcosa Bay. Men singing in old patois. When they pass, even the herons freeze. Don't peer down that well, son.'",
-      it: "'Di notte sento il battello a chiglia piatta scivolare senza luci verso Carcosa Bay. Cantano in un francese antico, e gli aironi smettono di gridare. Non guardare dentro il pozzo, figliolo.'"
+      en: "'Past midnight, a flat-bottom barge slipped down the canal with lights dead. Strange chanting in old French. Even the night birds fell silent.'",
+      it: "'Oltre mezzanotte una chiatta a fondo piatto è scivolata lungo il canale a fari spenti. Canti in un francese arcaico... perfino gli aironi sono rimasti muti.'"
     }
   }
 ];
 
-const collectedClues = new Set();
+let collectedClues = new Set();
 
 const npcs = [
   {
@@ -1231,7 +1147,7 @@ const npcs = [
     h: 15,
     dialogues: {
       en: [
-        "Detective Hayes... you shouldn't be out here. Sheriff Childress wanted this handled quietly before the New Orleans press caught wind.",
+        "Detective Hayes... you shouldn't be poking around out here. Sheriff Childress wanted this handled quietly before the New Orleans press caught wind.",
         "That girl Clara had been missing two months. Folks said she ran off with a revival tent preacher into the gulf marshes.",
         "Be careful around that ruined church to the north. Those grounds belong to old families who don't answer to state badges."
       ],
@@ -1253,7 +1169,7 @@ const npcs = [
     h: 15,
     dialogues: {
       en: [
-        "Time is a flat circle, detective. Everything we have done or will do, we're gonna do over and over and over again.",
+        "Time is a flat circle, detective. Everything we have done or will do, we're gonna do over and over again.",
         "She saw the King in Yellow with her own eyes. She walked upon the black stones of Carcosa before the waters took them.",
         "You seek truth in the chapel? Look not at the altar, but beneath the rotting floorboards."
       ],
@@ -1342,26 +1258,29 @@ const hotspots = [
   }
 ];
 
-// Palette Retro True Detective
+// -------------------------------------------------------------
+// PALETTE VIVIDA E LUMINOSA (Non più cupa di giorno!)
+// -------------------------------------------------------------
 const PAL = {
-  waterDeep: '#0f1816',
-  waterShallow: '#192823',
-  grassDark: '#1e2b20',
-  grassLight: '#2b3f2e',
-  dirtRoad: '#443727',
-  dirtTrack: '#33291d',
-  woodDark: '#201610',
-  woodMid: '#3a281c',
-  woodLight: '#59402e',
-  coatBrown: '#8b7352',
-  skin: '#d5b28a',
-  bloodDark: '#501717',
-  goldSymbol: '#cf9c34',
-  policeBlue: '#1f2d3d',
-  corpsePale: '#cfd2be'
+  waterDeep: '#1b4b57',      // Blu-verde lago vivido
+  waterShallow: '#2a6a7a',   // Riflesso acqua brillante
+  grassVibrant: '#386938',   // Erba paludosa brillante
+  grassLush: '#498547',      // Punti d'erba illuminati
+  mudPath: '#614833',        // Fango e terra definiti
+  dirtRoad: '#8f724d',       // Statale ocra luminosa
+  dirtTrack: '#664e32',      // Solchi ruote
+  woodDark: '#36241b',
+  woodMid: '#5c412f',
+  woodLight: '#856247',
+  coatBrown: '#a88555',      // Spolverino del detective vivido
+  skin: '#e8be97',
+  bloodDark: '#992121',      // Sangue acceso
+  goldSymbol: '#f0b73a',     // Spirale dorata brillante
+  policeBlue: '#22487a',     // Blu auto polizia distinto
+  corpsePale: '#e4e2cf'
 };
 
-// Generazione Mappa di Gioco
+// Generazione Mappa
 const worldMap = new Uint8Array(MAP_COLS * MAP_ROWS);
 const T_GRASS = 0, T_MUD = 1, T_WATER = 2, T_ROAD = 3, T_WOODFLOOR = 4;
 
@@ -1394,8 +1313,8 @@ const camera = {
   update() {
     let targetX = player.x + player.w / 2 - VIEW_W / 2;
     let targetY = player.y + player.h / 2 - VIEW_H / 2;
-    this.x += (targetX - this.x) * 0.1;
-    this.y += (targetY - this.y) * 0.1;
+    this.x += (targetX - this.x) * 0.12;
+    this.y += (targetY - this.y) * 0.12;
 
     if (this.x < 0) this.x = 0;
     if (this.y < 0) this.y = 0;
@@ -1404,13 +1323,13 @@ const camera = {
   }
 };
 
-// Giocatore Detective
+// Giocatore
 const player = {
   x: 220,
   y: 310,
   w: 12,
   h: 15,
-  speed: 1.15,
+  speed: 1.25,
   dir: 'down',
   isMoving: false,
   animTick: 0
@@ -1427,10 +1346,10 @@ const buildings = [
     h: 6 * TILE_SIZE,
     doorX: 13 * TILE_SIZE,
     doorY: 7 * TILE_SIZE,
-    roofColor: '#2b231d'
+    roofColor: '#473a30'
   },
   {
-    name: "Gary's Bait & Tackle Pier",
+    name: "Gary's Bait Pier",
     nameIt: "Emporio & Ormeggio di Gary",
     x: 32 * TILE_SIZE,
     y: 13 * TILE_SIZE,
@@ -1438,7 +1357,7 @@ const buildings = [
     h: 5 * TILE_SIZE,
     doorX: 34 * TILE_SIZE,
     doorY: 18 * TILE_SIZE,
-    roofColor: '#363f35'
+    roofColor: '#45594b'
   },
   {
     name: "Secluded Swamp Shack",
@@ -1449,7 +1368,7 @@ const buildings = [
     h: 5 * TILE_SIZE,
     doorX: 6 * TILE_SIZE,
     doorY: 33 * TILE_SIZE,
-    roofColor: '#201815'
+    roofColor: '#362923'
   }
 ];
 
@@ -1471,11 +1390,110 @@ for (let i = 0; i < 45; i++) {
 }
 
 // -------------------------------------------------------------
-// GESTIONE DIALOGHI
+// SISTEMA DI SALVATAGGIO AUTOMATICO (localStorage)
 // -------------------------------------------------------------
+const SAVE_KEY = 'bayou_noir_save_state';
+
+function checkExistingSave() {
+  const save = localStorage.getItem(SAVE_KEY);
+  if (save) {
+    btnTitleContinue.disabled = false;
+  } else {
+    btnTitleContinue.disabled = true;
+  }
+}
+
+function autoSaveGame() {
+  if (isTitleActive) return;
+  const state = {
+    x: Math.round(player.x),
+    y: Math.round(player.y),
+    dir: player.dir,
+    worldTimeSeconds: worldTimeSeconds,
+    currentWeather: currentWeather,
+    collectedClues: Array.from(collectedClues),
+    lang: currentLang
+  };
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    showAutosaveFlash();
+    checkExistingSave();
+  } catch(e) {}
+}
+
+function loadGame() {
+  const raw = localStorage.getItem(SAVE_KEY);
+  if (!raw) return false;
+  try {
+    const data = JSON.parse(raw);
+    player.x = data.x || 220;
+    player.y = data.y || 310;
+    player.dir = data.dir || 'down';
+    worldTimeSeconds = data.worldTimeSeconds || 60;
+    currentWeather = data.currentWeather || 'clear';
+    collectedClues = new Set(data.collectedClues || []);
+    if (data.lang) setLanguage(data.lang);
+    cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', collectedClues.size);
+    updateWeatherTag();
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+function resetGameProgress() {
+  player.x = 220;
+  player.y = 310;
+  player.dir = 'down';
+  worldTimeSeconds = 60;
+  currentWeather = 'clear';
+  collectedClues.clear();
+  cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', 0);
+  autoSaveGame();
+}
+
+let saveFlashTimer = null;
+function showAutosaveFlash() {
+  autosaveIndicator.style.opacity = '1';
+  clearTimeout(saveFlashTimer);
+  saveFlashTimer = setTimeout(() => {
+    autosaveIndicator.style.opacity = '0';
+  }, 1400);
+}
+
+// -------------------------------------------------------------
+// GESTIONE STATO DI GIOCO E CONTROLLI
+// -------------------------------------------------------------
+let isTitleActive = true;
+let isGamePaused = false;
 let isDialogueOpen = false;
 let currentDialogueQueue = [];
 let currentQueueIndex = 0;
+
+function startGameSession(isNew = false) {
+  initAudio();
+  if (isNew) {
+    resetGameProgress();
+  } else {
+    loadGame();
+  }
+  isTitleActive = false;
+  titleScreen.style.display = 'none';
+  autoSaveGame();
+}
+
+function togglePauseMenu() {
+  if (isTitleActive) return;
+  initAudio();
+  isGamePaused = !isGamePaused;
+  pauseMenu.style.display = isGamePaused ? 'flex' : 'none';
+  if (isDialogueOpen && isGamePaused) {
+    dialogueBox.style.display = 'none';
+  } else if (isDialogueOpen && !isGamePaused) {
+    dialogueBox.style.display = 'block';
+  }
+  if (isGamePaused) autoSaveGame();
+}
 
 // Input Controlli
 const keys = { up: false, down: false, left: false, right: false };
@@ -1531,34 +1549,34 @@ document.getElementById('btn-log').addEventListener('click', (e) => {
   openJournal();
 });
 
-// Eventi Schermata Iniziale
-titleContinueBtn.addEventListener('click', () => {
-  startGameFromTitle(true);
+// Title Screen Handlers
+btnTitleContinue.addEventListener('click', () => {
+  startGameSession(false);
 });
 
-document.getElementById('title-new-btn').addEventListener('click', () => {
-  if (hasSaveGame()) {
+document.getElementById('btn-title-new').addEventListener('click', () => {
+  const save = localStorage.getItem(SAVE_KEY);
+  if (save) {
     confirmModal.style.display = 'flex';
   } else {
-    startGameFromTitle(false);
+    startGameSession(true);
   }
 });
 
-document.getElementById('title-lang-btn').addEventListener('click', () => {
+document.getElementById('btn-confirm-yes').addEventListener('click', () => {
+  confirmModal.style.display = 'none';
+  startGameSession(true);
+});
+
+document.getElementById('btn-confirm-no').addEventListener('click', () => {
+  confirmModal.style.display = 'none';
+});
+
+document.getElementById('btn-title-lang').addEventListener('click', () => {
   setLanguage(currentLang === 'en' ? 'it' : 'en');
 });
 
-// Eventi Modal Conferma
-document.getElementById('confirm-overwrite-btn').addEventListener('click', () => {
-  confirmModal.style.display = 'none';
-  startGameFromTitle(false);
-});
-
-document.getElementById('confirm-cancel-btn').addEventListener('click', () => {
-  confirmModal.style.display = 'none';
-});
-
-// Menu Click Handlers
+// Menu Pausa Handlers
 document.getElementById('menu-resume-btn').addEventListener('click', () => {
   togglePauseMenu();
 });
@@ -1576,15 +1594,24 @@ document.getElementById('menu-notes-btn').addEventListener('click', () => {
   openJournal();
 });
 
-document.getElementById('menu-quit-btn').addEventListener('click', () => {
-  returnToTitleScreen();
+document.getElementById('menu-titlescreen-btn').addEventListener('click', () => {
+  autoSaveGame();
+  isGamePaused = false;
+  pauseMenu.style.display = 'none';
+  isTitleActive = true;
+  titleScreen.style.display = 'flex';
+  checkExistingSave();
+});
+
+window.addEventListener('beforeunload', () => {
+  autoSaveGame();
 });
 
 // -------------------------------------------------------------
-// LOGICA INDAGINE & DIALOGHI
+// AZIONE TASTO A & DIALOGHI
 // -------------------------------------------------------------
 function handleActionButton() {
-  if (gameState !== 'PLAYING') return;
+  if (isTitleActive || isGamePaused) return;
 
   if (isDialogueOpen) {
     nextDialogue();
@@ -1593,7 +1620,7 @@ function handleActionButton() {
 
   const pBox = { x: player.x, y: player.y, w: player.w, h: player.h };
 
-  // 1. NPC Interazione
+  // 1. NPC
   for (let npc of npcs) {
     if (getDistance(pBox, npc) < 26) {
       let lines = npc.dialogues[currentLang];
@@ -1608,7 +1635,7 @@ function handleActionButton() {
     }
   }
 
-  // 2. Hotspots Scena del Crimine
+  // 2. Hotspot
   for (let spot of hotspots) {
     if (getDistance(pBox, spot) < 28) {
       unlockClue(spot.clueId);
@@ -1630,7 +1657,7 @@ function handleActionButton() {
     }
   }
 
-  // 4. Pensiero Introspettivo
+  // 4. Pensiero del Detective
   const def = I18N[currentLang].defaultThought;
   startDialogue(def.speaker, def.role, [def.text]);
 }
@@ -1644,7 +1671,7 @@ function unlockClue(id) {
 }
 
 function openJournal() {
-  if (gameState !== 'PLAYING') return;
+  if (isTitleActive || isGamePaused) return;
   if (isDialogueOpen) {
     closeDialogue();
     return;
@@ -1703,23 +1730,15 @@ function getDistance(a, b) {
 // UPDATE & RENDERING PRINCIPALE
 // -------------------------------------------------------------
 let lastTimestamp = performance.now();
-let periodicAutoSaveTimer = 0;
 
 function update(deltaTime) {
-  // Il tempo del giorno avanza solo durante il gioco attivo
-  updateDayNightCycle(deltaTime);
-  updateWeather(deltaTime);
-
-  if (gameState !== 'PLAYING') return;
-
-  // Auto-salvataggio periodico di sicurezza ogni 10 secondi
-  periodicAutoSaveTimer += deltaTime;
-  if (periodicAutoSaveTimer >= 10) {
-    periodicAutoSaveTimer = 0;
-    autoSaveGame();
+  // Il tempo avanza solo se stiamo giocando (non durante pause o schermata iniziale)
+  if (!isTitleActive && !isGamePaused) {
+    updateDayNightCycle(deltaTime);
+    updateWeather(deltaTime);
   }
 
-  if (isDialogueOpen) return;
+  if (isTitleActive || isDialogueOpen || isGamePaused) return;
 
   let dx = 0;
   let dy = 0;
@@ -1744,7 +1763,7 @@ function update(deltaTime) {
   if (nextY < 8) nextY = 8;
   if (nextY > WORLD_H - player.h - 8) nextY = WORLD_H - player.h - 8;
 
-  // Collisioni con Edifici
+  // Collisioni Edifici
   let collidesBuilding = false;
   for (let b of buildings) {
     if (nextX < b.x + b.w && nextX + player.w > b.x &&
@@ -1754,12 +1773,12 @@ function update(deltaTime) {
     }
   }
 
-  // Collisione con Acqua
+  // Acqua
   let tileCol = Math.floor((nextX + player.w / 2) / TILE_SIZE);
   let tileRow = Math.floor((nextY + player.h) / TILE_SIZE);
   let isWater = (worldMap[tileRow * MAP_COLS + tileCol] === T_WATER);
 
-  // Collisione con Auto
+  // Auto Polizia
   let collidesCar = (nextX < policeCar.x + policeCar.w && nextX + player.w > policeCar.x &&
                      nextY < policeCar.y + policeCar.h && nextY + player.h > policeCar.y);
 
@@ -1799,6 +1818,108 @@ function updateZoneTitle() {
   }
 }
 
+// -------------------------------------------------------------
+// RENDERING MINI MAPPA IN STILE GTA
+// -------------------------------------------------------------
+function renderGtaMiniMap() {
+  const mw = minimapCanvas.width;
+  const mh = minimapCanvas.height;
+
+  miniCtx.save();
+  // Crea maschera circolare radar GTA
+  miniCtx.beginPath();
+  miniCtx.arc(mw / 2, mh / 2, mw / 2 - 1, 0, Math.PI * 2);
+  miniCtx.clip();
+
+  // Sfondo scuro radar
+  miniCtx.fillStyle = '#102217';
+  miniCtx.fillRect(0, 0, mw, mh);
+
+  // Scala mappa: visualizza l'area intorno al detective
+  const radarScale = 0.16;
+  const radarCenterX = mw / 2;
+  const radarCenterY = mh / 2;
+
+  miniCtx.save();
+  miniCtx.translate(radarCenterX, radarCenterY);
+
+  // Disegna elementi ambientali nella mini mappa
+  // 1. Acqua (a est)
+  const waterScreenX = (38 * TILE_SIZE - player.x) * radarScale;
+  miniCtx.fillStyle = '#2a6a7a';
+  miniCtx.fillRect(waterScreenX, -mh, mw, mh * 2);
+
+  // 2. Strade principali
+  miniCtx.fillStyle = '#c7ab7c';
+  // Statale orizzontale
+  const roadY = (19 * TILE_SIZE - player.y) * radarScale;
+  miniCtx.fillRect(-mw, roadY, mw * 2, 4 * TILE_SIZE * radarScale);
+  // Raccordo verticale verso la chiesa
+  const roadX = (13 * TILE_SIZE - player.x) * radarScale;
+  const roadChurchY = (6 * TILE_SIZE - player.y) * radarScale;
+  miniCtx.fillRect(roadX, roadChurchY, 3 * TILE_SIZE * radarScale, (19 - 6) * TILE_SIZE * radarScale);
+
+  // 3. Edifici (Rettangoli scuri definiti)
+  miniCtx.fillStyle = '#3a2d24';
+  buildings.forEach(b => {
+    const bx = (b.x - player.x) * radarScale;
+    const by = (b.y - player.y) * radarScale;
+    miniCtx.fillRect(bx, by, b.w * radarScale, b.h * radarScale);
+  });
+
+  // 4. Blip Obiettivi / Indizi (punti gialli pulsanti come in GTA)
+  const blipAlpha = 0.6 + Math.sin(performance.now() * 0.006) * 0.4;
+  hotspots.forEach(spot => {
+    if (!collectedClues.has(spot.clueId)) {
+      const sx = (spot.x - player.x) * radarScale;
+      const sy = (spot.y - player.y) * radarScale;
+      miniCtx.fillStyle = `rgba(245, 196, 66, ${blipAlpha})`;
+      miniCtx.beginPath();
+      miniCtx.arc(sx, sy, 2, 0, Math.PI * 2);
+      miniCtx.fill();
+    }
+  });
+
+  // 5. Blip NPC (punti azzurri)
+  npcs.forEach(n => {
+    const nx = (n.x - player.x) * radarScale;
+    const ny = (n.y - player.y) * radarScale;
+    miniCtx.fillStyle = '#55c0e8';
+    miniCtx.fillRect(nx - 1, ny - 1, 2.5, 2.5);
+  });
+
+  miniCtx.restore();
+
+  // 6. Blip Detective centrale (freccia direzionale stile GPS / GTA)
+  miniCtx.save();
+  miniCtx.translate(radarCenterX, radarCenterY);
+
+  let angle = 0;
+  if (player.dir === 'up') angle = -Math.PI / 2;
+  else if (player.dir === 'down') angle = Math.PI / 2;
+  else if (player.dir === 'left') angle = Math.PI;
+  else if (player.dir === 'right') angle = 0;
+
+  miniCtx.rotate(angle);
+  miniCtx.fillStyle = '#ffffff';
+  miniCtx.beginPath();
+  miniCtx.moveTo(4, 0);
+  miniCtx.lineTo(-3, -3);
+  miniCtx.lineTo(-1, 0);
+  miniCtx.lineTo(-3, 3);
+  miniCtx.closePath();
+  miniCtx.fill();
+
+  miniCtx.restore();
+
+  // Bordo metallico scanalato radar
+  miniCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+  miniCtx.lineWidth = 1;
+  miniCtx.stroke();
+
+  miniCtx.restore();
+}
+
 function draw() {
   ctx.save();
   ctx.translate(-Math.floor(camera.x), -Math.floor(camera.y));
@@ -1816,14 +1937,14 @@ function draw() {
       let py = r * TILE_SIZE;
 
       if (t === T_GRASS) {
-        ctx.fillStyle = PAL.grassDark;
+        ctx.fillStyle = PAL.grassVibrant;
         ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
         if ((c + r) % 3 === 0) {
-          ctx.fillStyle = PAL.grassLight;
-          ctx.fillRect(px + 4, py + 4, 2, 3);
+          ctx.fillStyle = PAL.grassLush;
+          ctx.fillRect(px + 4, py + 4, 3, 3);
         }
       } else if (t === T_MUD) {
-        ctx.fillStyle = '#2d2419';
+        ctx.fillStyle = PAL.mudPath;
         ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
       } else if (t === T_ROAD) {
         ctx.fillStyle = PAL.dirtRoad;
@@ -1834,9 +1955,9 @@ function draw() {
       } else if (t === T_WATER) {
         ctx.fillStyle = PAL.waterDeep;
         ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
-        if (Math.sin((px + py + player.animTick * 6) * 0.2) > 0.4) {
+        if (Math.sin((px + py + player.animTick * 6) * 0.2) > 0.3) {
           ctx.fillStyle = PAL.waterShallow;
-          ctx.fillRect(px + 2, py + 6, 8, 1);
+          ctx.fillRect(px + 2, py + 6, 8, 1.5);
         }
       } else if (t === T_WOODFLOOR) {
         ctx.fillStyle = PAL.woodMid;
@@ -1848,7 +1969,7 @@ function draw() {
   // Pontile e Barche
   ctx.fillStyle = PAL.woodLight;
   ctx.fillRect(35 * TILE_SIZE, 17 * TILE_SIZE, 5 * TILE_SIZE, 6);
-  ctx.fillStyle = '#3f2e22';
+  ctx.fillStyle = '#4a3729';
   ctx.fillRect(38 * TILE_SIZE, 19 * TILE_SIZE, 18, 8);
 
   // Edifici
@@ -1857,87 +1978,93 @@ function draw() {
     ctx.fillRect(b.x, b.y, b.w, b.h);
     ctx.fillStyle = b.roofColor;
     ctx.fillRect(b.x - 2, b.y - 3, b.w + 4, 8);
-    ctx.fillStyle = '#0c0e0d';
+    ctx.fillStyle = '#0f1412';
     ctx.fillRect(b.doorX - 2, b.doorY - 6, 12, 14);
 
-    // Luce calda alle finestre (più visibile di sera/notte)
-    const lp = getLightingProfile();
-    ctx.fillStyle = (lp.type === 'NIGHT' || lp.type === 'SUNSET') ? '#ffdb66' : '#d29a32';
+    // Finestra illuminata
+    ctx.fillStyle = '#ffcf52';
     ctx.fillRect(b.x + 10, b.y + 14, 4, 4);
 
     if (b.name.includes("Church")) {
-      ctx.fillStyle = '#829193';
+      ctx.fillStyle = '#b2bcc0';
       ctx.fillRect(b.x + b.w / 2 - 1, b.y - 10, 3, 9);
       ctx.fillRect(b.x + b.w / 2 - 4, b.y - 7, 9, 2);
     }
   });
 
   // Auto Pattuglia
-  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
   ctx.fillRect(policeCar.x + 2, policeCar.y + 14, 32, 6);
   ctx.fillStyle = PAL.policeBlue;
   ctx.fillRect(policeCar.x, policeCar.y + 4, 36, 12);
-  ctx.fillStyle = '#e8ecf0';
+  ctx.fillStyle = '#f3f6fa';
   ctx.fillRect(policeCar.x + 8, policeCar.y + 4, 18, 12);
   let flash = Math.floor(player.animTick * 3) % 2 === 0;
-  ctx.fillStyle = flash ? '#d92b2b' : '#1e66d0';
-  ctx.fillRect(policeCar.x + 16, policeCar.y - 2, 3, 2);
+  ctx.fillStyle = flash ? '#e63939' : '#2b78e4';
+  ctx.fillRect(policeCar.x + 16, policeCar.y - 2, 4, 3);
 
-  // Alberi Cipresso
+  // Alberi
   trees.forEach(t => {
-    ctx.fillStyle = '#211812';
+    ctx.fillStyle = '#38281d';
     ctx.fillRect(t.x + t.size / 2 - 3, t.y + t.size * 0.4, 6, t.size * 0.6);
-    ctx.fillStyle = '#1c291d';
+    ctx.fillStyle = '#2d4d30';
     ctx.beginPath();
     ctx.arc(t.x + t.size / 2, t.y + t.size * 0.35, t.size * 0.45, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '#4f5e51';
+    ctx.fillStyle = '#617a66';
     for (let i = 0; i < 3; i++) {
-      ctx.fillRect(t.x + (t.size * 0.25) + i * 5, t.y + t.size * 0.45, 2, 6);
+      ctx.fillRect(t.x + (t.size * 0.25) + i * 5, t.y + t.size * 0.45, 2, 7);
     }
   });
 
-  // Hotspots Scena Crimine
+  // Scena del Delitto / Hotspots
   let treeSpot = hotspots[0];
   ctx.fillStyle = PAL.bloodDark;
   ctx.fillRect(treeSpot.x + 4, treeSpot.y + 12, 14, 4);
   ctx.fillStyle = PAL.corpsePale;
   ctx.fillRect(treeSpot.x + 8, treeSpot.y + 4, 6, 12);
-  ctx.fillStyle = '#3f3626';
+  ctx.fillStyle = '#4f4330';
   ctx.fillRect(treeSpot.x + 6, treeSpot.y, 2, 4);
   ctx.fillRect(treeSpot.x + 12, treeSpot.y, 2, 4);
   ctx.fillStyle = PAL.goldSymbol;
-  ctx.fillRect(treeSpot.x + 10, treeSpot.y + 7, 2, 2);
+  ctx.fillRect(treeSpot.x + 10, treeSpot.y + 7, 3, 3);
+
+  // Totem di rami (Devil's Nests)
+  let nestSpot = hotspots[1];
+  ctx.fillStyle = '#8f724d';
+  ctx.fillRect(nestSpot.x + 6, nestSpot.y + 6, 6, 6);
+  ctx.fillStyle = '#e8d5b5';
+  ctx.fillRect(nestSpot.x + 8, nestSpot.y + 8, 2, 2);
 
   // Animali
   animals.forEach(a => {
     if (a.type === 'alligator') {
-      ctx.fillStyle = '#1c281e';
+      ctx.fillStyle = '#263a2b';
       ctx.fillRect(a.x, a.y, 16, 5);
-      ctx.fillStyle = '#d93b2b';
-      ctx.fillRect(a.x + (a.dir > 0 ? 13 : 0), a.y, 1, 1);
+      ctx.fillStyle = '#e64233';
+      ctx.fillRect(a.x + (a.dir > 0 ? 13 : 0), a.y, 2, 2);
     } else {
-      ctx.fillStyle = '#0a0d0d';
+      ctx.fillStyle = '#111818';
       ctx.fillRect(a.x, a.y, 4, 4);
     }
   });
 
   // NPC
   npcs.forEach(npc => {
-    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
     ctx.fillRect(npc.x + 2, npc.y + 13, 8, 3);
     if (npc.id === 'deputy') {
-      ctx.fillStyle = '#544634';
+      ctx.fillStyle = '#6e583f';
       ctx.fillRect(npc.x + 2, npc.y + 4, 8, 8);
-      ctx.fillStyle = '#7a664e';
+      ctx.fillStyle = '#9e8465';
       ctx.fillRect(npc.x + 1, npc.y, 10, 2);
     } else if (npc.id === 'preacher') {
-      ctx.fillStyle = '#111314';
+      ctx.fillStyle = '#15191c';
       ctx.fillRect(npc.x + 2, npc.y + 3, 8, 11);
-      ctx.fillStyle = '#bec5cb';
+      ctx.fillStyle = '#e2e7ec';
       ctx.fillRect(npc.x + 5, npc.y + 6, 2, 3);
     } else {
-      ctx.fillStyle = '#b38827';
+      ctx.fillStyle = '#cca32f';
       ctx.fillRect(npc.x + 2, npc.y + 4, 8, 9);
     }
     ctx.fillStyle = PAL.skin;
@@ -1946,28 +2073,30 @@ function draw() {
 
   // Detective Rust Hayes
   const bob = player.isMoving ? Math.sin(player.animTick) * 1 : 0;
-  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
   ctx.fillRect(player.x + 2, player.y + 13, 8, 3);
-  ctx.fillStyle = '#181b1d';
+  ctx.fillStyle = '#1b2126';
   ctx.fillRect(player.x + 3, player.y + 9, 2, 5);
   ctx.fillRect(player.x + 7, player.y + 9, 2, 5);
   ctx.fillStyle = PAL.coatBrown;
   ctx.fillRect(player.x + 2, player.y + 4 + bob, 8, 7);
-  ctx.fillStyle = '#e2ded4';
+  ctx.fillStyle = '#f5f2e6';
   ctx.fillRect(player.x + 5, player.y + 4 + bob, 2, 3);
   ctx.fillStyle = PAL.skin;
   ctx.fillRect(player.x + 4, player.y + 1 + bob, 4, 3);
-  ctx.fillStyle = '#221a14';
+  ctx.fillStyle = '#2c221a';
   ctx.fillRect(player.x + 3, player.y + bob, 6, 2);
 
-  // Icona interazione
+  // Icona esclamativa interazione
   checkInteractionPrompt();
 
   ctx.restore();
 
-  // Rendering Meteo & Atmosfera (Luce, Pioggia, Nebbia, Scanline)
-  drawAtmosphericLighting();
-  drawWeatherEffects();
+  // Filtro Atmosferico & Meteo Dinamico
+  drawAtmosphereAndWeather();
+
+  // Render Mini Mappa
+  renderGtaMiniMap();
 }
 
 function checkInteractionPrompt() {
@@ -1977,37 +2106,41 @@ function checkInteractionPrompt() {
                     buildings.some(b => getDistance(pBox, { x: b.doorX, y: b.doorY, w: 16, h: 16 }) < 24);
 
   if (canInteract) {
-    ctx.fillStyle = '#f5c842';
+    ctx.fillStyle = '#f7ce46';
     ctx.fillRect(player.x + 5, player.y - 8, 3, 5);
     ctx.fillRect(player.x + 5, player.y - 2, 3, 2);
   }
 }
 
-function drawAtmosphericLighting() {
-  const lp = getLightingProfile();
-
-  // 1. Tonalità globale del cielo e della luce
-  if (lp.alpha > 0) {
-    ctx.fillStyle = `rgba(${lp.r}, ${lp.g}, ${lp.b}, ${lp.alpha})`;
+function drawAtmosphereAndWeather() {
+  // 1. Tono di luce giorno/notte (chiaro e visibile, niente buio nero o cerchio faretto)
+  const amb = getDayNightAmbientColor();
+  if (amb.a > 0) {
+    ctx.save();
+    ctx.fillStyle = `rgba(${amb.r}, ${amb.g}, ${amb.b}, ${amb.a})`;
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+    ctx.restore();
   }
 
-  // 2. Di notte: alone torcia/lanterna attorno al Detective per garantire piena visibilità
-  if (lp.lanternAlpha > 0) {
-    const screenPx = Math.floor(player.x - camera.x + player.w / 2);
-    const screenPy = Math.floor(player.y - camera.y + player.h / 2);
-
-    const lantern = ctx.createRadialGradient(screenPx, screenPy, 12, screenPx, screenPy, 52);
-    lantern.addColorStop(0, 'rgba(0, 0, 0, 0)');
-    lantern.addColorStop(0.7, 'rgba(2, 5, 12, 0.45)');
-    lantern.addColorStop(1, 'rgba(2, 5, 12, 0.85)');
-
-    ctx.fillStyle = lantern;
+  // 2. Meteo Dinamico: Nebbia o Pioggia
+  if (currentWeather === 'fog') {
+    ctx.fillStyle = 'rgba(215, 230, 225, 0.22)';
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+    // Banchi di nebbia galleggianti
+    ctx.fillStyle = 'rgba(235, 245, 240, 0.12)';
+    for (let i = 0; i < 3; i++) {
+      const fogY = 20 + i * 42 + Math.sin(player.animTick * 0.2 + i) * 6;
+      ctx.fillRect(0, fogY, VIEW_W, 14);
+    }
+  } else if (currentWeather === 'rain') {
+    ctx.fillStyle = 'rgba(175, 210, 230, 0.65)';
+    rainDrops.forEach(d => {
+      ctx.fillRect(d.x, d.y, 1, d.len);
+    });
   }
 
-  // 3. Scanline delicate da monitor CRT
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+  // 3. Scanlines CRT retrò delicate (leggere per mantenere nitidezza)
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
   for (let y = 0; y < VIEW_H; y += 2) {
     ctx.fillRect(0, y, VIEW_W, 1);
   }
@@ -2025,9 +2158,9 @@ function gameLoop(currentTimestamp) {
   requestAnimationFrame(gameLoop);
 }
 
-// Avvio iniziale con controllo partita salvata
+// Avvio
 setLanguage('en');
-checkContinueButton();
+checkExistingSave();
 
 requestAnimationFrame((ts) => {
   lastTimestamp = ts;
