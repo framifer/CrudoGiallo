@@ -141,7 +141,7 @@
       margin-top: 5px;
     }
 
-    /* Schermata Iniziale (Title Screen) & Menu di Pausa */
+    /* Schermata Iniziale & Menu di Pausa */
     .overlay-screen {
       position: absolute;
       inset: 0;
@@ -224,7 +224,7 @@
       font-weight: bold;
     }
 
-    /* Modal Conferma Sovrascrittura Partita */
+    /* Modal Sovrascrittura Partita */
     #confirm-modal {
       position: absolute;
       inset: 0;
@@ -321,6 +321,7 @@
     #btn-down  { width: 40px; height: 40px; bottom: 0; left: 42px; }
     #btn-left  { width: 40px; height: 40px; top: 42px; left: 0; }
     #btn-right { width: 40px; height: 40px; top: 42px; right: 0; }
+
     .dpad-center {
       position: absolute;
       width: 40px;
@@ -369,7 +370,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* Gruppo Azione A e B */
+    /* Azione A e B */
     .action-group {
       display: flex;
       gap: 12px;
@@ -467,7 +468,6 @@
       <span id="zone-title">SACRIFICE GLADE</span>
       <div id="hud-right">
         <span id="save-indicator">AUTO-SAVED</span>
-        <!-- Orologio senza icone -->
         <span id="time-display">12:00</span>
         <span id="clues-counter">CLUES: 0/7</span>
       </div>
@@ -573,12 +573,12 @@
 <script>
 /**
  * BAYOU NOIR: THE KING IN THE MARSH
- * Modulo Avanzato:
+ * Features:
  * 1. HUD Orologio senza icone
- * 2. Il tempo scorre SOLO a gioco attivo (non quando spento/in pausa/nei menu)
+ * 2. Il tempo scorre SOLO a gioco attivo
  * 3. Schermata iniziale con Carica / Nuova Partita e conferma sovrascrittura
  * 4. Salvataggio automatico (localStorage)
- * 5. Differenziazione cromatica netta (mattino luminoso, pomeriggio dorato, tramonto sangue, notte buia con lanterna)
+ * 5. Differenziazione cromatica netta (mattino, pomeriggio, tramonto, notte con lanterna)
  * 6. Meteo dinamico (pioggia pixel art e banchi di nebbia galleggianti)
  */
 
@@ -751,7 +751,6 @@ function hasSaveGame() {
 
 function autoSaveGame() {
   if (gameState !== 'PLAYING') return;
-
   const savePayload = {
     playerX: player.x,
     playerY: player.y,
@@ -762,7 +761,6 @@ function autoSaveGame() {
     weatherState: weather.current,
     weatherTimer: weather.timer
   };
-
   try {
     localStorage.setItem(SAVE_KEY, JSON.stringify(savePayload));
     flashSaveIndicator();
@@ -774,7 +772,6 @@ function autoSaveGame() {
 function loadSavedGame() {
   const raw = localStorage.getItem(SAVE_KEY);
   if (!raw) return false;
-
   try {
     const data = JSON.parse(raw);
     player.x = data.playerX ?? 220;
@@ -788,7 +785,6 @@ function loadSavedGame() {
     if (data.currentLang) setLanguage(data.currentLang);
     if (data.weatherState) weather.current = data.weatherState;
     if (data.weatherTimer) weather.timer = data.weatherTimer;
-
     camera.x = player.x - VIEW_W / 2;
     camera.y = player.y - VIEW_H / 2;
     updateTimeDisplay();
@@ -804,7 +800,7 @@ function resetGameToFresh() {
   player.x = 220;
   player.y = 310;
   player.dir = 'down';
-  worldTimeSeconds = 60; // Inizia a metà mattina (08:24)
+  worldTimeSeconds = 60;
   collectedClues.clear();
   weather.current = 'CLEAR';
   weather.timer = 40;
@@ -824,7 +820,6 @@ function flashSaveIndicator() {
   }, 1400);
 }
 
-// Salva quando l'utente chiude o cambia scheda
 window.addEventListener('beforeunload', () => {
   autoSaveGame();
 });
@@ -832,14 +827,10 @@ window.addEventListener('beforeunload', () => {
 // -------------------------------------------------------------
 // STATI DI GIOCO (TITLE, PLAYING, PAUSED)
 // -------------------------------------------------------------
-let gameState = 'TITLE'; // 'TITLE' | 'PLAYING' | 'PAUSED'
+let gameState = 'TITLE';
 
 function checkContinueButton() {
-  if (hasSaveGame()) {
-    titleContinueBtn.disabled = false;
-  } else {
-    titleContinueBtn.disabled = true;
-  }
+  titleContinueBtn.disabled = !hasSaveGame();
 }
 
 function startGameFromTitle(continueExisting) {
@@ -866,7 +857,6 @@ function returnToTitleScreen() {
 function togglePauseMenu() {
   if (gameState === 'TITLE') return;
   initAudio();
-
   if (gameState === 'PLAYING') {
     gameState = 'PAUSED';
     pauseMenu.style.display = 'flex';
@@ -901,17 +891,13 @@ function playPluckNote(freq, time, decay = 2.4) {
   if (!audioCtx || !isMusicEnabled) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-
   osc.type = 'triangle';
   osc.frequency.setValueAtTime(freq, time);
   osc.frequency.linearRampToValueAtTime(freq * 0.992, time + decay);
-
   gain.gain.setValueAtTime(0.25, time);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + decay);
-
   osc.connect(gain);
   gain.connect(masterGain);
-
   osc.start(time);
   osc.stop(time + decay);
 }
@@ -920,22 +906,17 @@ function playSubDrone(freq, time, duration = 4.0) {
   if (!audioCtx || !isMusicEnabled) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-
   osc.type = 'sawtooth';
   osc.frequency.setValueAtTime(freq, time);
-
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
   filter.frequency.setValueAtTime(140, time);
-
   gain.gain.setValueAtTime(0.01, time);
   gain.gain.linearRampToValueAtTime(0.15, time + 1.2);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
   osc.connect(filter);
   filter.connect(gain);
   gain.connect(masterGain);
-
   osc.start(time);
   osc.stop(time + duration);
 }
@@ -949,20 +930,16 @@ function startProceduralSoundtrack() {
       musicTimer = setTimeout(scheduleNext, 1800);
       return;
     }
-
     const now = audioCtx.currentTime;
     if (step % 4 === 0) {
       playSubDrone(55.0, now, 5.0);
     }
-
     const note = notes[step % notes.length];
     playPluckNote(note, now + 0.1, 2.5);
-
     step++;
     const interval = 1200 + (Math.sin(step) * 300);
     musicTimer = setTimeout(scheduleNext, interval);
   }
-
   scheduleNext();
 }
 
@@ -977,42 +954,29 @@ function toggleMusic() {
 }
 
 // -------------------------------------------------------------
-// CICLO GIORNO / NOTTE & ILLUMINAZIONE NETTA
+// CICLO GIORNO / NOTTE & ILLUMINAZIONE
 // -------------------------------------------------------------
-const DAY_CYCLE_DURATION = 300; // 300s = esatti 5 minuti di gameplay attivo
-let worldTimeSeconds = 60; // Il tempo avanza SOLO durante il gameplay
+const DAY_CYCLE_DURATION = 300; // 300s = 5 minuti di gameplay attivo
+let worldTimeSeconds = 60;
 
 function updateDayNightCycle(deltaTime) {
-  // Il tempo avanza ESCLUSIVAMENTE quando si sta giocando attivamente
   if (gameState !== 'PLAYING') return;
-
   worldTimeSeconds = (worldTimeSeconds + deltaTime) % DAY_CYCLE_DURATION;
   updateTimeDisplay();
 }
 
 function updateTimeDisplay() {
   const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
-  // Ciclo 24 ore: 0.00 = 06:00, 0.25 = 12:00, 0.50 = 18:00, 0.75 = 00:00
   const virtualHour = Math.floor((progress * 24 + 6) % 24);
   const virtualMin = Math.floor((progress * 24 * 60) % 60);
   timeDisplay.innerText = `${String(virtualHour).padStart(2, '0')}:${String(virtualMin).padStart(2, '0')}`;
 }
 
-/**
- * Illuminazione differenziata:
- * 1. Mattina (06:00 - 11:59): Luminosa, limpida, toni caldi e chiari.
- * 2. Pomeriggio (12:00 - 17:59): Piena luce del sole, massima visibilità.
- * 3. Tramonto (18:00 - 20:59): Forte viraggio ambra/arancio/rosso sangue.
- * 4. Notte fonda (21:00 - 04:59): Oscurità profonda con alone lanterna/torcia attorno al detective.
- * 5. Alba (05:00 - 05:59): Luce rosata/azzurrina del primo mattino.
- */
 function getLightingProfile() {
   const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
   const virtualHour = (progress * 24 + 6) % 24;
 
   if (virtualHour >= 6 && virtualHour < 12) {
-    // MATTINA: Chiara, trasparente, leggerissimo velo dorato fresco
-    const f = (virtualHour - 6) / 6;
     return {
       type: 'MORNING',
       r: 240, g: 245, b: 230,
@@ -1020,7 +984,6 @@ function getLightingProfile() {
       lanternAlpha: 0.0
     };
   } else if (virtualHour >= 12 && virtualHour < 18) {
-    // POMERIGGIO: Sole pieno della Louisiana, perfetta visibilità
     return {
       type: 'AFTERNOON',
       r: 255, g: 250, b: 220,
@@ -1028,7 +991,6 @@ function getLightingProfile() {
       lanternAlpha: 0.0
     };
   } else if (virtualHour >= 18 && virtualHour < 21) {
-    // TRAMONTO: Sfumatura rossastra e ambrata molto marcata
     const f = (virtualHour - 18) / 3;
     return {
       type: 'SUNSET',
@@ -1039,7 +1001,6 @@ function getLightingProfile() {
       lanternAlpha: f * 0.35
     };
   } else if (virtualHour >= 21 || virtualHour < 5) {
-    // NOTTE: Buio profondo con alone torcia
     return {
       type: 'NIGHT',
       r: 3, g: 6, b: 16,
@@ -1047,7 +1008,6 @@ function getLightingProfile() {
       lanternAlpha: 1.0
     };
   } else {
-    // ALBA (05:00 - 06:00): Transizione nebbiosa da notte a luce
     const f = virtualHour - 5;
     return {
       type: 'DAWN',
@@ -1064,13 +1024,12 @@ function getLightingProfile() {
 // METEO DINAMICO (PIOGGIA & NEBBIA)
 // -------------------------------------------------------------
 const weather = {
-  current: 'CLEAR', // 'CLEAR' | 'FOGGY' | 'RAIN'
-  timer: 45,        // durata dello stato prima del cambio
+  current: 'CLEAR',
+  timer: 45,
   rainDrops: [],
   fogPatches: []
 };
 
-// Inizializza gocce di pioggia
 for (let i = 0; i < 40; i++) {
   weather.rainDrops.push({
     x: Math.random() * VIEW_W,
@@ -1080,7 +1039,6 @@ for (let i = 0; i < 40; i++) {
   });
 }
 
-// Inizializza banchi di nebbia
 for (let i = 0; i < 5; i++) {
   weather.fogPatches.push({
     x: (i * 45) % VIEW_W,
@@ -1093,17 +1051,14 @@ for (let i = 0; i < 5; i++) {
 
 function updateWeather(deltaTime) {
   if (gameState !== 'PLAYING') return;
-
   weather.timer -= deltaTime;
   if (weather.timer <= 0) {
-    // Cambia stato meteo in modo naturale
     const states = ['CLEAR', 'CLEAR', 'FOGGY', 'RAIN'];
     const nextStates = states.filter(s => s !== weather.current);
     weather.current = nextStates[Math.floor(Math.random() * nextStates.length)];
-    weather.timer = 50 + Math.random() * 45; // 50-95 secondi per ogni evento meteo
+    weather.timer = 50 + Math.random() * 45;
   }
 
-  // Aggiorna posizioni particelle pioggia
   if (weather.current === 'RAIN') {
     weather.rainDrops.forEach(d => {
       d.y += d.speed;
@@ -1115,7 +1070,6 @@ function updateWeather(deltaTime) {
     });
   }
 
-  // Aggiorna banchi di nebbia
   if (weather.current === 'FOGGY' || weather.current === 'RAIN') {
     weather.fogPatches.forEach(f => {
       f.x += f.speed;
@@ -1209,7 +1163,7 @@ const cluesDatabase = [
   },
   {
     id: 'fisherman_rumor',
-    zone: { en: 'Pier & Bait Shop', it: 'Pontile dell\'Emporio' },
+    zone: { en: 'Pier & Bait Shop', it: "Pontile dell'Emporio" },
     title: { en: "Blind Gary's Testimony", it: "Testimonianza di Gary il Cieco" },
     text: {
       en: "'At night, I hear a flat-bottom skiff gliding with its lights dead toward Carcosa Bay. Men singing in old patois. When they pass, even the herons freeze. Don't peer down that well, son.'",
@@ -1361,7 +1315,7 @@ const PAL = {
   corpsePale: '#cfd2be'
 };
 
-// Generazione Mappa di Gioco
+// Generazione Mappa
 const worldMap = new Uint8Array(MAP_COLS * MAP_ROWS);
 const T_GRASS = 0, T_MUD = 1, T_WATER = 2, T_ROAD = 3, T_WOODFLOOR = 4;
 
@@ -1396,7 +1350,6 @@ const camera = {
     let targetY = player.y + player.h / 2 - VIEW_H / 2;
     this.x += (targetX - this.x) * 0.1;
     this.y += (targetY - this.y) * 0.1;
-
     if (this.x < 0) this.x = 0;
     if (this.y < 0) this.y = 0;
     if (this.x > WORLD_W - VIEW_W) this.x = WORLD_W - VIEW_W;
@@ -1404,7 +1357,7 @@ const camera = {
   }
 };
 
-// Giocatore Detective
+// Detective Rust Hayes
 const player = {
   x: 220,
   y: 310,
@@ -1471,7 +1424,7 @@ for (let i = 0; i < 45; i++) {
 }
 
 // -------------------------------------------------------------
-// GESTIONE DIALOGHI
+// GESTIONE DIALOGHI & INTERAZIONE
 // -------------------------------------------------------------
 let isDialogueOpen = false;
 let currentDialogueQueue = [];
@@ -1509,6 +1462,7 @@ function bindTouch(id, k) {
   el.addEventListener('mouseup', end);
   el.addEventListener('mouseleave', end);
 }
+
 bindTouch('btn-up', 'up');
 bindTouch('btn-down', 'down');
 bindTouch('btn-left', 'left');
@@ -1548,7 +1502,7 @@ document.getElementById('title-lang-btn').addEventListener('click', () => {
   setLanguage(currentLang === 'en' ? 'it' : 'en');
 });
 
-// Eventi Modal Conferma
+// Modal Conferma
 document.getElementById('confirm-overwrite-btn').addEventListener('click', () => {
   confirmModal.style.display = 'none';
   startGameFromTitle(false);
@@ -1558,7 +1512,7 @@ document.getElementById('confirm-cancel-btn').addEventListener('click', () => {
   confirmModal.style.display = 'none';
 });
 
-// Menu Click Handlers
+// Menu Pausa Handlers
 document.getElementById('menu-resume-btn').addEventListener('click', () => {
   togglePauseMenu();
 });
@@ -1580,12 +1534,8 @@ document.getElementById('menu-quit-btn').addEventListener('click', () => {
   returnToTitleScreen();
 });
 
-// -------------------------------------------------------------
-// LOGICA INDAGINE & DIALOGHI
-// -------------------------------------------------------------
 function handleActionButton() {
   if (gameState !== 'PLAYING') return;
-
   if (isDialogueOpen) {
     nextDialogue();
     return;
@@ -1593,22 +1543,20 @@ function handleActionButton() {
 
   const pBox = { x: player.x, y: player.y, w: player.w, h: player.h };
 
-  // 1. NPC Interazione
+  // 1. NPC
   for (let npc of npcs) {
     if (getDistance(pBox, npc) < 26) {
       let lines = npc.dialogues[currentLang];
       let speech = lines[npc.dialogueIndex % lines.length];
       npc.dialogueIndex++;
-
       if (npc.id === 'deputy') unlockClue('deputy_statement');
       if (npc.id === 'fisherman') unlockClue('fisherman_rumor');
-
       startDialogue(npc.name, npc.role[currentLang], [speech]);
       return;
     }
   }
 
-  // 2. Hotspots Scena del Crimine
+  // 2. Hotspots
   for (let spot of hotspots) {
     if (getDistance(pBox, spot) < 28) {
       unlockClue(spot.clueId);
@@ -1649,20 +1597,17 @@ function openJournal() {
     closeDialogue();
     return;
   }
-
   if (collectedClues.size === 0) {
     const empty = I18N[currentLang].emptyJournal;
     startDialogue(empty.title, empty.sub, [empty.text]);
     return;
   }
-
   let text = I18N[currentLang].journalHeader.replace('{0}', collectedClues.size);
   cluesDatabase.forEach(c => {
     if (collectedClues.has(c.id)) {
       text += `[X] ${c.title[currentLang].toUpperCase()}\n${c.zone[currentLang]}\n${c.text[currentLang]}\n\n`;
     }
   });
-
   startDialogue("CASE FILE", "EVIDENCE", [text]);
 }
 
@@ -1706,13 +1651,11 @@ let lastTimestamp = performance.now();
 let periodicAutoSaveTimer = 0;
 
 function update(deltaTime) {
-  // Il tempo del giorno avanza solo durante il gioco attivo
   updateDayNightCycle(deltaTime);
   updateWeather(deltaTime);
 
   if (gameState !== 'PLAYING') return;
 
-  // Auto-salvataggio periodico di sicurezza ogni 10 secondi
   periodicAutoSaveTimer += deltaTime;
   if (periodicAutoSaveTimer >= 10) {
     periodicAutoSaveTimer = 0;
@@ -1723,14 +1666,12 @@ function update(deltaTime) {
 
   let dx = 0;
   let dy = 0;
-
   if (keys.up)    { dy -= player.speed; player.dir = 'up'; }
   if (keys.down)  { dy += player.speed; player.dir = 'down'; }
   if (keys.left)  { dx -= player.speed; player.dir = 'left'; }
   if (keys.right) { dx += player.speed; player.dir = 'right'; }
 
   player.isMoving = (dx !== 0 || dy !== 0);
-
   if (dx !== 0 && dy !== 0) {
     dx *= 0.7071;
     dy *= 0.7071;
@@ -1744,7 +1685,6 @@ function update(deltaTime) {
   if (nextY < 8) nextY = 8;
   if (nextY > WORLD_H - player.h - 8) nextY = WORLD_H - player.h - 8;
 
-  // Collisioni con Edifici
   let collidesBuilding = false;
   for (let b of buildings) {
     if (nextX < b.x + b.w && nextX + player.w > b.x &&
@@ -1754,12 +1694,10 @@ function update(deltaTime) {
     }
   }
 
-  // Collisione con Acqua
   let tileCol = Math.floor((nextX + player.w / 2) / TILE_SIZE);
   let tileRow = Math.floor((nextY + player.h) / TILE_SIZE);
   let isWater = (worldMap[tileRow * MAP_COLS + tileCol] === T_WATER);
 
-  // Collisione con Auto
   let collidesCar = (nextX < policeCar.x + policeCar.w && nextX + player.w > policeCar.x &&
                      nextY < policeCar.y + policeCar.h && nextY + player.h > policeCar.y);
 
@@ -1860,7 +1798,6 @@ function draw() {
     ctx.fillStyle = '#0c0e0d';
     ctx.fillRect(b.doorX - 2, b.doorY - 6, 12, 14);
 
-    // Luce calda alle finestre (più visibile di sera/notte)
     const lp = getLightingProfile();
     ctx.fillStyle = (lp.type === 'NIGHT' || lp.type === 'SUNSET') ? '#ffdb66' : '#d29a32';
     ctx.fillRect(b.x + 10, b.y + 14, 4, 4);
@@ -1897,7 +1834,7 @@ function draw() {
     }
   });
 
-  // Hotspots Scena Crimine
+  // Hotspot Albero Vittima
   let treeSpot = hotspots[0];
   ctx.fillStyle = PAL.bloodDark;
   ctx.fillRect(treeSpot.x + 4, treeSpot.y + 12, 14, 4);
@@ -1960,12 +1897,10 @@ function draw() {
   ctx.fillStyle = '#221a14';
   ctx.fillRect(player.x + 3, player.y + bob, 6, 2);
 
-  // Icona interazione
   checkInteractionPrompt();
-
   ctx.restore();
 
-  // Rendering Meteo & Atmosfera (Luce, Pioggia, Nebbia, Scanline)
+  // Rendering Meteo & Scanline CRT
   drawAtmosphericLighting();
   drawWeatherEffects();
 }
@@ -1975,7 +1910,6 @@ function checkInteractionPrompt() {
   let canInteract = npcs.some(n => getDistance(pBox, n) < 26) ||
                     hotspots.some(s => getDistance(pBox, s) < 28) ||
                     buildings.some(b => getDistance(pBox, { x: b.doorX, y: b.doorY, w: 16, h: 16 }) < 24);
-
   if (canInteract) {
     ctx.fillStyle = '#f5c842';
     ctx.fillRect(player.x + 5, player.y - 8, 3, 5);
@@ -1986,27 +1920,23 @@ function checkInteractionPrompt() {
 function drawAtmosphericLighting() {
   const lp = getLightingProfile();
 
-  // 1. Tonalità globale del cielo e della luce
   if (lp.alpha > 0) {
     ctx.fillStyle = `rgba(${lp.r}, ${lp.g}, ${lp.b}, ${lp.alpha})`;
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
   }
 
-  // 2. Di notte: alone torcia/lanterna attorno al Detective per garantire piena visibilità
   if (lp.lanternAlpha > 0) {
     const screenPx = Math.floor(player.x - camera.x + player.w / 2);
     const screenPy = Math.floor(player.y - camera.y + player.h / 2);
-
     const lantern = ctx.createRadialGradient(screenPx, screenPy, 12, screenPx, screenPy, 52);
     lantern.addColorStop(0, 'rgba(0, 0, 0, 0)');
     lantern.addColorStop(0.7, 'rgba(2, 5, 12, 0.45)');
     lantern.addColorStop(1, 'rgba(2, 5, 12, 0.85)');
-
     ctx.fillStyle = lantern;
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
   }
 
-  // 3. Scanline delicate da monitor CRT
+  // Scanlines CRT
   ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
   for (let y = 0; y < VIEW_H; y += 2) {
     ctx.fillRect(0, y, VIEW_W, 1);
@@ -2019,16 +1949,13 @@ function drawAtmosphericLighting() {
 function gameLoop(currentTimestamp) {
   const deltaTime = (currentTimestamp - lastTimestamp) / 1000;
   lastTimestamp = currentTimestamp;
-
   update(deltaTime);
   draw();
   requestAnimationFrame(gameLoop);
 }
 
-// Avvio iniziale con controllo partita salvata
 setLanguage('en');
 checkContinueButton();
-
 requestAnimationFrame((ts) => {
   lastTimestamp = ts;
   requestAnimationFrame(gameLoop);
