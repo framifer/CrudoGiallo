@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bayou Noir - Episode 1: The Yellow Sign</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      background-color: #0b0f0e;
+      color: #e2d9c2;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    #game-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle, #1a221f 0%, #070908 100%);
+    }
+
+    /* Area Display Schermo Retro */
+    #viewport-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid #2d3833;
+      border-radius: 8px;
+      background: #050807;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,0,0,0.9);
+      overflow: hidden;
+    }
+
+    canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Finestra di Dialogo / Taccuino */
+    #dialogue-box {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      background: rgba(14, 20, 18, 0.94);
+      border: 2px solid #8c7853;
+      border-radius: 4px;
+      padding: 10px 12px;
+      color: #f1ebd8;
+      font-size: 13px;
+      line-height: 1.4;
+      display: none;
+      z-index: 50;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    }
+
+    #dialogue-speaker {
+      color: #c9933b;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 11px;
+      margin-bottom: 4px;
+      letter-spacing: 1px;
+    }
+
+    #dialogue-prompt {
+      text-align: right;
+      font-size: 10px;
+      color: #7d9685;
+      animation: blink 1s infinite alternate;
+      margin-top: 4px;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    /* Controlli Touch per Mobile */
+    #touch-controls {
+      display: flex;
+      width: 100%;
+      max-width: 520px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      z-index: 20;
+    }
+
+    /* D-PAD */
+    .dpad {
+      position: relative;
+      width: 130px;
+      height: 130px;
+    }
+
+    .dpad-btn {
+      position: absolute;
+      background: #252f2b;
+      border: 2px solid #3d4f47;
+      color: #a4b8ad;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #121815;
+    }
+
+    .dpad-btn:active, .dpad-btn.pressed {
+      background: #465b52;
+      box-shadow: 0 1px 0 #121815;
+      transform: translateY(3px);
+    }
+
+    #btn-up    { width: 42px; height: 42px; top: 0; left: 44px; }
+    #btn-down  { width: 42px; height: 42px; bottom: 0; left: 44px; }
+    #btn-left  { width: 42px; height: 42px; top: 44px; left: 0; }
+    #btn-right { width: 42px; height: 42px; top: 44px; right: 0; }
+    .dpad-center {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      top: 44px;
+      left: 44px;
+      background: #1b2420;
+      border: 1px solid #283630;
+    }
+
+    /* Tasti Azione */
+    .action-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .act-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #3a2e22;
+      border: 2px solid #846743;
+      color: #f7e8ce;
+      font-size: 14px;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 0 #1b150e;
+      cursor: pointer;
+    }
+
+    .act-btn span {
+      font-size: 9px;
+      color: #b59b77;
+    }
+
+    .act-btn:active, .act-btn.pressed {
+      background: #5a4835;
+      box-shadow: 0 1px 0 #1b150e;
+      transform: translateY(3px);
+    }
+
+    /* Stile Desktop vs Mobile e Orientamento */
+    /* Layout Verticale (Portrait) */
+    @media (orientation: portrait) {
+      #game-wrapper {
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+      #viewport-container {
+        width: 92vw;
+        height: 82.8vw; /* Proporzioni ~ 160:144 GBC */
+        max-width: 360px;
+        max-height: 324px;
+      }
+      #touch-controls {
+        flex-direction: row;
+        margin-top: 10px;
+      }
+    }
+
+    /* Layout Orizzontale (Landscape) */
+    @media (orientation: landscape) {
+      #game-wrapper {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 10px;
+      }
+      #viewport-container {
+        height: 86vh;
+        width: 95.5vh;
+        max-width: 440px;
+        max-height: 396px;
+        order: 2;
+      }
+      .dpad {
+        order: 1;
+        transform: scale(0.9);
+      }
+      .action-group {
+        order: 3;
+        transform: scale(0.9);
+      }
+      #touch-controls {
+        display: contents; /* Lascia che dpad e pulsanti si dispongano ai lati del canvas */
+      }
+    }
+
+    /* Banner indizio in alto a sinistra */
+    #hud {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      font-size: 10px;
+      color: #c4b595;
+      text-shadow: 1px 1px 2px #000;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="game-wrapper">
+  <!-- HUD di Gioco & Canvas Retro -->
+  <div id="viewport-container">
+    <div id="hud">LOUISIANA, 1995 • PARROCCHIA DI PELICAN BAY</div>
+    <canvas id="gameCanvas" width="160" height="144"></canvas>
+    
+    <!-- Box Dialoghi / Esame Reperti -->
+    <div id="dialogue-box">
+      <div id="dialogue-speaker">DET. HART</div>
+      <div id="dialogue-text">Qualcosa non quadra in questa radura...</div>
+      <div id="dialogue-prompt">[Premi (A) per chiudere]</div>
+    </div>
+  </div>
+
+  <!-- Controlli a Schermo Tattili (Adattivi per Cellulare) -->
+  <div id="touch-controls">
+    <div class="dpad">
+      <button class="dpad-btn" id="btn-up">▲</button>
+      <button class="dpad-btn" id="btn-left">◀</button>
+      <div class="dpad-center"></div>
+      <button class="dpad-btn" id="btn-right">▶</button>
+      <button class="dpad-btn" id="btn-down">▼</button>
+    </div>
+
+    <div class="action-group">
+      <button class="act-btn" id="btn-inspect">
+        A
+        <span>ESAMINA</span>
+      </button>
+      <button class="act-btn" id="btn-log">
+        B
+        <span>NOTE</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+/**
+ * BAYOU NOIR - PROTOTIPO PIXEL ART
+ * Ispirato alle atmosfere di True Detective & The Widow's Bay
+ * Motore 160x144 pixel con rendering software pixel-perfect
+ */
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+const dialogueBox = document.getElementById('dialogue-box');
+const dialogueSpeaker = document.getElementById('dialogue-speaker');
+const dialogueText = document.getElementById('dialogue-text');
+
+// Palette Cromatica Retro Palude Decadente
+const PALETTE = {
+  water: '#14221c',
+  grassDark: '#1d2a1d',
+  grassLight: '#2c3b28',
+  mud: '#382e21',
+  woodDark: '#231710',
+  woodLight: '#4a3826',
+  coat: '#8f7754',      // Trench tipico da detective
+  hair: '#2c221a',
+  skin: '#d1b287',
+  pants: '#1c1f24',
+  symbolGold: '#c29b38', // Simbolo rituale / spirale
+  bone: '#e0dacb',
+  fog: 'rgba(180, 200, 185, 0.12)'
+};
+
+// Stato del Giocatore
+const player = {
+  x: 40,
+  y: 80,
+  w: 10,
+  h: 14,
+  speed: 0.9,
+  dir: 'down',
+  isMoving: false,
+  stepCount: 0
+};
+
+// Clues & Hotspot nella Scena
+const interactables = [
+  {
+    id: 'tree_spiral',
+    x: 120,
+    y: 35,
+    w: 16,
+    h: 16,
+    speaker: "RILIEVO SCIENTIFICO",
+    msg: "Un'incisione fresca sulla corteccia di questa quercia secolare. È una spirale rituale. Chiunque l'abbia fatta conosceva bene il canneto."
+  },
+  {
+    id: 'shack',
+    x: 18,
+    y: 20,
+    w: 32,
+    h: 24,
+    speaker: "DET. RUST",
+    msg: "Un vecchio capanno per cacciatori in disuso. Il lucchetto è stato tranciato da poco. C'è odore di zolfo e muffa."
+  },
+  {
+    id: 'stick_sculpture',
+    x: 85,
+    y: 100,
+    w: 14,
+    h: 14,
+    speaker: "TACCUINO",
+    msg: "Una 'trappola per diavoli' costruita legando rami secchi e fango. Esattamente come quelle descritte nei vecchi fascicoli della contea."
+  },
+  {
+    id: 'boat_wreck',
+    x: 130,
+    y: 115,
+    w: 22,
+    h: 14,
+    speaker: "ISPEZIONE",
+    msg: "Una barca a fondo piatto semisommersa. La targa è stata grattata via con un cacciavite."
+  }
+];
+
+let notebookCount = 0;
+const inspectedSet = new Set();
+let isDialogueOpen = false;
+
+// Input State
+const keys = {
+  up: false,
+  down: false,
+  left: false,
+  right: false,
+  action: false
+};
+
+// Nebbia Procedurale Particellare
+const fogParticles = [];
+for (let i = 0; i < 20; i++) {
+  fogParticles.push({
+    x: Math.random() * 160,
+    y: Math.random() * 144,
+    r: 18 + Math.random() * 18,
+    vx: 0.15 + Math.random() * 0.1
+  });
+}
+
+// ---------------------------------------------
+// GESTIONE INPUT (TASTIERA + TOUCH)
+// ---------------------------------------------
+
+window.addEventListener('keydown', (e) => {
+  if (['ArrowUp', 'KeyW'].includes(e.code)) keys.up = true;
+  if (['ArrowDown', 'KeyS'].includes(e.code)) keys.down = true;
+  if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = true;
+  if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = true;
+  if (['KeyE', 'Space', 'Enter'].includes(e.code)) handleAction();
+});
+
+window.addEventListener('keyup', (e) => {
+  if (['ArrowUp', 'KeyW'].includes(e.code)) keys.up = false;
+  if (['ArrowDown', 'KeyS'].includes(e.code)) keys.down = false;
+  if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = false;
+  if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = false;
+});
+
+function bindTouchButton(id, keyName) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const start = (e) => {
+    e.preventDefault();
+    keys[keyName] = true;
+    el.classList.add('pressed');
+  };
+  const end = (e) => {
+    e.preventDefault();
+    keys[keyName] = false;
+    el.classList.remove('pressed');
+  };
+
+  el.addEventListener('touchstart', start, { passive: false });
+  el.addEventListener('touchend', end, { passive: false });
+  el.addEventListener('mousedown', start);
+  el.addEventListener('mouseup', end);
+  el.addEventListener('mouseleave', end);
+}
+
+bindTouchButton('btn-up', 'up');
+bindTouchButton('btn-down', 'down');
+bindTouchButton('btn-left', 'left');
+bindTouchButton('btn-right', 'right');
+
+document.getElementById('btn-inspect').addEventListener('click', (e) => {
+  e.preventDefault();
+  handleAction();
+});
+
+document.getElementById('btn-log').addEventListener('click', (e) => {
+  e.preventDefault();
+  openNotebook();
+});
+
+function handleAction() {
+  if (isDialogueOpen) {
+    closeDialogue();
+    return;
+  }
+
+  // Cerca un oggetto vicino al detective
+  const pCenter = { x: player.x + player.w / 2, y: player.y + player.h / 2 };
+  let found = null;
+
+  for (let item of interactables) {
+    const itemCenter = { x: item.x + item.w / 2, y: item.y + item.h / 2 };
+    const dist = Math.hypot(pCenter.x - itemCenter.x, pCenter.y - itemCenter.y);
+    if (dist < 20) {
+      found = item;
+      break;
+    }
+  }
+
+  if (found) {
+    if (!inspectedSet.has(found.id)) {
+      inspectedSet.add(found.id);
+      notebookCount++;
+    }
+    showDialogue(found.speaker, found.msg);
+  } else {
+    showDialogue("PENSIERO", "Solo nebbia, zanzare e silenzio. Ci sono indizi nascosti fra gli alberi e il capanno.");
+  }
+}
+
+function openNotebook() {
+  const msg = `Indizi repertati: ${notebookCount}/${interactables.length}.\nLa palude nasconde troppi segreti. Dobbiamo setacciare ogni angolo.`;
+  showDialogue("DIARIO DI BORDO", msg);
+}
+
+function showDialogue(speaker, text) {
+  dialogueSpeaker.innerText = speaker;
+  dialogueText.innerText = text;
+  dialogueBox.style.display = 'block';
+  isDialogueOpen = true;
+}
+
+function closeDialogue() {
+  dialogueBox.style.display = 'none';
+  isDialogueOpen = false;
+}
+
+// ---------------------------------------------
+// CICLO DI AGGIORNAMENTO LOGICA
+// ---------------------------------------------
+function update() {
+  if (isDialogueOpen) return; // Blocca i movimenti quando leggi un indizio
+
+  let dx = 0;
+  let dy = 0;
+
+  if (keys.up) { dy -= player.speed; player.dir = 'up'; }
+  if (keys.down) { dy += player.speed; player.dir = 'down'; }
+  if (keys.left) { dx -= player.speed; player.dir = 'left'; }
+  if (keys.right) { dx += player.speed; player.dir = 'right'; }
+
+  player.isMoving = (dx !== 0 || dy !== 0);
+
+  // Normalizza diagonali
+  if (dx !== 0 && dy !== 0) {
+    dx *= 0.7071;
+    dy *= 0.7071;
+  }
+
+  let nextX = player.x + dx;
+  let nextY = player.y + dy;
+
+  // Collisioni con i bordi dello schermo (160x144)
+  if (nextX >= 4 && nextX <= 160 - player.w - 4) {
+    player.x = nextX;
+  }
+  if (nextY >= 14 && nextY <= 144 - player.h - 4) {
+    player.y = nextY;
+  }
+
+  if (player.isMoving) {
+    player.stepCount += 0.18;
+  }
+
+  // Aggiorna banchi di nebbia
+  fogParticles.forEach(f => {
+    f.x += f.vx;
+    if (f.x - f.r > 160) f.x = -f.r;
+  });
+}
+
+// ---------------------------------------------
+// RENDERING GRAFICA PIXEL ART
+// ---------------------------------------------
+function draw() {
+  // 1. Sfondo Terreno & Fango
+  ctx.fillStyle = PALETTE.grassDark;
+  ctx.fillRect(0, 0, 160, 144);
+
+  // Fiume/Palude d'acqua stagnante a destra
+  ctx.fillStyle = PALETTE.water;
+  ctx.beginPath();
+  ctx.moveTo(115, 0);
+  ctx.quadraticCurveTo(105, 70, 125, 144);
+  ctx.lineTo(160, 144);
+  ctx.lineTo(160, 0);
+  ctx.fill();
+
+  // Pattern erba incolta e fango in pixel
+  ctx.fillStyle = PALETTE.grassLight;
+  for (let py = 12; py < 140; py += 14) {
+    for (let px = 8; px < 110; px += 18) {
+      if ((px + py) % 7 === 0) {
+        ctx.fillRect(px, py, 2, 2);
+        ctx.fillRect(px + 1, py - 1, 1, 1);
+      }
+    }
+  }
+
+  // 2. Capanno Abbandonato (in alto a sinistra)
+  drawCabin(16, 12);
+
+  // 3. Albero Rituale con Spirale (in alto a destra)
+  drawTwistedTree(118, 16);
+
+  // 4. Scultura di rami e teschi (in basso al centro)
+  drawCarcosaTotem(86, 96);
+
+  // 5. Barca Semisommersa
+  drawBoatWreck(126, 110);
+
+  // 6. Disegna il Detective
+  drawDetective(player.x, player.y, player.dir, player.isMoving, player.stepCount);
+
+  // 7. Feedback Vicinanza Indizio (Punto Esclamativo in pixel)
+  checkProximityIndicator();
+
+  // 8. Atmosfera True Detective (Nebbia & Vignettatura Buio)
+  drawAtmosphere();
+}
+
+// Disegna il Detective con Trench e Cravatta retrò
+function drawDetective(x, y, dir, moving, step) {
+  const bob = moving ? Math.sin(step) * 1 : 0;
+  const legOffset = moving ? Math.sin(step) * 2 : 0;
+
+  // Gambe / Pantaloni
+  ctx.fillStyle = PALETTE.pants;
+  ctx.fillRect(x + 2, y + 9, 2, 5 + legOffset);
+  ctx.fillRect(x + 6, y + 9, 2, 5 - legOffset);
+
+  // Trench Lungo
+  ctx.fillStyle = PALETTE.coat;
+  ctx.fillRect(x + 1, y + 4 + bob, 8, 7);
+
+  // Risvolto giacca / Cravatta scura
+  ctx.fillStyle = '#1b140e';
+  ctx.fillRect(x + 4, y + 5 + bob, 2, 4);
+
+  // Viso & Capelli
+  ctx.fillStyle = PALETTE.skin;
+  ctx.fillRect(x + 3, y + 1 + bob, 4, 3);
+  ctx.fillStyle = PALETTE.hair;
+  ctx.fillRect(x + 2, y + bob, 6, 2);
+
+  // Ombra a terra
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.fillRect(x + 1, y + 13, 8, 2);
+}
+
+// Capanno in Legno
+function drawCabin(x, y) {
+  ctx.fillStyle = PALETTE.woodDark;
+  ctx.fillRect(x, y, 34, 26);
+  // Tetto spiovente
+  ctx.fillStyle = PALETTE.woodLight;
+  ctx.fillRect(x - 2, y - 2, 38, 4);
+  // Porta scardinata
+  ctx.fillStyle = '#080c0a';
+  ctx.fillRect(x + 12, y + 10, 10, 16);
+  // Finestra buia
+  ctx.fillStyle = '#0f1412';
+  ctx.fillRect(x + 4, y + 6, 6, 6);
+}
+
+// Albero Contorto con Spirale
+function drawTwistedTree(x, y) {
+  ctx.fillStyle = '#1c1611';
+  ctx.fillRect(x + 4, y + 10, 6, 24);
+  ctx.fillRect(x, y, 14, 12);
+  // Ramo contorto
+  ctx.fillRect(x - 6, y + 6, 7, 3);
+  ctx.fillRect(x + 12, y + 4, 8, 3);
+
+  // Spirale Gialla Incisa
+  ctx.fillStyle = PALETTE.symbolGold;
+  ctx.fillRect(x + 6, y + 16, 2, 2);
+  ctx.fillRect(x + 8, y + 18, 2, 2);
+  ctx.fillRect(x + 6, y + 20, 3, 1);
+}
+
+// Totem di rami (True Detective Season 1)
+function drawCarcosaTotem(x, y) {
+  ctx.fillStyle = PALETTE.bone;
+  ctx.fillRect(x + 4, y + 2, 2, 10);
+  ctx.fillRect(x + 1, y + 5, 8, 1);
+  ctx.fillRect(x + 2, y + 8, 6, 1);
+  ctx.fillStyle = '#872a1e'; // Piccolo drappo rituale
+  ctx.fillRect(x + 4, y + 5, 2, 2);
+}
+
+function drawBoatWreck(x, y) {
+  ctx.fillStyle = '#261e16';
+  ctx.fillRect(x, y + 2, 20, 8);
+  ctx.fillStyle = '#17130e';
+  ctx.fillRect(x + 4, y + 4, 12, 4);
+}
+
+function checkProximityIndicator() {
+  const pCenter = { x: player.x + player.w / 2, y: player.y + player.h / 2 };
+  for (let item of interactables) {
+    const itemCenter = { x: item.x + item.w / 2, y: item.y + item.h / 2 };
+    const dist = Math.hypot(pCenter.x - itemCenter.x, pCenter.y - itemCenter.y);
+    if (dist < 20) {
+      // Punto esclamativo che fluttua sopra il detective
+      ctx.fillStyle = '#ffcf40';
+      ctx.fillRect(player.x + 4, player.y - 7, 2, 4);
+      ctx.fillRect(player.x + 4, player.y - 2, 2, 2);
+      break;
+    }
+  }
+}
+
+// Nebbia e lanterna
+function drawAtmosphere() {
+  // Banchi di Nebbia
+  ctx.fillStyle = PALETTE.fog;
+  fogParticles.forEach(f => {
+    ctx.beginPath();
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Vignettatura Noir (Ombre ai bordi)
+  const grad = ctx.createRadialGradient(80, 72, 45, 80, 72, 95);
+  grad.addColorStop(0, 'rgba(0,0,0,0)');
+  grad.addColorStop(1, 'rgba(0,5,2,0.65)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 160, 144);
+}
+
+// ---------------------------------------------
+// GAME LOOP PRINCIPALE (60 FPS)
+// ---------------------------------------------
+function gameLoop() {
+  update();
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>
