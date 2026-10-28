@@ -58,7 +58,7 @@
       cursor: crosshair;
     }
 
-    /* HUD Superiore con Minimappa GTA Ingrandita */
+    /* HUD Superiore con Minimappa Radar GTA */
     #hud {
       position: absolute;
       top: 6px;
@@ -202,7 +202,7 @@
       margin-top: 5px;
     }
 
-    /* Schermata Overlay / Pausa */
+    /* Schermata Overlay Generica */
     .overlay-screen {
       position: absolute;
       inset: 0;
@@ -212,7 +212,7 @@
       align-items: center;
       justify-content: center;
       z-index: 70;
-      padding: 16px;
+      padding: 14px;
       text-align: center;
     }
 
@@ -261,6 +261,96 @@
       font-size: 9px;
       color: #dfa84a;
       font-weight: bold;
+    }
+
+    /* Schermata Mappa Città / Contea */
+    #map-screen {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 16, 13, 0.97);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 80;
+      padding: 8px;
+    }
+
+    #map-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #4a5c51;
+      padding-bottom: 4px;
+    }
+
+    #map-title {
+      font-size: 10px;
+      font-weight: bold;
+      color: #dfa84a;
+      letter-spacing: 1px;
+    }
+
+    #map-close-btn {
+      background: #25332c;
+      border: 1px solid #485c52;
+      color: #e5dac2;
+      font-family: inherit;
+      font-size: 8.5px;
+      padding: 3px 7px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    #map-canvas-container {
+      position: relative;
+      width: 100%;
+      height: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #townMapCanvas {
+      width: 100%;
+      height: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      border: 2px solid #58462f;
+      background: #19251e;
+      border-radius: 4px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.85);
+    }
+
+    #map-legend {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 8px;
+      font-size: 7.5px;
+      color: #c9bfab;
+      text-align: left;
+      border-top: 1px solid #334239;
+      padding-top: 5px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .legend-color {
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+      flex-shrink: 0;
     }
 
     @keyframes blink {
@@ -494,12 +584,59 @@
       <div id="dialogue-prompt">[Press (A) to continue]</div>
     </div>
 
+    <!-- Schermata Mappa della Città / Contea -->
+    <div id="map-screen">
+      <div id="map-header">
+        <span id="map-title">VERMILION PARISH SURVEY MAP</span>
+        <button id="map-close-btn">[X] CLOSE</button>
+      </div>
+
+      <div id="map-canvas-container">
+        <canvas id="townMapCanvas" width="280" height="200"></canvas>
+      </div>
+
+      <div id="map-legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background: #e11d48; border-radius: 50%;"></div>
+          <span id="lbl-leg-you">You are here</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #caa477;"></div>
+          <span id="lbl-leg-road">Hwy 17 & Roads</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #256b8f;"></div>
+          <span id="lbl-leg-water">Canals & Bayou</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #dfa84a;"></div>
+          <span id="lbl-leg-bldg">Town Buildings</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #38bdf8;"></div>
+          <span id="lbl-leg-npc">Known Witnesses</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #f59e0b;"></div>
+          <span id="lbl-leg-clue">Crime Scene / Evidence</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Menu Pausa / START -->
     <div class="overlay-screen" id="pause-menu">
       <div id="pause-title">PAUSE / MENU</div>
       <button class="menu-item" id="menu-resume-btn">
         <span id="label-resume">RESUME GAME</span>
         <span class="menu-tag">▶</span>
+      </button>
+      <button class="menu-item" id="menu-map-btn">
+        <span id="label-map">TOWN MAP</span>
+        <span class="menu-tag">M</span>
+      </button>
+      <button class="menu-item" id="menu-notes-btn">
+        <span id="label-journal">DETECTIVE NOTES</span>
+        <span class="menu-tag">B</span>
       </button>
       <button class="menu-item" id="menu-lang-btn">
         <span id="label-language">LANGUAGE</span>
@@ -508,14 +645,6 @@
       <button class="menu-item" id="menu-music-btn">
         <span id="label-music">MUSIC</span>
         <span class="menu-tag" id="current-music-tag">ON</span>
-      </button>
-      <button class="menu-item" id="menu-notes-btn">
-        <span id="label-journal">DETECTIVE NOTES</span>
-        <span class="menu-tag">B</span>
-      </button>
-      <button class="menu-item" id="menu-reset-btn">
-        <span id="label-reset">RESET POSITION</span>
-        <span class="menu-tag">⟲</span>
       </button>
     </div>
   </div>
@@ -555,13 +684,12 @@
 <script>
 /**
  * BAYOU NOIR: THE KING IN THE MARSH
- * Fix & Enhancements:
- * 1. Movimento sbloccato: collisioni ad assi indipendenti (sliding) e recupero automatico anti-stuck.
- * 2. Avvio diretto in gioco immediato con piena reattività a qualsiasi tasto o tocco.
- * 3. Mappa espansa a 70x50 tile (1120x800px) con rete viaria estesa.
- * 4. Minimappa GTA ingrandita (48px) con terreno reale, strade, edifici, lampioni, player e blip.
- * 5. Lampioni stradali con luce calda dinamica accesa al tramonto e di notte.
- * 6. Nuovi NPC (Sceriffo Childress, Cameriera Maeve), cani e gatti interattivi.
+ * Novità & Aggiornamenti:
+ * 1. Aggiunta Mappa Completa della Città/Contea (Town Map) accessibile dal menu START (o tasto M).
+ * 2. Rimossa l'opzione "Reset Position".
+ * 3. Cartografia vintage con vista aerea di strade, fiumi, edifici, testimoni e scena del delitto.
+ * 4. Indicatore lampeggiante in tempo reale "SEI QUI" (Detective Hayes).
+ * 5. Sistema di collisioni fluide (slide collision) e minimappa radar GTA.
  */
 
 const canvas = document.getElementById('gameCanvas');
@@ -571,6 +699,10 @@ ctx.imageSmoothingEnabled = false;
 const minimapCanvas = document.getElementById('minimapCanvas');
 const mctx = minimapCanvas.getContext('2d');
 mctx.imageSmoothingEnabled = false;
+
+const townMapCanvas = document.getElementById('townMapCanvas');
+const tmctx = townMapCanvas.getContext('2d');
+tmctx.imageSmoothingEnabled = false;
 
 const VIEW_W = 160;
 const VIEW_H = 144;
@@ -592,6 +724,9 @@ const timeDisplay = document.getElementById('time-display');
 const cluesCounter = document.getElementById('clues-counter');
 const saveIndicator = document.getElementById('save-indicator');
 const pauseMenu = document.getElementById('pause-menu');
+const mapScreen = document.getElementById('map-screen');
+const mapTitle = document.getElementById('map-title');
+const mapCloseBtn = document.getElementById('map-close-btn');
 
 // Bottoni UI Testi
 const lblBtnA = document.getElementById('lbl-btn-a');
@@ -599,10 +734,18 @@ const lblBtnB = document.getElementById('lbl-btn-b');
 const currentLangTag = document.getElementById('current-lang-tag');
 const currentMusicTag = document.getElementById('current-music-tag');
 const labelResume = document.getElementById('label-resume');
+const labelMap = document.getElementById('label-map');
 const labelLanguage = document.getElementById('label-language');
 const labelMusic = document.getElementById('label-music');
 const labelJournal = document.getElementById('label-journal');
-const labelReset = document.getElementById('label-reset');
+
+// Legenda Mappa
+const lblLegYou = document.getElementById('lbl-leg-you');
+const lblLegRoad = document.getElementById('lbl-leg-road');
+const lblLegWater = document.getElementById('lbl-leg-water');
+const lblLegBldg = document.getElementById('lbl-leg-bldg');
+const lblLegNpc = document.getElementById('lbl-leg-npc');
+const lblLegClue = document.getElementById('lbl-leg-clue');
 
 let currentLang = 'en';
 
@@ -614,14 +757,22 @@ const I18N = {
     cluesHud: "CLUES: {0}/7",
     pauseTitle: "PAUSE / MENU",
     resume: "RESUME GAME",
+    map: "TOWN MAP",
+    mapScreenTitle: "VERMILION PARISH SURVEY MAP",
+    mapClose: "[X] CLOSE",
     language: "LANGUAGE",
     music: "MUSIC",
     journal: "DETECTIVE NOTES",
-    reset: "RESET POSITION",
     musicOn: "ON",
     musicOff: "OFF",
     saved: "AUTO-SAVED",
     parishName: "VERMILION PARISH",
+    legYou: "You are here",
+    legRoad: "Hwy 17 & Trails",
+    legWater: "Canals & Bayou",
+    legBldg: "Key Buildings",
+    legNpc: "Witnesses / NPCs",
+    legClue: "Crime Scene / Clues",
     zones: {
       glade: "SACRIFICE GLADE",
       church: "BLACK SPRING CHURCH",
@@ -651,14 +802,22 @@ const I18N = {
     cluesHud: "INDIZI: {0}/7",
     pauseTitle: "PAUSA / MENU",
     resume: "RIPRENDI GIOCO",
+    map: "MAPPA DELLA CITTÀ",
+    mapScreenTitle: "MAPPA TOPOGRAFICA PARROCCHIA VERMILION",
+    mapClose: "[X] CHIUDI",
     language: "LINGUA",
     music: "MUSICA",
     journal: "TACCUINO INDAGINE",
-    reset: "RIPOSIZIONA DETECTIVE",
     musicOn: "ATTIVA",
     musicOff: "MUTATA",
     saved: "SALVATO",
     parishName: "PARROCCHIA DI VERMILION",
+    legYou: "La tua posizione",
+    legRoad: "Statale 17 e Sentieri",
+    legWater: "Canali e Acquitrini",
+    legBldg: "Edifici Principali",
+    legNpc: "Testimoni / NPC",
+    legClue: "Scena Delitto / Indizi",
     zones: {
       glade: "RADURA DEL SACRIFICIO",
       church: "CHIESA SORGENTE NERA",
@@ -690,25 +849,42 @@ function setLanguage(lang) {
   lblBtnB.innerText = t.btnNotes;
   dialoguePrompt.innerText = t.promptContinue;
   labelResume.innerText = t.resume;
+  labelMap.innerText = t.map;
+  mapTitle.innerText = t.mapScreenTitle;
+  mapCloseBtn.innerText = t.mapClose;
   labelLanguage.innerText = t.language;
   labelMusic.innerText = t.music;
   labelJournal.innerText = t.journal;
-  labelReset.innerText = t.reset;
+  lblLegYou.innerText = t.legYou;
+  lblLegRoad.innerText = t.legRoad;
+  lblLegWater.innerText = t.legWater;
+  lblLegBldg.innerText = t.legBldg;
+  lblLegNpc.innerText = t.legNpc;
+  lblLegClue.innerText = t.legClue;
+
   currentLangTag.innerText = currentLang === 'en' ? 'ENGLISH' : 'ITALIANO';
   currentMusicTag.innerText = isMusicEnabled ? t.musicOn : t.musicOff;
   saveIndicator.innerText = t.saved;
   cluesCounter.innerText = t.cluesHud.replace('{0}', collectedClues.size);
   zoneSub.innerText = t.parishName;
   updateZoneTitle();
+
+  if (isMapOpen) drawTownMap();
 }
 
 // -------------------------------------------------------------
 // STATO DI GIOCO & AVVIO DIRETTO
 // -------------------------------------------------------------
 let gameState = 'PLAYING'; // Sempre giocabile direttamente all'avvio
+let isMapOpen = false;
 
 function togglePauseMenu() {
   initAudio();
+  if (isMapOpen) {
+    closeTownMap();
+    return;
+  }
+
   if (gameState === 'PLAYING') {
     gameState = 'PAUSED';
     pauseMenu.style.display = 'flex';
@@ -718,6 +894,24 @@ function togglePauseMenu() {
     pauseMenu.style.display = 'none';
     if (isDialogueOpen) dialogueBox.style.display = 'block';
   }
+}
+
+function openTownMap() {
+  initAudio();
+  if (gameState === 'PAUSED') pauseMenu.style.display = 'none';
+  if (isDialogueOpen) dialogueBox.style.display = 'none';
+
+  isMapOpen = true;
+  gameState = 'PAUSED';
+  mapScreen.style.display = 'flex';
+  drawTownMap();
+}
+
+function closeTownMap() {
+  isMapOpen = false;
+  mapScreen.style.display = 'none';
+  gameState = 'PLAYING';
+  if (isDialogueOpen) dialogueBox.style.display = 'block';
 }
 
 // -------------------------------------------------------------
@@ -816,7 +1010,7 @@ const PAL = {
 const buildings = [
   {
     name: "Black Spring Church",
-    nameIt: "Chiesa della Sorgente Nera",
+    nameIt: "Chiesa Sorgente Nera",
     x: 14 * TILE_SIZE,
     y: 1 * TILE_SIZE,
     w: 11 * TILE_SIZE,
@@ -827,7 +1021,7 @@ const buildings = [
   },
   {
     name: "Sheriff's Outpost",
-    nameIt: "Avamposto dello Sceriffo",
+    nameIt: "Avamposto Sceriffo",
     x: 31 * TILE_SIZE,
     y: 4 * TILE_SIZE,
     w: 7 * TILE_SIZE,
@@ -838,7 +1032,7 @@ const buildings = [
   },
   {
     name: "Pelican Fork Diner",
-    nameIt: "Tavola Calda Pelican Fork",
+    nameIt: "Tavola Calda Pelican",
     x: 43 * TILE_SIZE,
     y: 13 * TILE_SIZE,
     w: 8 * TILE_SIZE,
@@ -860,7 +1054,7 @@ const buildings = [
   },
   {
     name: "Secluded Swamp Shack",
-    nameIt: "Capanno della Palude",
+    nameIt: "Capanno Isolato",
     x: 6 * TILE_SIZE,
     y: 35 * TILE_SIZE,
     w: 6 * TILE_SIZE,
@@ -1127,11 +1321,9 @@ for (let i = 0; i < 60; i++) {
 const keys = { up: false, down: false, left: false, right: false };
 
 function canMoveTo(x, y) {
-  // Limiti mappa
   if (x < 6 || x > WORLD_W - player.w - 6) return false;
   if (y < 6 || y > WORLD_H - player.h - 6) return false;
 
-  // Collisioni Edifici
   for (let b of buildings) {
     if (x < b.x + b.w && x + player.w > b.x &&
         y < b.y + b.h && y + player.h > b.y) {
@@ -1139,13 +1331,11 @@ function canMoveTo(x, y) {
     }
   }
 
-  // Collisione Auto Pattuglia
   if (x < policeCar.x + policeCar.w && x + player.w > policeCar.x &&
       y < policeCar.y + policeCar.h && y + player.h > policeCar.y) {
     return false;
   }
 
-  // Collisione Acqua (controllo sui piedi del detective)
   let footY = y + player.h - 1;
   let c1 = Math.floor((x + 2) / TILE_SIZE);
   let c2 = Math.floor((x + player.w - 2) / TILE_SIZE);
@@ -1157,15 +1347,6 @@ function canMoveTo(x, y) {
   }
 
   return true;
-}
-
-function resetPlayerPosition() {
-  player.x = 320;
-  player.y = 340;
-  player.dir = 'down';
-  camera.x = player.x - VIEW_W / 2;
-  camera.y = player.y - VIEW_H / 2;
-  if (gameState === 'PAUSED') togglePauseMenu();
 }
 
 // -------------------------------------------------------------
@@ -1181,9 +1362,31 @@ window.addEventListener('keydown', (e) => {
   if (['arrowleft', 'a', 'q'].includes(k) || ['arrowleft', 'keya', 'keyq'].includes(c)) keys.left = true;
   if (['arrowright', 'd'].includes(k) || ['arrowright', 'keyd'].includes(c)) keys.right = true;
 
-  if (['e', ' '].includes(k) || ['keye', 'space'].includes(c)) handleActionButton();
-  if (['b', 'n', 'j'].includes(k) || ['keyb', 'keyn', 'keyj'].includes(c)) openJournal();
-  if (['enter', 'escape'].includes(k) || ['enter', 'escape'].includes(c)) togglePauseMenu();
+  if (['m', 'keym'].includes(k) || ['keym'].includes(c)) {
+    if (isMapOpen) closeTownMap();
+    else openTownMap();
+  }
+
+  if (['e', ' '].includes(k) || ['keye', 'space'].includes(c)) {
+    if (isMapOpen) {
+      closeTownMap();
+    } else {
+      handleActionButton();
+    }
+  }
+
+  if (['b', 'n', 'j'].includes(k) || ['keyb', 'keyn', 'keyj'].includes(c)) {
+    if (isMapOpen) closeTownMap();
+    openJournal();
+  }
+
+  if (['enter', 'escape'].includes(k) || ['enter', 'escape'].includes(c)) {
+    if (isMapOpen) {
+      closeTownMap();
+    } else {
+      togglePauseMenu();
+    }
+  }
 });
 
 window.addEventListener('keyup', (e) => {
@@ -1231,17 +1434,25 @@ document.getElementById('btn-start').addEventListener('click', (e) => {
 document.getElementById('btn-inspect').addEventListener('click', (e) => {
   e.preventDefault();
   initAudio();
-  handleActionButton();
+  if (isMapOpen) {
+    closeTownMap();
+  } else {
+    handleActionButton();
+  }
 });
 
 document.getElementById('btn-log').addEventListener('click', (e) => {
   e.preventDefault();
   initAudio();
+  if (isMapOpen) closeTownMap();
   openJournal();
 });
 
 // Menu Pausa Handlers
 document.getElementById('menu-resume-btn').addEventListener('click', togglePauseMenu);
+document.getElementById('menu-map-btn').addEventListener('click', openTownMap);
+document.getElementById('map-close-btn').addEventListener('click', closeTownMap);
+
 document.getElementById('menu-lang-btn').addEventListener('click', () => {
   setLanguage(currentLang === 'en' ? 'it' : 'en');
 });
@@ -1250,7 +1461,6 @@ document.getElementById('menu-notes-btn').addEventListener('click', () => {
   togglePauseMenu();
   openJournal();
 });
-document.getElementById('menu-reset-btn').addEventListener('click', resetPlayerPosition);
 
 dialogueBox.addEventListener('click', () => {
   nextDialogue();
@@ -1445,7 +1655,7 @@ function toggleMusic() {
 }
 
 // -------------------------------------------------------------
-// CICLO GIORNO / NOTTE & METEO
+// CICLO GIORNO / NOTTE & ILLUMINAZIONE
 // -------------------------------------------------------------
 const DAY_CYCLE_DURATION = 300;
 let worldTimeSeconds = 60;
@@ -1498,7 +1708,7 @@ function getLightingProfile() {
 }
 
 // -------------------------------------------------------------
-// UPDATE PRINCIPALE (CON SLIDE COLLISION & ANTI-STUCK)
+// UPDATE PRINCIPALE
 // -------------------------------------------------------------
 let lastTimestamp = performance.now();
 
@@ -1507,7 +1717,6 @@ function update(deltaTime) {
 
   if (gameState !== 'PLAYING') return;
 
-  // Protezione anti-stuck: se il player è dentro una collisione non valida, recuperalo
   if (!canMoveTo(player.x, player.y)) {
     player.x = 320;
     player.y = 340;
@@ -1528,7 +1737,6 @@ function update(deltaTime) {
       dy *= 0.7071;
     }
 
-    // Movimento assi separati: scivola sui muri senza bloccarsi
     if (dx !== 0 && canMoveTo(player.x + dx, player.y)) {
       player.x += dx;
     }
@@ -1541,7 +1749,6 @@ function update(deltaTime) {
 
   camera.update();
 
-  // Movimento piccoli animali
   animals.forEach(a => {
     if (a.type === 'dog') {
       a.x += a.vx;
@@ -1591,7 +1798,6 @@ function drawMinimap() {
   mctx.arc(center, center, radius, 0, Math.PI * 2);
   mctx.clip();
 
-  // Sfondo palude
   mctx.fillStyle = '#2c5332';
   mctx.fillRect(0, 0, mw, mh);
 
@@ -1608,7 +1814,6 @@ function drawMinimap() {
   const startR = Math.max(0, centerR - tileRadius);
   const endR = Math.min(MAP_ROWS, centerR + tileRadius);
 
-  // Mappa topografica vera
   for (let r = startR; r < endR; r++) {
     for (let c = startC; c < endC; c++) {
       const t = worldMap[r * MAP_COLS + c];
@@ -1633,7 +1838,6 @@ function drawMinimap() {
     }
   }
 
-  // Edifici sulla minimappa
   buildings.forEach(b => {
     const sx = center + (b.x - mcx) * scale;
     const sy = center + (b.y - mcy) * scale;
@@ -1644,7 +1848,6 @@ function drawMinimap() {
     mctx.strokeRect(sx, sy, b.w * scale, b.h * scale);
   });
 
-  // Lampioni accesi (blip dorati)
   const lp = getLightingProfile();
   if (lp.lamps) {
     mctx.fillStyle = '#ffea75';
@@ -1657,7 +1860,6 @@ function drawMinimap() {
     });
   }
 
-  // Blip Indizi (gialli/verdi)
   hotspots.forEach(spot => {
     const sx = center + (spot.x - mcx) * scale;
     const sy = center + (spot.y - mcy) * scale;
@@ -1667,7 +1869,6 @@ function drawMinimap() {
     }
   });
 
-  // Blip NPC (ciano)
   npcs.forEach(npc => {
     const sx = center + (npc.x - mcx) * scale;
     const sy = center + (npc.y - mcy) * scale;
@@ -1677,14 +1878,12 @@ function drawMinimap() {
     }
   });
 
-  // Cerchi radar concentrici GTA
   mctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
   mctx.lineWidth = 1;
   mctx.beginPath();
   mctx.arc(center, center, radius * 0.55, 0, Math.PI * 2);
   mctx.stroke();
 
-  // Freccia direzionale player
   mctx.save();
   mctx.translate(center, center);
   let rot = 0;
@@ -1705,12 +1904,142 @@ function drawMinimap() {
 
   mctx.restore();
 
-  // Bordo metallico radar
   mctx.strokeStyle = 'rgba(110, 150, 130, 0.8)';
   mctx.lineWidth = 2;
   mctx.beginPath();
   mctx.arc(center, center, radius, 0, Math.PI * 2);
   mctx.stroke();
+}
+
+// -------------------------------------------------------------
+// RENDERING MAPPA COMPLETA DELLA CITTÀ (TOWN SURVEY MAP)
+// -------------------------------------------------------------
+function drawTownMap() {
+  const tw = townMapCanvas.width;
+  const th = townMapCanvas.height;
+
+  tmctx.clearRect(0, 0, tw, th);
+
+  // Sfondo cartaceo retro
+  tmctx.fillStyle = '#1c2821';
+  tmctx.fillRect(0, 0, tw, th);
+
+  const scaleX = tw / WORLD_W;
+  const scaleY = th / WORLD_H;
+
+  // Griglia coordinata topografica
+  tmctx.strokeStyle = 'rgba(80, 110, 95, 0.25)';
+  tmctx.lineWidth = 0.5;
+  for (let gx = 0; gx < tw; gx += 28) {
+    tmctx.beginPath(); tmctx.moveTo(gx, 0); tmctx.lineTo(gx, th); tmctx.stroke();
+  }
+  for (let gy = 0; gy < th; gy += 25) {
+    tmctx.beginPath(); tmctx.moveTo(0, gy); tmctx.lineTo(tw, gy); tmctx.stroke();
+  }
+
+  // Disegno terreno globale
+  for (let r = 0; r < MAP_ROWS; r++) {
+    for (let c = 0; c < MAP_COLS; c++) {
+      const t = worldMap[r * MAP_COLS + c];
+      const sx = c * TILE_SIZE * scaleX;
+      const sy = r * TILE_SIZE * scaleY;
+      const sw = TILE_SIZE * scaleX + 0.4;
+      const sh = TILE_SIZE * scaleY + 0.4;
+
+      if (t === T_WATER) {
+        tmctx.fillStyle = '#226080';
+        tmctx.fillRect(sx, sy, sw, sh);
+      } else if (t === T_ROAD) {
+        tmctx.fillStyle = '#caa477';
+        tmctx.fillRect(sx, sy, sw, sh);
+      } else if (t === T_MUD) {
+        tmctx.fillStyle = '#453526';
+        tmctx.fillRect(sx, sy, sw, sh);
+      } else if (t === T_WOODFLOOR) {
+        tmctx.fillStyle = '#7a5a40';
+        tmctx.fillRect(sx, sy, sw, sh);
+      }
+    }
+  }
+
+  // Edifici con etichette
+  buildings.forEach(b => {
+    const bx = b.x * scaleX;
+    const by = b.y * scaleY;
+    const bw = b.w * scaleX;
+    const bh = b.h * scaleY;
+
+    tmctx.fillStyle = '#dfa84a';
+    tmctx.fillRect(bx, by, bw, bh);
+    tmctx.strokeStyle = '#fff';
+    tmctx.lineWidth = 0.7;
+    tmctx.strokeRect(bx, by, bw, bh);
+
+    tmctx.fillStyle = '#fff4db';
+    tmctx.font = '6.5px monospace';
+    const label = currentLang === 'en' ? b.name : b.nameIt;
+    tmctx.fillText(label, bx - 4, by - 2);
+  });
+
+  // Hotspots / Reperti
+  hotspots.forEach(spot => {
+    const hx = (spot.x + spot.w / 2) * scaleX;
+    const hy = (spot.y + spot.h / 2) * scaleY;
+
+    tmctx.fillStyle = collectedClues.has(spot.clueId) ? '#5eead4' : '#f59e0b';
+    tmctx.beginPath();
+    tmctx.arc(hx, hy, 3, 0, Math.PI * 2);
+    tmctx.fill();
+    tmctx.strokeStyle = '#000';
+    tmctx.lineWidth = 0.5;
+    tmctx.stroke();
+
+    tmctx.fillStyle = '#e2d9c2';
+    tmctx.font = '5.5px monospace';
+    const sName = spot.label[currentLang];
+    tmctx.fillText(sName, hx + 4, hy + 2);
+  });
+
+  // NPC / Testimoni
+  npcs.forEach(npc => {
+    const nx = (npc.x + npc.w / 2) * scaleX;
+    const ny = (npc.y + npc.h / 2) * scaleY;
+
+    tmctx.fillStyle = '#38bdf8';
+    tmctx.beginPath();
+    tmctx.arc(nx, ny, 2.5, 0, Math.PI * 2);
+    tmctx.fill();
+  });
+
+  // Posizione di Hayes (Lampeggiante "YOU ARE HERE")
+  const px = (player.x + player.w / 2) * scaleX;
+  const py = (player.y + player.h / 2) * scaleY;
+
+  // Cerchio alone di pulsazione
+  tmctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
+  tmctx.lineWidth = 1.2;
+  tmctx.beginPath();
+  tmctx.arc(px, py, 6, 0, Math.PI * 2);
+  tmctx.stroke();
+
+  // Punto rosso centrale
+  tmctx.fillStyle = '#ef4444';
+  tmctx.beginPath();
+  tmctx.arc(px, py, 3.5, 0, Math.PI * 2);
+  tmctx.fill();
+
+  // Etichetta "YOU"
+  tmctx.fillStyle = '#ffffff';
+  tmctx.font = 'bold 7px monospace';
+  tmctx.shadowColor = '#000';
+  tmctx.shadowBlur = 3;
+  tmctx.fillText(currentLang === 'en' ? "YOU" : "TU", px + 6, py - 4);
+  tmctx.shadowBlur = 0;
+
+  // Bussola in alto a destra
+  tmctx.fillStyle = '#e5aa2d';
+  tmctx.font = 'bold 9px monospace';
+  tmctx.fillText("▲ N", tw - 24, 14);
 }
 
 // -------------------------------------------------------------
@@ -1799,7 +2128,7 @@ function draw() {
   ctx.fillStyle = flash ? '#ef3b3b' : '#3080f0';
   ctx.fillRect(policeCar.x + 15, policeCar.y - 2, 3, 2);
 
-  // 5. Lampioni Stradali (Struttura in ferro)
+  // 5. Lampioni Stradali
   streetLamps.forEach(l => {
     ctx.fillStyle = '#222624';
     ctx.fillRect(l.x, l.y, 2, 14);
