@@ -47,6 +47,11 @@
       background: #000;
       box-shadow: 0 12px 32px rgba(0,0,0,0.95), inset 0 0 15px rgba(0,0,0,0.85);
       overflow: hidden;
+      width: 360px;
+      height: 324px;
+      max-width: 95vw;
+      max-height: 80vh;
+      aspect-ratio: 160 / 144;
     }
 
     canvas#gameCanvas {
@@ -82,8 +87,8 @@
     }
 
     #minimap-canvas {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: 1.5px solid #dfa84a;
       background: #111e17;
@@ -102,7 +107,7 @@
       color: #dfa84a;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      max-width: 90px;
+      max-width: 95px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -140,7 +145,7 @@
     #title-screen {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle, #1a241f 0%, #070d0b 80%, #020403 100%);
+      background: radial-gradient(circle, rgba(26, 36, 31, 0.96) 0%, rgba(7, 13, 11, 0.98) 80%, #020403 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -195,7 +200,7 @@
     }
 
     .title-btn:disabled {
-      opacity: 0.4;
+      opacity: 0.35;
       border-color: #26332b;
       cursor: not-allowed;
       transform: none;
@@ -226,14 +231,14 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.9);
     }
 
-    #confirm-title {
+    #lbl-modal-title {
       color: #f17a7a;
       font-size: 11px;
       font-weight: bold;
       margin-bottom: 8px;
     }
 
-    #confirm-msg {
+    #lbl-modal-msg {
       font-size: 9px;
       color: #d1c7b2;
       line-height: 1.4;
@@ -518,9 +523,7 @@
       transform: translateY(3px);
     }
 
-    /* ========================================================= */
-    /* ORIENTAMENTO: VERTICALE (PORTRAIT) VS ORIZZONTALE (LANDSCAPE) */
-    /* ========================================================= */
+    /* Modalità Schermo Verticale */
     @media (orientation: portrait) {
       #game-wrapper {
         flex-direction: column;
@@ -541,6 +544,7 @@
       }
     }
 
+    /* Modalità Schermo Orizzontale */
     @media (orientation: landscape) {
       #game-wrapper {
         flex-direction: row;
@@ -562,7 +566,6 @@
         order: 1;
         transform: scale(0.92);
       }
-      /* IN ORIZZONTALE: START SOTTO I TASTI A E B */
       .right-cluster {
         order: 3;
         display: flex;
@@ -637,8 +640,8 @@
     <!-- Finestra Modale Conferma Nuovo Gioco -->
     <div id="confirm-modal">
       <div id="confirm-box">
-        <div id="confirm-title" id="lbl-modal-title">OVERWRITE SAVE?</div>
-        <div id="confirm-msg" id="lbl-modal-msg">A saved case already exists. Starting a new game will erase your current progress. Proceed?</div>
+        <div id="lbl-modal-title">OVERWRITE SAVE?</div>
+        <div id="lbl-modal-msg">A saved case already exists. Starting a new game will erase your current progress. Proceed?</div>
         <div class="confirm-actions">
           <button class="modal-btn" id="btn-confirm-yes">YES, OVERWRITE</button>
           <button class="modal-btn" id="btn-confirm-no">CANCEL</button>
@@ -683,7 +686,7 @@
       <button class="dpad-btn" id="btn-down">▼</button>
     </div>
 
-    <!-- Cluster Destro: Tasti A/B e START posizionato subito sotto in landscape -->
+    <!-- Cluster Destro: Tasti A/B e START -->
     <div class="right-cluster">
       <div class="action-group">
         <button class="act-btn" id="btn-inspect">
@@ -707,12 +710,13 @@
 <script>
 /**
  * BAYOU NOIR: THE KING IN THE MARSH
+ * - Bugfix sintassi & rendering canvas
  * - Grafica pixel art vivida e ad alto contrasto di giorno
- * - Illuminazione notturna a gradazione cromatica chiara e senza oscurità profonda
+ * - Illuminazione notturna a gradazione cromatica chiara
  * - Mini mappa GTA Style in alto a sinistra con radar e blip
  * - Layout mobile orizzontale con START sotto i tasti A e B
  * - Sistema meteo dinamico (Pioggia & Nebbia)
- * - Schermata iniziale con Continue / New Game (conferma) e Salvataggio Automatico
+ * - Schermata iniziale con Continue / New Game e Salvataggio Automatico
  */
 
 const canvas = document.getElementById('gameCanvas');
@@ -900,52 +904,61 @@ let musicTimer = null;
 let masterGain = null;
 
 function initAudio() {
-  if (audioCtx) return;
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  audioCtx = new AudioContext();
-  masterGain = audioCtx.createGain();
-  masterGain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-  masterGain.connect(audioCtx.destination);
-  startProceduralSoundtrack();
+  if (audioCtx) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return;
+  }
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContext();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    masterGain.connect(audioCtx.destination);
+    startProceduralSoundtrack();
+  } catch(e) {}
 }
 
 function playPluckNote(freq, time, decay = 2.4) {
   if (!audioCtx || !isMusicEnabled) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(freq, time);
-  osc.frequency.linearRampToValueAtTime(freq * 0.992, time + decay);
+  try {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, time);
+    osc.frequency.linearRampToValueAtTime(freq * 0.992, time + decay);
 
-  gain.gain.setValueAtTime(0.24, time);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + decay);
+    gain.gain.setValueAtTime(0.24, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + decay);
 
-  osc.connect(gain);
-  gain.connect(masterGain);
-  osc.start(time);
-  osc.stop(time + decay);
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.start(time);
+    osc.stop(time + decay);
+  } catch(e) {}
 }
 
 function playSubDrone(freq, time, duration = 4.2) {
   if (!audioCtx || !isMusicEnabled) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(freq, time);
+  try {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, time);
 
-  const filter = audioCtx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(150, time);
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(150, time);
 
-  gain.gain.setValueAtTime(0.01, time);
-  gain.gain.linearRampToValueAtTime(0.14, time + 1.2);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+    gain.gain.setValueAtTime(0.01, time);
+    gain.gain.linearRampToValueAtTime(0.14, time + 1.2);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
 
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.connect(masterGain);
-  osc.start(time);
-  osc.stop(time + duration);
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(masterGain);
+    osc.start(time);
+    osc.stop(time + duration);
+  } catch(e) {}
 }
 
 function startProceduralSoundtrack() {
@@ -953,7 +966,7 @@ function startProceduralSoundtrack() {
   let step = 0;
 
   function scheduleNext() {
-    if (!isMusicEnabled) {
+    if (!isMusicEnabled || !audioCtx) {
       musicTimer = setTimeout(scheduleNext, 2000);
       return;
     }
@@ -975,7 +988,7 @@ function toggleMusic() {
   isMusicEnabled = !isMusicEnabled;
   if (isMusicEnabled) {
     if (!audioCtx) initAudio();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   }
   const t = I18N[currentLang];
   currentMusicTag.innerText = isMusicEnabled ? t.musicOn : t.musicOff;
@@ -984,7 +997,7 @@ function toggleMusic() {
 // -------------------------------------------------------------
 // CICLO GIORNO / NOTTE (5 Minuti reali di gameplay attivo)
 // -------------------------------------------------------------
-const DAY_CYCLE_DURATION = 300; // 300s = esatti 5 minuti
+const DAY_CYCLE_DURATION = 300; // 300s = 5 minuti
 let worldTimeSeconds = 60;
 
 function updateDayNightCycle(deltaTime) {
@@ -1001,33 +1014,33 @@ function getDayNightAmbientColor() {
 
   // 1. Mattina (06:00 - 11:59): limpida, chiara con leggerissimo calore dorato
   if (p < 0.25) {
-    return { r: 255, g: 240, b: 200, a: 0.04, blend: 'source-over' };
+    return { r: 255, g: 240, b: 200, a: 0.04 };
   }
-  // 2. Pomeriggio (12:00 - 17:59): massima visibilità e brillantezza (zero scurimento)
+  // 2. Pomeriggio (12:00 - 17:59): massima visibilità e brillantezza
   else if (p < 0.50) {
-    return { r: 255, g: 255, b: 255, a: 0.0, blend: 'source-over' };
+    return { r: 255, g: 255, b: 255, a: 0.0 };
   }
-  // 3. Tramonto (18:00 - 20:59): tono ambrato / arancione caldo atmosferico
+  // 3. Tramonto (18:00 - 20:59): tono ambrato / arancione caldo
   else if (p < 0.65) {
     const factor = (p - 0.50) / 0.15;
-    return { r: 215, g: 110, b: 40, a: 0.18 * factor, blend: 'multiply' };
+    return { r: 220, g: 120, b: 50, a: 0.16 * factor };
   }
-  // 4. Sera e Notte (21:00 - 04:59): tono blu-indaco fresco lunare, MAI nero/buio pesto!
+  // 4. Notte (21:00 - 04:59): tono blu-indaco lunare chiaro, MAI buio pesto
   else if (p < 0.90) {
     const factor = Math.sin(((p - 0.65) / 0.25) * Math.PI);
-    return { r: 20, g: 45, b: 85, a: 0.18 + factor * 0.12, blend: 'multiply' };
+    return { r: 30, g: 60, b: 110, a: 0.18 + factor * 0.10 };
   }
-  // 5. Alba (05:00 - 05:59): transizione rosata/pesca delicata
+  // 5. Alba (05:00 - 05:59): transizione rosata tenue
   else {
     const factor = (p - 0.90) / 0.10;
-    return { r: 230, g: 170, b: 140, a: 0.12 * (1 - factor), blend: 'source-over' };
+    return { r: 230, g: 170, b: 140, a: 0.10 * (1 - factor) };
   }
 }
 
 // -------------------------------------------------------------
 // METEO DINAMICO (Sereno, Pioggia, Nebbia)
 // -------------------------------------------------------------
-let currentWeather = 'clear'; // 'clear', 'rain', 'fog'
+let currentWeather = 'clear';
 let weatherTimer = 0;
 const rainDrops = [];
 for (let i = 0; i < 45; i++) {
@@ -1041,7 +1054,7 @@ for (let i = 0; i < 45; i++) {
 
 function updateWeather(deltaTime) {
   weatherTimer += deltaTime;
-  if (weatherTimer > 45) { // Cambia meteo ogni ~45 secondi di gioco
+  if (weatherTimer > 45) {
     weatherTimer = 0;
     const rnd = Math.random();
     if (rnd < 0.45) currentWeather = 'clear';
@@ -1259,24 +1272,24 @@ const hotspots = [
 ];
 
 // -------------------------------------------------------------
-// PALETTE VIVIDA E LUMINOSA (Non più cupa di giorno!)
+// PALETTE VIVIDA E LUMINOSA
 // -------------------------------------------------------------
 const PAL = {
-  waterDeep: '#1b4b57',      // Blu-verde lago vivido
-  waterShallow: '#2a6a7a',   // Riflesso acqua brillante
-  grassVibrant: '#386938',   // Erba paludosa brillante
-  grassLush: '#498547',      // Punti d'erba illuminati
-  mudPath: '#614833',        // Fango e terra definiti
-  dirtRoad: '#8f724d',       // Statale ocra luminosa
-  dirtTrack: '#664e32',      // Solchi ruote
+  waterDeep: '#1b4b57',
+  waterShallow: '#2a6a7a',
+  grassVibrant: '#386938',
+  grassLush: '#498547',
+  mudPath: '#614833',
+  dirtRoad: '#8f724d',
+  dirtTrack: '#664e32',
   woodDark: '#36241b',
   woodMid: '#5c412f',
   woodLight: '#856247',
-  coatBrown: '#a88555',      // Spolverino del detective vivido
+  coatBrown: '#a88555',
   skin: '#e8be97',
-  bloodDark: '#992121',      // Sangue acceso
-  goldSymbol: '#f0b73a',     // Spirale dorata brillante
-  policeBlue: '#22487a',     // Blu auto polizia distinto
+  bloodDark: '#992121',
+  goldSymbol: '#f0b73a',
+  policeBlue: '#22487a',
   corpsePale: '#e4e2cf'
 };
 
@@ -1732,7 +1745,6 @@ function getDistance(a, b) {
 let lastTimestamp = performance.now();
 
 function update(deltaTime) {
-  // Il tempo avanza solo se stiamo giocando (non durante pause o schermata iniziale)
   if (!isTitleActive && !isGamePaused) {
     updateDayNightCycle(deltaTime);
     updateWeather(deltaTime);
@@ -1826,7 +1838,6 @@ function renderGtaMiniMap() {
   const mh = minimapCanvas.height;
 
   miniCtx.save();
-  // Crea maschera circolare radar GTA
   miniCtx.beginPath();
   miniCtx.arc(mw / 2, mh / 2, mw / 2 - 1, 0, Math.PI * 2);
   miniCtx.clip();
@@ -1835,7 +1846,6 @@ function renderGtaMiniMap() {
   miniCtx.fillStyle = '#102217';
   miniCtx.fillRect(0, 0, mw, mh);
 
-  // Scala mappa: visualizza l'area intorno al detective
   const radarScale = 0.16;
   const radarCenterX = mw / 2;
   const radarCenterY = mh / 2;
@@ -1843,7 +1853,6 @@ function renderGtaMiniMap() {
   miniCtx.save();
   miniCtx.translate(radarCenterX, radarCenterY);
 
-  // Disegna elementi ambientali nella mini mappa
   // 1. Acqua (a est)
   const waterScreenX = (38 * TILE_SIZE - player.x) * radarScale;
   miniCtx.fillStyle = '#2a6a7a';
@@ -1851,15 +1860,13 @@ function renderGtaMiniMap() {
 
   // 2. Strade principali
   miniCtx.fillStyle = '#c7ab7c';
-  // Statale orizzontale
   const roadY = (19 * TILE_SIZE - player.y) * radarScale;
   miniCtx.fillRect(-mw, roadY, mw * 2, 4 * TILE_SIZE * radarScale);
-  // Raccordo verticale verso la chiesa
   const roadX = (13 * TILE_SIZE - player.x) * radarScale;
   const roadChurchY = (6 * TILE_SIZE - player.y) * radarScale;
   miniCtx.fillRect(roadX, roadChurchY, 3 * TILE_SIZE * radarScale, (19 - 6) * TILE_SIZE * radarScale);
 
-  // 3. Edifici (Rettangoli scuri definiti)
+  // 3. Edifici
   miniCtx.fillStyle = '#3a2d24';
   buildings.forEach(b => {
     const bx = (b.x - player.x) * radarScale;
@@ -1912,8 +1919,8 @@ function renderGtaMiniMap() {
 
   miniCtx.restore();
 
-  // Bordo metallico scanalato radar
-  miniCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+  // Bordo metallico radar
+  miniCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
   miniCtx.lineWidth = 1;
   miniCtx.stroke();
 
@@ -2113,20 +2120,15 @@ function checkInteractionPrompt() {
 }
 
 function drawAtmosphereAndWeather() {
-  // 1. Tono di luce giorno/notte (chiaro e visibile, niente buio nero o cerchio faretto)
   const amb = getDayNightAmbientColor();
   if (amb.a > 0) {
-    ctx.save();
     ctx.fillStyle = `rgba(${amb.r}, ${amb.g}, ${amb.b}, ${amb.a})`;
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
-    ctx.restore();
   }
 
-  // 2. Meteo Dinamico: Nebbia o Pioggia
   if (currentWeather === 'fog') {
     ctx.fillStyle = 'rgba(215, 230, 225, 0.22)';
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
-    // Banchi di nebbia galleggianti
     ctx.fillStyle = 'rgba(235, 245, 240, 0.12)';
     for (let i = 0; i < 3; i++) {
       const fogY = 20 + i * 42 + Math.sin(player.animTick * 0.2 + i) * 6;
@@ -2139,7 +2141,7 @@ function drawAtmosphereAndWeather() {
     });
   }
 
-  // 3. Scanlines CRT retrò delicate (leggere per mantenere nitidezza)
+  // Scanlines CRT delicate
   ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
   for (let y = 0; y < VIEW_H; y += 2) {
     ctx.fillRect(0, y, VIEW_W, 1);
