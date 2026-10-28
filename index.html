@@ -15,7 +15,7 @@
     }
 
     body {
-      background-color: #060b09;
+      background-color: #050a08;
       color: #e2d9c2;
       font-family: 'Courier New', Courier, monospace;
       display: flex;
@@ -34,7 +34,7 @@
       justify-content: center;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle, #192721 0%, #060b08 100%);
+      background: radial-gradient(circle, #15241d 0%, #050907 100%);
     }
 
     #viewport-container {
@@ -60,8 +60,8 @@
     /* HUD Superiore */
     #hud {
       position: absolute;
-      top: 6px;
-      left: 6px;
+      top: 5px;
+      left: 5px;
       right: 8px;
       display: flex;
       justify-content: space-between;
@@ -74,7 +74,7 @@
       z-index: 10;
     }
 
-    /* Minimappa stile GTA in alto a sinistra */
+    /* Minimappa GTA Ingrandita e Dettagliata */
     #hud-left {
       display: flex;
       align-items: center;
@@ -83,12 +83,12 @@
 
     #minimap-frame {
       position: relative;
-      width: 36px;
-      height: 36px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      border: 2px solid #577363;
-      background: rgba(10, 20, 16, 0.85);
-      box-shadow: 0 0 6px rgba(0,0,0,0.9), inset 0 0 4px rgba(0,0,0,0.8);
+      border: 2px solid #6b8f7b;
+      background: rgba(8, 16, 13, 0.92);
+      box-shadow: 0 0 8px rgba(0,0,0,0.95), inset 0 0 6px rgba(0,0,0,0.85);
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -102,13 +102,13 @@
 
     #minimap-north {
       position: absolute;
-      top: 1px;
+      top: 2px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 6px;
+      font-size: 6.5px;
       font-weight: bold;
       color: #dfa84a;
-      text-shadow: 0 0 2px #000;
+      text-shadow: 0 0 3px #000;
       pointer-events: none;
       line-height: 1;
     }
@@ -116,7 +116,11 @@
     #zone-info {
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      gap: 1.5px;
+      background: rgba(10, 18, 14, 0.7);
+      padding: 2px 5px;
+      border-radius: 3px;
+      border-left: 2px solid #dfa84a;
     }
 
     #zone-title {
@@ -138,6 +142,9 @@
       gap: 8px;
       align-items: center;
       padding-top: 2px;
+      background: rgba(10, 18, 14, 0.65);
+      padding: 3px 6px;
+      border-radius: 3px;
     }
 
     #save-indicator {
@@ -392,7 +399,7 @@
       border: 1px solid #2e443a;
     }
 
-    /* Raggruppamento Controlli di Destra (A/B + START) */
+    /* Raggruppamento Destra (A/B + START sotto) */
     .right-cluster {
       display: flex;
       flex-direction: column;
@@ -400,7 +407,6 @@
       gap: 10px;
     }
 
-    /* Azione A e B */
     .action-group {
       display: flex;
       gap: 12px;
@@ -437,7 +443,6 @@
       transform: translateY(3px);
     }
 
-    /* Centro: Tasto START */
     .system-controls {
       display: flex;
       flex-direction: column;
@@ -515,7 +520,6 @@
         order: 1;
         transform: scale(0.92);
       }
-      /* In orizzontale: il gruppo destro raggruppa A/B e START posizionato subito sotto */
       .right-cluster {
         order: 3;
         display: flex;
@@ -538,11 +542,11 @@
 
 <div id="game-wrapper">
   <div id="viewport-container">
-    <!-- HUD Superiore con Minimappa stile GTA -->
+    <!-- HUD Superiore con Minimappa GTA Ingrandita -->
     <div id="hud">
       <div id="hud-left">
         <div id="minimap-frame">
-          <canvas id="minimapCanvas" width="36" height="36"></canvas>
+          <canvas id="minimapCanvas" width="50" height="50"></canvas>
           <div id="minimap-north">N</div>
         </div>
         <div id="zone-info">
@@ -634,7 +638,7 @@
       <button class="dpad-btn" id="btn-down">▼</button>
     </div>
 
-    <!-- Cluster Destro: Tasti A/B con START Posizionato Sotto -->
+    <!-- Cluster Destro: Tasti A/B con START Sotto -->
     <div class="right-cluster">
       <div class="action-group">
         <button class="act-btn" id="btn-inspect">
@@ -658,18 +662,20 @@
 <script>
 /**
  * BAYOU NOIR: THE KING IN THE MARSH
- * Novità aggiornate:
- * 1. Palette diurna luminosa, vivida e accesa (niente toni scuri o spenti di giorno)
- * 2. Notte e sera limpide e leggibili: eliminata l'oscurità cieca e il cono lanterna, con grading a gradazioni cromatiche atmosferiche
- * 3. Tasto START collocato sotto i pulsanti A e B in modalità landscape
- * 4. Minimappa radar rotonda stile GTA in alto a sinistra con blip per player, indizi e personaggi
+ * Modifiche grafiche avanzate:
+ * 1. Mappa del mondo raddoppiata (80x60 tile: 1280x960px) con una rete stradale completa, incroci e canali.
+ * 2. Minimappa ingrandita che renderizza la vera mappa cartografica ad alta fedeltà con scala adattata.
+ * 3. Nuovi edifici (Stazione Sceriffo, Diner Pelican, St. Agatha, Capanni, Emporio).
+ * 4. Nuovi NPC con dialoghi dedicati.
+ * 5. Animali domestici e selvatici: cani randagi animati, gatti che camminano sui muretti/strade, alligatori e corvi.
+ * 6. Lampioni stradali in ferro battuto che al tramonto e di notte si accendono illuminando il fango e la ghiaia con un alone fioco dorato.
  */
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 
-// Minimappa Radar Canvas
+// Minimappa Canvas Ingrandita a 50x50
 const minimapCanvas = document.getElementById('minimapCanvas');
 const mctx = minimapCanvas.getContext('2d');
 mctx.imageSmoothingEnabled = false;
@@ -677,8 +683,9 @@ mctx.imageSmoothingEnabled = false;
 const VIEW_W = 160;
 const VIEW_H = 144;
 const TILE_SIZE = 16;
-const MAP_COLS = 50; // 800px
-const MAP_ROWS = 40; // 640px
+// MAPPA MOLTO PIÙ GRANDE: 80x60 = 1280px x 960px
+const MAP_COLS = 80;
+const MAP_ROWS = 60;
 const WORLD_W = MAP_COLS * TILE_SIZE;
 const WORLD_H = MAP_ROWS * TILE_SIZE;
 
@@ -747,21 +754,23 @@ const I18N = {
       glade: "SACRIFICE GLADE",
       church: "BLACK SPRING CHURCH",
       canal: "GHOST CANAL",
-      road: "ROUTE 17 (PELICAN FORK)",
+      road: "ROUTE 17 (PELICAN CROSSING)",
+      station: "SHERIFF'S OUTPOST",
+      diner: "PELICAN FORK DINER",
       reeds: "DEEP CANEBRAKE"
     },
     defaultThought: {
       speaker: "DET. HAYES",
       role: "THOUGHT",
-      text: "The dampness soaks straight into the bone. Something is rotting deep within this parish... and the sheriff knows more than he lets on."
+      text: "The mud drinks everything here: oil, blood, secrets. Every shadow stretches toward Carcosa."
     },
     emptyJournal: {
       title: "HAYES' NOTEBOOK",
       sub: "CASE FILE #95-04",
-      text: "No formal evidence collected yet.\nExplore the clearing south, interrogate the deputy along the highway, and speak with the blind fisherman by the pier."
+      text: "No formal evidence collected yet.\nExplore the tree south, search the church archives, interrogate Sheriff Childress at the station, and question locals by the diner."
     },
     journalHeader: "--- CASE FILE: CLARA FONTENOT ({0}/7) ---\n\n",
-    inspectDoor: "Standing outside {0}.\nThe structure is weathered and sinking into the mud, but the air carries stale incense and wax."
+    inspectDoor: "Standing outside {0}.\nThe structure creaks against the damp wind. Faint whispers drift from inside."
   },
   it: {
     btnExamine: "ESAMINA",
@@ -789,20 +798,22 @@ const I18N = {
       church: "CHIESA SORGENTE NERA",
       canal: "CANALE DEGLI SPETTRI",
       road: "STATALE 17 (BIVIO PELICAN)",
+      station: "POSTO SCERIFFO",
+      diner: "TAVOLA CALDA PELICAN",
       reeds: "CANNETO PROFONDO"
     },
     defaultThought: {
       speaker: "DET. HAYES",
       role: "PENSIERO",
-      text: "L'umidità qui penetra fin dentro le ossa. C'è qualcosa di profondamente malato in questa parrocchia... e lo sceriffo sa più di quanto ammetta."
+      text: "Il fango inghiotte ogni cosa: olio combustibile, sangue e segreti. Ogni ombra sembra allungarsi verso Carcosa."
     },
     emptyJournal: {
       title: "TACCUINO DI HAYES",
       sub: "FASCICOLO DELITTO #95-04",
-      text: "Nessun indizio ancora formalizzato.\nEsplora la radura a sud, interroga il vice sceriffo lungo la statale e parla col pescatore al pontile."
+      text: "Nessun indizio ancora formalizzato.\nEsplora il cipresso a sud, fruga negli archivi della chiesa, affronta lo sceriffo al posto di blocco e parla coi paesani alla tavola calda."
     },
     journalHeader: "--- RAPPORTO CASO CLARA FONTENOT ({0}/7) ---\n\n",
-    inspectDoor: "Davanti all'ingresso di: {0}.\nLa struttura è pericolante, ma l'aria dentro è carica di cera spenta e incenso rituale."
+    inspectDoor: "Davanti all'ingresso di: {0}.\nLe travi di legno scricchiolano contro il vento umido. Si percepiscono sussurri soffocati."
   }
 };
 
@@ -835,7 +846,7 @@ function setLanguage(lang) {
 // -------------------------------------------------------------
 // SISTEMA DI SALVATAGGIO AUTOMATICO (localStorage)
 // -------------------------------------------------------------
-const SAVE_KEY = "bayou_noir_save_slot_01";
+const SAVE_KEY = "bayou_noir_save_slot_02";
 
 function hasSaveGame() {
   return localStorage.getItem(SAVE_KEY) !== null;
@@ -866,8 +877,8 @@ function loadSavedGame() {
   if (!raw) return false;
   try {
     const data = JSON.parse(raw);
-    player.x = data.playerX ?? 220;
-    player.y = data.playerY ?? 310;
+    player.x = data.playerX ?? 480;
+    player.y = data.playerY ?? 440;
     player.dir = data.playerDir ?? 'down';
     worldTimeSeconds = data.worldTimeSeconds ?? 60;
     collectedClues.clear();
@@ -883,14 +894,14 @@ function loadSavedGame() {
     cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', collectedClues.size);
     return true;
   } catch (e) {
-    console.error("Save corrupted, reset needed:", e);
+    console.error("Save corrupted:", e);
     return false;
   }
 }
 
 function resetGameToFresh() {
-  player.x = 220;
-  player.y = 310;
+  player.x = 480;
+  player.y = 440;
   player.dir = 'down';
   worldTimeSeconds = 60;
   collectedClues.clear();
@@ -917,7 +928,7 @@ window.addEventListener('beforeunload', () => {
 });
 
 // -------------------------------------------------------------
-// STATI DI GIOCO (TITLE, PLAYING, PAUSED)
+// STATI DI GIOCO & AUDIO PROCEDURALE
 // -------------------------------------------------------------
 let gameState = 'TITLE';
 
@@ -961,9 +972,6 @@ function togglePauseMenu() {
   }
 }
 
-// -------------------------------------------------------------
-// COLONNA SONORA PROCEDURALE
-// -------------------------------------------------------------
 let audioCtx = null;
 let isMusicEnabled = true;
 let musicTimer = null;
@@ -1016,16 +1024,13 @@ function playSubDrone(freq, time, duration = 4.0) {
 function startProceduralSoundtrack() {
   const notes = [73.42, 110.00, 146.83, 174.61, 207.65, 220.00];
   let step = 0;
-
   function scheduleNext() {
     if (!isMusicEnabled || gameState === 'PAUSED') {
       musicTimer = setTimeout(scheduleNext, 1800);
       return;
     }
     const now = audioCtx.currentTime;
-    if (step % 4 === 0) {
-      playSubDrone(55.0, now, 5.0);
-    }
+    if (step % 4 === 0) playSubDrone(55.0, now, 5.0);
     const note = notes[step % notes.length];
     playPluckNote(note, now + 0.1, 2.5);
     step++;
@@ -1046,9 +1051,9 @@ function toggleMusic() {
 }
 
 // -------------------------------------------------------------
-// CICLO GIORNO / NOTTE & ILLUMINAZIONE CALIBRATA (SEMPRE VISIBILE)
+// CICLO GIORNO / NOTTE & ILLUMINAZIONE
 // -------------------------------------------------------------
-const DAY_CYCLE_DURATION = 300; // 300s = 5 minuti di gameplay attivo
+const DAY_CYCLE_DURATION = 300;
 let worldTimeSeconds = 60;
 
 function updateDayNightCycle(deltaTime) {
@@ -1064,60 +1069,46 @@ function updateTimeDisplay() {
   timeDisplay.innerText = `${String(virtualHour).padStart(2, '0')}:${String(virtualMin).padStart(2, '0')}`;
 }
 
-/**
- * Illuminazione differenziata con massima leggibilità:
- * Nessun buio profondo o cieco: i toni cambiano atmosfera senza oscurare.
- */
 function getLightingProfile() {
   const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
   const virtualHour = (progress * 24 + 6) % 24;
 
   if (virtualHour >= 6 && virtualHour < 12) {
-    // MATTINA: Cristallina, fresca e luminosa
-    return {
-      type: 'MORNING',
-      r: 255, g: 250, b: 235,
-      alpha: 0.0
-    };
+    return { type: 'MORNING', r: 255, g: 250, b: 235, alpha: 0.0, lampPower: 0 };
   } else if (virtualHour >= 12 && virtualHour < 17.5) {
-    // POMERIGGIO: Piena luce solare, colori caldi e vividi
-    return {
-      type: 'AFTERNOON',
-      r: 255, g: 245, b: 215,
-      alpha: 0.0
-    };
+    return { type: 'AFTERNOON', r: 255, g: 245, b: 215, alpha: 0.0, lampPower: 0 };
   } else if (virtualHour >= 17.5 && virtualHour < 20.5) {
-    // TRAMONTO: Tonalità dorata/arancio calda (visibilità totale)
     const f = (virtualHour - 17.5) / 3;
     return {
       type: 'SUNSET',
       r: Math.floor(220 + f * 25),
       g: Math.floor(110 - f * 20),
       b: 30,
-      alpha: 0.14 + f * 0.10
+      alpha: 0.14 + f * 0.10,
+      lampPower: f * 0.85
     };
   } else if (virtualHour >= 20.5 || virtualHour < 5) {
-    // NOTTE: Tinta blu-notte / indaco cinematografica, perfetta leggibilità di tutti gli elementi
     return {
       type: 'NIGHT',
       r: 20, g: 45, b: 90,
-      alpha: 0.22
+      alpha: 0.22,
+      lampPower: 1.0
     };
   } else {
-    // ALBA (05:00 - 06:00): Velo lavanda/aurora
     const f = virtualHour - 5;
     return {
       type: 'DAWN',
       r: Math.floor(160 + f * 60),
       g: Math.floor(140 + f * 80),
       b: Math.floor(190 + f * 40),
-      alpha: 0.15 * (1 - f)
+      alpha: 0.15 * (1 - f),
+      lampPower: (1 - f) * 0.7
     };
   }
 }
 
 // -------------------------------------------------------------
-// METEO DINAMICO (PIOGGIA & NEBBIA)
+// METEO DINAMICO
 // -------------------------------------------------------------
 const weather = {
   current: 'CLEAR',
@@ -1135,10 +1126,10 @@ for (let i = 0; i < 40; i++) {
   });
 }
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 6; i++) {
   weather.fogPatches.push({
     x: (i * 45) % VIEW_W,
-    y: 20 + i * 24,
+    y: 15 + i * 22,
     w: 55 + (i % 3) * 20,
     h: 18 + (i % 2) * 10,
     speed: 0.2 + (i % 3) * 0.1
@@ -1169,9 +1160,7 @@ function updateWeather(deltaTime) {
   if (weather.current === 'FOGGY' || weather.current === 'RAIN') {
     weather.fogPatches.forEach(f => {
       f.x += f.speed;
-      if (f.x > VIEW_W + 40) {
-        f.x = -f.w - 20;
-      }
+      if (f.x > VIEW_W + 40) f.x = -f.w - 20;
     });
   }
 }
@@ -1200,16 +1189,16 @@ function drawWeatherEffects() {
 }
 
 // -------------------------------------------------------------
-// DATI STORIA, INDIZI & NPC MULTILINGUA
+// DATABASE INDIZI
 // -------------------------------------------------------------
 const cluesDatabase = [
   {
     id: 'corpse_tree',
-    zone: { en: 'Crime Scene (Cypress)', it: 'Scena del Delitto' },
+    zone: { en: 'Crime Scene (South Cypress)', it: 'Scena del Delitto (Cipresso a Sud)' },
     title: { en: "Victim: Clara Fontenot", it: "Vittima: Clara Fontenot" },
     text: {
-      en: "The victim is bound at the base of the ancient cypress. On her head is a crown of deer antlers laced with swamp briars. A black spiral is carved deeply into her back. No signs of struggle: she was brought here after death.",
-      it: "La vittima è legata alla base del cipresso secolare. Sul capo ha una corona di corna di cervo intrecciate con rami palustri. Sulla schiena è incisa a fondo una spirale nera. Nessun segno di lotta sul posto: è stata portata qui già priva di vita."
+      en: "The victim is bound at the base of the ancient cypress. On her head is a crown of deer antlers laced with swamp briars. A black spiral is carved deeply into her back. No signs of struggle: brought here post-mortem.",
+      it: "La vittima è legata alla base del cipresso secolare. Sul capo ha una corona di corna di cervo intrecciate con rami palustri. Sulla schiena è incisa una spirale nera. Nessun segno di lotta: portata qui già morta."
     }
   },
   {
@@ -1217,8 +1206,8 @@ const cluesDatabase = [
     zone: { en: 'Canebrake Edge', it: 'Margine della Palude' },
     title: { en: "Devil's Nests", it: "Trappole per Diavoli" },
     text: {
-      en: "Geometric stick sculptures woven from swamp reeds, fishing twine, and mouse bones hanging from the branches. An old cajun superstition meant to 'trap death in the mud'.",
-      it: "Decine di sculture geometriche fatte con canne, spago da pesca e teschi di topo appese ai rami. Una vecchia usanza pagana cajun per 'intrappolare la morte nel fango'."
+      en: "Geometric stick sculptures woven from swamp reeds, fishing twine, and mouse bones hanging from the branches. An old superstition meant to 'trap death in the mud'.",
+      it: "Sculture geometriche con canne, spago e teschi di topo appese ai rami. Una vecchia usanza cajun per 'intrappolare la morte nel fango'."
     }
   },
   {
@@ -1226,8 +1215,8 @@ const cluesDatabase = [
     zone: { en: 'Route 17 Crossroads', it: 'Bivio Strada Statale' },
     title: { en: "Heavy Tire Marks", it: "Tracce di Pneumatici Pesanti" },
     text: {
-      en: "Deep ruts left by a heavy dually pickup truck. The rear right tire has an irregular diagonal cut in the tread. Traveled north before sunrise.",
-      it: "Solchi profondi lasciati da un furgone con ruote tassellate. La gomma posteriore destra ha una cicatrice diagonale evidente. Il furgone si è diretto verso nord prima dell'alba."
+      en: "Deep ruts left by a heavy dually pickup truck. The rear right tire has an irregular diagonal cut in the tread. Traveled north toward the old parish before sunrise.",
+      it: "Solchi profondi lasciati da un furgone con ruote tassellate. La gomma posteriore destra ha un taglio diagonale. Si è diretto a nord verso la vecchia parrocchia prima dell'alba."
     }
   },
   {
@@ -1236,25 +1225,25 @@ const cluesDatabase = [
     title: { en: "Torn Church Registry", it: "Registro Parrocchiale Strappato" },
     text: {
       en: "Found beneath the rotting pews. Pages for the 1983 baptisms and 'St. Agatha Orphanage' are missing. A major benefactor signature repeatedly appears: The Tuttle Foundation.",
-      it: "Fra i banchi ammuffiti c'è il registro del 1983. Mancano le pagine relative ai battesimi e ai bambini della 'Missione Sant'Agata'. Spicca una donazione firmata dalla Fondazione Tuttle."
+      it: "Fra i banchi ammuffiti c'è il registro del 1983. Mancano le pagine dei battesimi e dei bambini della 'Missione Sant'Agata'. Spicca la firma della Fondazione Tuttle."
     }
   },
   {
     id: 'weird_shrine',
-    zone: { en: 'Secluded Cabin', it: 'Capanno Isolato' },
+    zone: { en: 'Secluded Cabin', it: 'Capanno Isolato a Ovest' },
     title: { en: "Yellow King Altar", it: "Idolo del Re Giallo" },
     text: {
-      en: "A cloak stitched from faded yellow rags and golden leaves draped over deer bones. Hidden within is a 1985 photograph: five masked figures wearing animal skulls beside the bayou.",
-      it: "Un mantello fatto di brandelli di stoffa ocra e fogliame dorato poggiato su un trespolo d'ossa. All'interno c'è una foto in bianco e nero sbiadita: cinque figure mascherate con teste di animale nei canneti."
+      en: "A cloak stitched from faded yellow rags draped over deer bones. Hidden within is a 1985 photograph: five masked figures wearing animal skulls beside the bayou.",
+      it: "Un mantello fatto di stracci ocra poggiato su un trespolo d'ossa. All'interno c'è una foto del 1985: cinque figure mascherate con teschi di animali nei canneti."
     }
   },
   {
     id: 'deputy_statement',
-    zone: { en: 'Patrol Cruiser', it: 'Auto di Pattuglia' },
+    zone: { en: 'Sheriff Patrol Car', it: 'Auto di Pattuglia' },
     title: { en: "Deputy Thibodeaux's Statement", it: "Dichiarazione del Vice Thibodeaux" },
     text: {
       en: "The deputy confesses that Sheriff Childress ordered the case treated as an accidental hunting incident and forbade notifying state authorities. His hands shake uncontrollably.",
-      it: "Il vice ammette che lo sceriffo locale ha ordinato di non allertare l'FBI e di catalogare il fatto come 'incidente di caccia o delitto passionale'. Ha le mani che tremano mentre parla."
+      it: "Il vice ammette che lo sceriffo ha ordinato di non avvisare la polizia di stato e di chiudere il caso come incidente di caccia. Le sue mani tremano."
     }
   },
   {
@@ -1262,23 +1251,25 @@ const cluesDatabase = [
     zone: { en: 'Pier & Bait Shop', it: "Pontile dell'Emporio" },
     title: { en: "Blind Gary's Testimony", it: "Testimonianza di Gary il Cieco" },
     text: {
-      en: "'At night, I hear a flat-bottom skiff gliding with its lights dead toward Carcosa Bay. Men singing in old patois. When they pass, even the herons freeze. Don't peer down that well, son.'",
-      it: "'Di notte sento il battello a chiglia piatta scivolare senza luci verso Carcosa Bay. Cantano in un francese antico, e gli aironi smettono di gridare. Non guardare dentro il pozzo, figliolo.'"
+      en: "'At night, I hear a flat-bottom skiff gliding with its lights dead toward Carcosa Bay. Men singing in old patois. Don't peer down that well, son.'",
+      it: "'Di notte sento il battello a chiglia piatta scivolare senza luci verso Carcosa Bay. Uomini che cantano in un francese arcaico. Non guardare dentro il pozzo, figliolo.'"
     }
   }
 ];
 
 const collectedClues = new Set();
 
+// -------------------------------------------------------------
+// NPC AMPLIATI
+// -------------------------------------------------------------
 const npcs = [
   {
     id: 'deputy',
     name: "Deputy Thibodeaux",
-    role: { en: "Vermilion Parish Sheriff Office", it: "Polizia Contea di Vermilion" },
-    x: 21 * TILE_SIZE,
-    y: 20 * TILE_SIZE,
-    w: 12,
-    h: 15,
+    role: { en: "Vermilion Parish Deputy", it: "Vice Sceriffo Vermilion" },
+    x: 32 * TILE_SIZE,
+    y: 28 * TILE_SIZE,
+    w: 12, h: 15,
     dialogues: {
       en: [
         "Detective Hayes... you shouldn't be out here. Sheriff Childress wanted this handled quietly before the New Orleans press caught wind.",
@@ -1286,9 +1277,30 @@ const npcs = [
         "Be careful around that ruined church to the north. Those grounds belong to old families who don't answer to state badges."
       ],
       it: [
-        "Detective Hayes... non dovreste essere qui. Lo Sceriffo Childress voleva sbrigare questa faccenda internamente prima che arrivasse la stampa da New Orleans.",
-        "Quella ragazza, Clara... era sparita da due mesi. Dicevano fosse scappata con un predicatore ambulante verso le paludi del golfo.",
-        "Se vi avvicinate a quel vecchio tempio abbandonato a nord, fate attenzione. Quella terra appartiene a famiglie che non amano rispondere a domande con un distintivo."
+        "Detective Hayes... non dovreste essere qui. Lo Sceriffo voleva sbrigare la cosa prima che arrivasse la stampa di New Orleans.",
+        "Clara era sparita da due mesi. Si diceva fosse scappata con un predicatore verso le paludi del golfo.",
+        "Attento alla vecchia chiesa a nord. Quei terreni appartengono a famiglie che non amano rispondere a chi porta un distintivo."
+      ]
+    },
+    dialogueIndex: 0
+  },
+  {
+    id: 'sheriff',
+    name: "Sheriff Childress",
+    role: { en: "County Sheriff", it: "Sceriffo di Contea" },
+    x: 23 * TILE_SIZE,
+    y: 19 * TILE_SIZE,
+    w: 12, h: 15,
+    dialogues: {
+      en: [
+        "Hayes. You're far outside your jurisdiction. Pack up your notebook and head back to Baton Rouge before nightfall.",
+        "Girls wander into the swamp all the time. Gators, deep sinkholes, bad whiskey. There's no conspiracy here, son.",
+        "You keep digging around these pines and you won't like what crawls out of the black water."
+      ],
+      it: [
+        "Hayes. Sei lontano dalla tua giurisdizione. Raccogli i tuoi taccuini e torna a Baton Rouge prima del tramonto.",
+        "Le ragazze si perdono nella palude in continuazione. Alligatori, sabbie mobili, whisky scadente. Nessun complotto, figliolo.",
+        "Se continui a scavare attorno a questi pini, non ti piacerà cosa verrà fuori dalle acque nere."
       ]
     },
     dialogueIndex: 0
@@ -1297,10 +1309,9 @@ const npcs = [
     id: 'preacher',
     name: "Billy Lee",
     role: { en: "Traveling Preacher", it: "Predicatore Itinerante" },
-    x: 13 * TILE_SIZE,
-    y: 6 * TILE_SIZE,
-    w: 12,
-    h: 15,
+    x: 18 * TILE_SIZE,
+    y: 8 * TILE_SIZE,
+    w: 12, h: 15,
     dialogues: {
       en: [
         "Time is a flat circle, detective. Everything we have done or will do, we're gonna do over and over and over again.",
@@ -1308,7 +1319,7 @@ const npcs = [
         "You seek truth in the chapel? Look not at the altar, but beneath the rotting floorboards."
       ],
       it: [
-        "Il tempo è un cerchio piatto, detective. Tutto ciò che abbiamo fatto o faremo lo ripeteremo ancora, e ancora, e ancora per sempre.",
+        "Il tempo è un cerchio piatto, detective. Tutto ciò che abbiamo fatto o faremo lo ripeteremo ancora e ancora per sempre.",
         "Lei ha visto il Re in Giallo con i suoi occhi. Ha camminato sulle pietre nere di Carcosa prima che le acque le coprissero.",
         "Cercate la verità nella chiesa? Le risposte non sono sull'altare, ma sotto le assi marce del pavimento."
       ]
@@ -1319,10 +1330,9 @@ const npcs = [
     id: 'fisherman',
     name: "Gary 'One-Hand'",
     role: { en: "Bait Shop Keeper", it: "Custode Pontile & Pescatore" },
-    x: 35 * TILE_SIZE,
-    y: 17 * TILE_SIZE,
-    w: 12,
-    h: 15,
+    x: 62 * TILE_SIZE,
+    y: 22 * TILE_SIZE,
+    w: 12, h: 15,
     dialogues: {
       en: [
         "No catfish biting today. When the canal turns oily like that, even the water moccasins flee toward the salt bay.",
@@ -1330,81 +1340,118 @@ const npcs = [
         "I fished out her spiral medallion three days ago in the weed bed. Those who wear that brand never truly sleep in the bayou."
       ],
       it: [
-        "Non ci sono pesci in questo canale oggi. Quando l'acqua diventa torbida e oleosa, perfino i mocassini d'acqua fuggono verso il mare.",
-        "Ho visto il furgone nero passare alle 3 del mattino. Fari spenti. Si sono fermati al vecchio ponte di legno e hanno scaricato qualcosa di pesante.",
-        "Se cercate la ragazza, il suo ciondolo a spirale l'ho ripescato io tre giorni fa. Chi porta quel marchio non muore mai davvero nel Bayou."
+        "Niente pesci oggi. Quando il canale diventa oleoso, perfino i mocassini d'acqua fuggono verso il mare.",
+        "Ho visto il furgone nero passare alle 3 del mattino. Fari spenti. Si sono fermati al ponte e hanno scaricato qualcosa di pesante.",
+        "Il suo ciondolo a spirale l'ho ripescato io tre giorni fa. Chi porta quel marchio non muore mai davvero nel Bayou."
+      ]
+    },
+    dialogueIndex: 0
+  },
+  {
+    id: 'waitress',
+    name: "Maeve",
+    role: { en: "Diner Waitress", it: "Cameriera del Diner" },
+    x: 52 * TILE_SIZE,
+    y: 33 * TILE_SIZE,
+    w: 12, h: 15,
+    dialogues: {
+      en: [
+        "Coffee's bitter, detective. Clara was sitting right at that booth two nights ago. She looked terrified, clutching a yellow ribbon.",
+        "Two men in suits picked her up in a black sedan. They didn't speak a word to anyone. The sheriff watched from across the street.",
+        "Stay away from the cypress glade south of here when the mist rises."
+      ],
+      it: [
+        "Il caffè è amaro, detective. Clara era seduta proprio a quel tavolo due sere fa. Era terrorizzata, stringeva un nastro giallo.",
+        "Due uomini eleganti sono passati a prenderla con una berlina scura. Non hanno detto una parola. Lo sceriffo guardava dall'altro lato della strada.",
+        "Stai lontano dalla radura dei cipressi a sud quando cala la nebbia."
       ]
     },
     dialogueIndex: 0
   }
 ];
 
+// -------------------------------------------------------------
+// HOTSPOTS INDIZI
+// -------------------------------------------------------------
 const hotspots = [
   {
     id: 'corpse_tree',
-    x: 27 * TILE_SIZE,
-    y: 33 * TILE_SIZE,
-    w: 24,
-    h: 24,
+    x: 44 * TILE_SIZE,
+    y: 48 * TILE_SIZE,
+    w: 24, h: 24,
     speaker: { en: "FORENSIC UNIT", it: "MEDICINA LEGALE" },
     label: { en: "Tree Crime Scene", it: "Scena del Crimine" },
     clueId: 'corpse_tree'
   },
   {
     id: 'devil_nets',
-    x: 29 * TILE_SIZE,
-    y: 28 * TILE_SIZE,
-    w: 18,
-    h: 18,
+    x: 48 * TILE_SIZE,
+    y: 42 * TILE_SIZE,
+    w: 18, h: 18,
     speaker: { en: "EVIDENCE RECOVERY", it: "REPERTO 02" },
     label: { en: "Stick Totems", it: "Sculture di Rami" },
     clueId: 'devil_nets'
   },
   {
     id: 'tire_tracks',
-    x: 15 * TILE_SIZE,
-    y: 19 * TILE_SIZE,
-    w: 22,
-    h: 16,
+    x: 28 * TILE_SIZE,
+    y: 28 * TILE_SIZE,
+    w: 22, h: 16,
     speaker: { en: "TIRE IMPRESSION", it: "RILIEVO STRADALE" },
     label: { en: "Mud Tracks", it: "Tracce di Pneumatici" },
     clueId: 'tire_tracks'
   },
   {
     id: 'church_ledger',
-    x: 11 * TILE_SIZE,
-    y: 3 * TILE_SIZE,
-    w: 16,
-    h: 16,
+    x: 16 * TILE_SIZE,
+    y: 4 * TILE_SIZE,
+    w: 16, h: 16,
     speaker: { en: "PARISH ARCHIVE", it: "ARCHIVIO PARROCCHIALE" },
     label: { en: "Hidden Registry", it: "Registro Strappato" },
     clueId: 'church_ledger'
   },
   {
     id: 'weird_shrine',
-    x: 6 * TILE_SIZE,
-    y: 30 * TILE_SIZE,
-    w: 20,
-    h: 20,
+    x: 8 * TILE_SIZE,
+    y: 46 * TILE_SIZE,
+    w: 20, h: 20,
     speaker: { en: "CULT SHRINE", it: "ALTARE OCCULTO" },
     label: { en: "Yellow King Effigy", it: "Idolo del Re Giallo" },
     clueId: 'weird_shrine'
   }
 ];
 
-// Palette Rinnovata: Colori Vivi, Saturi e Luminosi
+// -------------------------------------------------------------
+// LAMPIONI STRADALI (Con alone luce fioco di sera/notte)
+// -------------------------------------------------------------
+const streetLamps = [
+  { x: 20 * TILE_SIZE, y: 26 * TILE_SIZE },
+  { x: 30 * TILE_SIZE, y: 26 * TILE_SIZE },
+  { x: 40 * TILE_SIZE, y: 26 * TILE_SIZE },
+  { x: 50 * TILE_SIZE, y: 26 * TILE_SIZE },
+  { x: 60 * TILE_SIZE, y: 26 * TILE_SIZE },
+  { x: 36 * TILE_SIZE, y: 16 * TILE_SIZE },
+  { x: 36 * TILE_SIZE, y: 36 * TILE_SIZE },
+  { x: 48 * TILE_SIZE, y: 34 * TILE_SIZE },
+  { x: 22 * TILE_SIZE, y: 16 * TILE_SIZE },
+  { x: 58 * TILE_SIZE, y: 18 * TILE_SIZE },
+  { x: 14 * TILE_SIZE, y: 10 * TILE_SIZE },
+  { x: 42 * TILE_SIZE, y: 45 * TILE_SIZE }
+];
+
+// Palette Rinnovata Viva e Calda
 const PAL = {
-  waterDeep: '#235971',       // Blu laguna saturo
-  waterShallow: '#3d86a6',    // Riflesso acqua limpida
-  grassDark: '#36693a',       // Verde vegetazione lussureggiante
-  grassLight: '#4f8a55',      // Fili d'erba illuminati
-  dirtRoad: '#94724b',        // Terra battuta calda e chiara
-  dirtTrack: '#775734',       // Solchi visibili
-  mud: '#52402e',             // Fango naturale
+  waterDeep: '#235971',
+  waterShallow: '#3d86a6',
+  grassDark: '#36693a',
+  grassLight: '#4f8a55',
+  dirtRoad: '#94724b',
+  dirtTrack: '#775734',
+  mud: '#52402e',
   woodDark: '#3b2a20',
   woodMid: '#5c412f',
   woodLight: '#8f6848',
-  coatBrown: '#b8905a',       // Impermeabile Hayes più brillante
+  coatBrown: '#b8905a',
   skin: '#f2cca0',
   bloodDark: '#8a2020',
   goldSymbol: '#e5aa2d',
@@ -1412,7 +1459,9 @@ const PAL = {
   corpsePale: '#e3e4d8'
 };
 
-// Generazione Mappa
+// -------------------------------------------------------------
+// GENERAZIONE MAPPA ESTESA (80x60 tile)
+// -------------------------------------------------------------
 const worldMap = new Uint8Array(MAP_COLS * MAP_ROWS);
 const T_GRASS = 0, T_MUD = 1, T_WATER = 2, T_ROAD = 3, T_WOODFLOOR = 4;
 
@@ -1420,18 +1469,41 @@ function generateWorld() {
   for (let r = 0; r < MAP_ROWS; r++) {
     for (let c = 0; c < MAP_COLS; c++) {
       let idx = r * MAP_COLS + c;
-      if (c >= 38 + Math.floor(Math.sin(r * 0.3) * 3)) {
+
+      // Grande Canale a Est
+      let waterLine = 66 + Math.floor(Math.sin(r * 0.25) * 4);
+      let swampPocket = (c >= 6 && c <= 16 && r >= 38 && r <= 54 && Math.sin(c*0.5)*Math.cos(r*0.5) > 0.2);
+
+      if (c >= waterLine || swampPocket) {
         worldMap[idx] = T_WATER;
-      } else if (r >= 18 && r <= 21) {
+      }
+      // Statale Principale Ovest-Est (Pelican Highway)
+      else if (r >= 26 && r <= 29) {
         worldMap[idx] = T_ROAD;
-      } else if (c >= 12 && c <= 14 && r <= 18 && r >= 6) {
+      }
+      // Bivio Nord verso Chiesa & Stazione
+      else if (c >= 35 && c <= 37 && r <= 26 && r >= 8) {
         worldMap[idx] = T_ROAD;
-      } else if (c >= 26 && c <= 28 && r >= 21 && r <= 34) {
+      }
+      // Bivio Sud verso Radura del Delitto
+      else if (c >= 42 && c <= 44 && r >= 29 && r <= 48) {
         worldMap[idx] = T_MUD;
-      } else if (c >= 8 && c <= 18 && r >= 2 && r <= 6) {
+      }
+      // Raccordo verso Diner & Pontile
+      else if (c >= 48 && c <= 62 && r >= 32 && r <= 34) {
+        worldMap[idx] = T_ROAD;
+      }
+      // Pavimento Chiesa
+      else if (c >= 12 && c <= 22 && r >= 3 && r <= 7) {
         worldMap[idx] = T_WOODFLOOR;
-      } else {
-        worldMap[idx] = (Math.sin(c * 0.4) * Math.cos(r * 0.4) > 0.4) ? T_MUD : T_GRASS;
+      }
+      // Pavimento Stazione Sceriffo
+      else if (c >= 20 && c <= 28 && r >= 16 && r <= 20) {
+        worldMap[idx] = T_WOODFLOOR;
+      }
+      else {
+        // Terreno naturale ondulato tra erba e fango
+        worldMap[idx] = (Math.sin(c * 0.35) * Math.cos(r * 0.35) > 0.38) ? T_MUD : T_GRASS;
       }
     }
   }
@@ -1440,8 +1512,7 @@ generateWorld();
 
 // Telecamera
 const camera = {
-  x: 0,
-  y: 0,
+  x: 0, y: 0,
   update() {
     let targetX = player.x + player.w / 2 - VIEW_W / 2;
     let targetY = player.y + player.h / 2 - VIEW_H / 2;
@@ -1456,8 +1527,8 @@ const camera = {
 
 // Detective Rust Hayes
 const player = {
-  x: 220,
-  y: 310,
+  x: 480,
+  y: 440,
   w: 12,
   h: 15,
   speed: 1.15,
@@ -1466,68 +1537,108 @@ const player = {
   animTick: 0
 };
 
-// Edifici
+// -------------------------------------------------------------
+// EDIFICI DEL BAYOU (Ampliati e Nuovi)
+// -------------------------------------------------------------
 const buildings = [
   {
     name: "Black Spring Church",
     nameIt: "Chiesa della Sorgente Nera",
-    x: 8 * TILE_SIZE,
-    y: 1 * TILE_SIZE,
+    x: 12 * TILE_SIZE,
+    y: 2 * TILE_SIZE,
     w: 11 * TILE_SIZE,
     h: 6 * TILE_SIZE,
-    doorX: 13 * TILE_SIZE,
-    doorY: 7 * TILE_SIZE,
+    doorX: 17 * TILE_SIZE,
+    doorY: 8 * TILE_SIZE,
     roofColor: '#3c3027'
+  },
+  {
+    name: "Sheriff's Outpost",
+    nameIt: "Stazione dello Sceriffo",
+    x: 20 * TILE_SIZE,
+    y: 15 * TILE_SIZE,
+    w: 9 * TILE_SIZE,
+    h: 6 * TILE_SIZE,
+    doorX: 24 * TILE_SIZE,
+    doorY: 21 * TILE_SIZE,
+    roofColor: '#2b3842'
+  },
+  {
+    name: "Pelican Fork Diner",
+    nameIt: "Tavola Calda Pelican",
+    x: 49 * TILE_SIZE,
+    y: 30 * TILE_SIZE,
+    w: 8 * TILE_SIZE,
+    h: 5 * TILE_SIZE,
+    doorX: 53 * TILE_SIZE,
+    doorY: 35 * TILE_SIZE,
+    roofColor: '#6e382d'
   },
   {
     name: "Gary's Bait & Tackle Pier",
     nameIt: "Emporio & Ormeggio di Gary",
-    x: 32 * TILE_SIZE,
-    y: 13 * TILE_SIZE,
+    x: 59 * TILE_SIZE,
+    y: 19 * TILE_SIZE,
     w: 6 * TILE_SIZE,
     h: 5 * TILE_SIZE,
-    doorX: 34 * TILE_SIZE,
-    doorY: 18 * TILE_SIZE,
+    doorX: 61 * TILE_SIZE,
+    doorY: 24 * TILE_SIZE,
     roofColor: '#455948'
   },
   {
     name: "Secluded Swamp Shack",
-    nameIt: "Capanno Isolato",
-    x: 4 * TILE_SIZE,
-    y: 28 * TILE_SIZE,
+    nameIt: "Capanno Isolato nel Canneto",
+    x: 6 * TILE_SIZE,
+    y: 44 * TILE_SIZE,
     w: 5 * TILE_SIZE,
     h: 5 * TILE_SIZE,
-    doorX: 6 * TILE_SIZE,
-    doorY: 33 * TILE_SIZE,
+    doorX: 8 * TILE_SIZE,
+    doorY: 49 * TILE_SIZE,
     roofColor: '#2b221d'
   }
 ];
 
-const policeCar = { x: 18 * TILE_SIZE, y: 19 * TILE_SIZE, w: 36, h: 18 };
+const policeCar = { x: 30 * TILE_SIZE, y: 27 * TILE_SIZE, w: 36, h: 18 };
 
+// -------------------------------------------------------------
+// FAUNA & ANIMALI DOMESTICI (Cani, Gatti, Alligatori, Corvi)
+// -------------------------------------------------------------
 const animals = [
-  { type: 'alligator', x: 42 * TILE_SIZE, y: 15 * TILE_SIZE, dir: -1 },
-  { type: 'alligator', x: 40 * TILE_SIZE, y: 30 * TILE_SIZE, dir: 1 },
-  { type: 'crow', x: 17 * TILE_SIZE, y: 17 * TILE_SIZE },
-  { type: 'crow', x: 25 * TILE_SIZE, y: 23 * TILE_SIZE }
+  // Cani randagi che si aggirano
+  { type: 'dog', x: 26 * TILE_SIZE, y: 28 * TILE_SIZE, baseDir: 1, vx: 0.15, anim: 0, name: "Stray hound" },
+  { type: 'dog', x: 55 * TILE_SIZE, y: 36 * TILE_SIZE, baseDir: -1, vx: 0.2, anim: 0, name: "Swamp dog" },
+  // Gatti che camminano sui recinti o sostano
+  { type: 'cat', x: 19 * TILE_SIZE, y: 14 * TILE_SIZE, dir: 1, timer: 0, color: '#1a1918' },
+  { type: 'cat', x: 57 * TILE_SIZE, y: 29 * TILE_SIZE, dir: -1, timer: 0, color: '#9c6838' },
+  { type: 'cat', x: 9 * TILE_SIZE, y: 43 * TILE_SIZE, dir: 1, timer: 0, color: '#dedcd7' },
+  // Alligatori nelle acque del bayou
+  { type: 'alligator', x: 69 * TILE_SIZE, y: 18 * TILE_SIZE, dir: -1 },
+  { type: 'alligator', x: 71 * TILE_SIZE, y: 38 * TILE_SIZE, dir: 1 },
+  { type: 'alligator', x: 67 * TILE_SIZE, y: 50 * TILE_SIZE, dir: -1 },
+  // Corvi sui rami e a terra
+  { type: 'crow', x: 28 * TILE_SIZE, y: 24 * TILE_SIZE },
+  { type: 'crow', x: 41 * TILE_SIZE, y: 44 * TILE_SIZE },
+  { type: 'crow', x: 15 * TILE_SIZE, y: 12 * TILE_SIZE },
+  { type: 'crow', x: 50 * TILE_SIZE, y: 25 * TILE_SIZE }
 ];
 
 const trees = [];
-for (let i = 0; i < 45; i++) {
-  let tx = Math.floor((i * 137.5) % (WORLD_W - 80)) + 30;
-  let ty = Math.floor((i * 241.1) % (WORLD_H - 80)) + 30;
-  if ((ty > 270 && ty < 360) || (tx > 110 && tx < 320 && ty < 120)) continue;
+for (let i = 0; i < 70; i++) {
+  let tx = Math.floor((i * 187.3) % (WORLD_W - 100)) + 40;
+  let ty = Math.floor((i * 263.7) % (WORLD_H - 100)) + 40;
+  // Non posizionare alberi sopra le strade principali
+  if (ty > 400 && ty < 490) continue;
+  if (tx > 540 && tx < 620 && ty < 420) continue;
   trees.push({ x: tx, y: ty, size: 20 + (i % 3) * 6 });
 }
 
 // -------------------------------------------------------------
-// GESTIONE DIALOGHI & INTERAZIONE
+// INPUT & INTERAZIONE
 // -------------------------------------------------------------
 let isDialogueOpen = false;
 let currentDialogueQueue = [];
 let currentQueueIndex = 0;
 
-// Input Controlli
 const keys = { up: false, down: false, left: false, right: false };
 
 window.addEventListener('keydown', (e) => {
@@ -1582,54 +1693,33 @@ document.getElementById('btn-log').addEventListener('click', (e) => {
   openJournal();
 });
 
-// Eventi Schermata Iniziale
-titleContinueBtn.addEventListener('click', () => {
-  startGameFromTitle(true);
-});
-
+titleContinueBtn.addEventListener('click', () => startGameFromTitle(true));
 document.getElementById('title-new-btn').addEventListener('click', () => {
-  if (hasSaveGame()) {
-    confirmModal.style.display = 'flex';
-  } else {
-    startGameFromTitle(false);
-  }
+  if (hasSaveGame()) confirmModal.style.display = 'flex';
+  else startGameFromTitle(false);
 });
-
 document.getElementById('title-lang-btn').addEventListener('click', () => {
   setLanguage(currentLang === 'en' ? 'it' : 'en');
 });
 
-// Modal Conferma
 document.getElementById('confirm-overwrite-btn').addEventListener('click', () => {
   confirmModal.style.display = 'none';
   startGameFromTitle(false);
 });
-
 document.getElementById('confirm-cancel-btn').addEventListener('click', () => {
   confirmModal.style.display = 'none';
 });
 
-// Menu Pausa Handlers
-document.getElementById('menu-resume-btn').addEventListener('click', () => {
-  togglePauseMenu();
-});
-
+document.getElementById('menu-resume-btn').addEventListener('click', () => togglePauseMenu());
 document.getElementById('menu-lang-btn').addEventListener('click', () => {
   setLanguage(currentLang === 'en' ? 'it' : 'en');
 });
-
-document.getElementById('menu-music-btn').addEventListener('click', () => {
-  toggleMusic();
-});
-
+document.getElementById('menu-music-btn').addEventListener('click', () => toggleMusic());
 document.getElementById('menu-notes-btn').addEventListener('click', () => {
   togglePauseMenu();
   openJournal();
 });
-
-document.getElementById('menu-quit-btn').addEventListener('click', () => {
-  returnToTitleScreen();
-});
+document.getElementById('menu-quit-btn').addEventListener('click', () => returnToTitleScreen());
 
 function handleActionButton() {
   if (gameState !== 'PLAYING') return;
@@ -1640,9 +1730,9 @@ function handleActionButton() {
 
   const pBox = { x: player.x, y: player.y, w: player.w, h: player.h };
 
-  // 1. NPC
+  // 1. NPC Interazione
   for (let npc of npcs) {
-    if (getDistance(pBox, npc) < 26) {
+    if (getDistance(pBox, npc) < 28) {
       let lines = npc.dialogues[currentLang];
       let speech = lines[npc.dialogueIndex % lines.length];
       npc.dialogueIndex++;
@@ -1653,7 +1743,18 @@ function handleActionButton() {
     }
   }
 
-  // 2. Hotspots
+  // 2. Cani e Gatti (Interazione amichevole)
+  for (let an of animals) {
+    if ((an.type === 'dog' || an.type === 'cat') && getDistance(pBox, an) < 24) {
+      const petText = an.type === 'dog' 
+        ? (currentLang === 'en' ? "A scruffy hound sniffs your trench coat cautiously, then wags its tail." : "Un segugio infangato fiuta il tuo impermeabile e scodinzola piano.")
+        : (currentLang === 'en' ? "The bayou cat stares at you with emerald eyes and purrs softly." : "Il gatto del bayou ti fissa con occhi smeraldo e fa le fusa.");
+      startDialogue(an.type === 'dog' ? "BAYOU HOUND" : "SWAMP CAT", "ANIMAL", [petText]);
+      return;
+    }
+  }
+
+  // 3. Hotspots Scena Crimine
   for (let spot of hotspots) {
     if (getDistance(pBox, spot) < 28) {
       unlockClue(spot.clueId);
@@ -1663,10 +1764,10 @@ function handleActionButton() {
     }
   }
 
-  // 3. Edifici
+  // 4. Edifici
   for (let b of buildings) {
     let door = { x: b.doorX, y: b.doorY, w: 16, h: 16 };
-    if (getDistance(pBox, door) < 24) {
+    if (getDistance(pBox, door) < 26) {
       const bName = currentLang === 'en' ? b.name : b.nameIt;
       startDialogue("DET. HAYES", "INSPECTION", [
         I18N[currentLang].inspectDoor.replace('{0}', bName)
@@ -1675,7 +1776,7 @@ function handleActionButton() {
     }
   }
 
-  // 4. Pensiero Introspettivo
+  // 5. Pensiero
   const def = I18N[currentLang].defaultThought;
   startDialogue(def.speaker, def.role, [def.text]);
 }
@@ -1742,7 +1843,7 @@ function getDistance(a, b) {
 }
 
 // -------------------------------------------------------------
-// UPDATE & RENDERING PRINCIPALE
+// UPDATE & LOGICA
 // -------------------------------------------------------------
 let lastTimestamp = performance.now();
 let periodicAutoSaveTimer = 0;
@@ -1807,12 +1908,21 @@ function update(deltaTime) {
 
   camera.update();
 
+  // Movimento Cani e Animali
   animals.forEach(a => {
-    if (a.type === 'alligator') {
+    if (a.type === 'dog') {
+      a.anim += 0.15;
+      a.x += a.vx * a.baseDir;
+      if (Math.random() < 0.01) a.baseDir *= -1;
+    } else if (a.type === 'cat') {
+      a.timer += 0.05;
+      if (Math.sin(a.timer) > 0.8) a.x += a.dir * 0.1;
+      if (Math.random() < 0.008) a.dir *= -1;
+    } else if (a.type === 'alligator') {
       a.y += Math.sin(player.animTick * 0.4) * 0.2;
-      a.x += a.dir * 0.15;
+      a.x += a.dir * 0.12;
       if (a.x > WORLD_W - 20) a.dir = -1;
-      if (a.x < 38 * TILE_SIZE) a.dir = 1;
+      if (a.x < 65 * TILE_SIZE) a.dir = 1;
     }
   });
 
@@ -1821,13 +1931,17 @@ function update(deltaTime) {
 
 function updateZoneTitle() {
   const z = I18N[currentLang].zones;
-  if (player.y > 450 && player.x > 320) {
+  if (player.y > 640 && player.x > 500) {
     zoneTitle.innerText = z.glade;
-  } else if (player.y < 160 && player.x < 320) {
+  } else if (player.y < 200 && player.x < 420) {
     zoneTitle.innerText = z.church;
-  } else if (player.x > 500) {
+  } else if (player.x > 950) {
     zoneTitle.innerText = z.canal;
-  } else if (player.y >= 260 && player.y <= 360) {
+  } else if (player.x > 750 && player.y > 450) {
+    zoneTitle.innerText = z.diner;
+  } else if (player.x < 480 && player.y > 220 && player.y < 360) {
+    zoneTitle.innerText = z.station;
+  } else if (player.y >= 380 && player.y <= 490) {
     zoneTitle.innerText = z.road;
   } else {
     zoneTitle.innerText = z.reeds;
@@ -1835,7 +1949,8 @@ function updateZoneTitle() {
 }
 
 // -------------------------------------------------------------
-// RENDERING MINIMAPPA STILE GTA (RADAR)
+// RENDERING MINIMAPPA GTA VERA (INGRANDITA A 50x50)
+// Mostra la vera conformazione della mappa cartografica
 // -------------------------------------------------------------
 function drawMinimap() {
   const mw = minimapCanvas.width;
@@ -1845,23 +1960,21 @@ function drawMinimap() {
 
   mctx.clearRect(0, 0, mw, mh);
 
-  // Maschera rotonda
   mctx.save();
   mctx.beginPath();
   mctx.arc(center, center, radarRadius, 0, Math.PI * 2);
   mctx.clip();
 
-  // Sfondo terreno generico
-  mctx.fillStyle = '#2f5533';
+  // Sfondo base palude
+  mctx.fillStyle = '#234427';
   mctx.fillRect(0, 0, mw, mh);
 
-  // Scala radar: 1 pixel di minimappa = 5 pixel di mondo di gioco
-  const scale = 0.22;
+  // Scala: copre un raggio di 260px attorno al detective
+  const scale = 0.16;
   const miniCamX = player.x + player.w / 2;
   const miniCamY = player.y + player.h / 2;
 
-  // Disegna il mondo attorno al giocatore
-  const tileRadius = Math.ceil((mw / scale) / TILE_SIZE / 2) + 1;
+  const tileRadius = Math.ceil((mw / scale) / TILE_SIZE / 2) + 2;
   const centerTileC = Math.floor(miniCamX / TILE_SIZE);
   const centerTileR = Math.floor(miniCamY / TILE_SIZE);
 
@@ -1870,6 +1983,7 @@ function drawMinimap() {
   const startRow = Math.max(0, centerTileR - tileRadius);
   const endRow = Math.min(MAP_ROWS, centerTileR + tileRadius);
 
+  // Renderizza il vero terreno cartografico
   for (let r = startRow; r < endRow; r++) {
     for (let c = startCol; c < endCol; c++) {
       const t = worldMap[r * MAP_COLS + c];
@@ -1878,17 +1992,17 @@ function drawMinimap() {
 
       const sx = center + (wx - miniCamX) * scale;
       const sy = center + (wy - miniCamY) * scale;
-      const sw = TILE_SIZE * scale + 0.5;
-      const sh = TILE_SIZE * scale + 0.5;
+      const sw = TILE_SIZE * scale + 0.6;
+      const sh = TILE_SIZE * scale + 0.6;
 
       if (t === T_WATER) {
-        mctx.fillStyle = '#246b8a';
+        mctx.fillStyle = '#206380';
         mctx.fillRect(sx, sy, sw, sh);
       } else if (t === T_ROAD) {
-        mctx.fillStyle = '#bfa178';
+        mctx.fillStyle = '#c7a77e';
         mctx.fillRect(sx, sy, sw, sh);
       } else if (t === T_MUD) {
-        mctx.fillStyle = '#4a3b2c';
+        mctx.fillStyle = '#423324';
         mctx.fillRect(sx, sy, sw, sh);
       } else if (t === T_WOODFLOOR) {
         mctx.fillStyle = '#7a5a41';
@@ -1897,22 +2011,39 @@ function drawMinimap() {
     }
   }
 
-  // Edifici sulla minimappa
+  // Disegna edifici reali
   buildings.forEach(b => {
     const sx = center + (b.x - miniCamX) * scale;
     const sy = center + (b.y - miniCamY) * scale;
-    mctx.fillStyle = '#1c1511';
+    mctx.fillStyle = '#18120e';
     mctx.fillRect(sx, sy, b.w * scale, b.h * scale);
+    mctx.strokeStyle = '#dfa84a';
+    mctx.lineWidth = 0.6;
+    mctx.strokeRect(sx, sy, b.w * scale, b.h * scale);
   });
 
-  // Hotspot / Indizi (blip gialli)
+  // Lampioni (punti luce delicati)
+  const lp = getLightingProfile();
+  if (lp.lampPower > 0) {
+    mctx.fillStyle = 'rgba(255, 220, 110, 0.7)';
+    streetLamps.forEach(lamp => {
+      const sx = center + (lamp.x - miniCamX) * scale;
+      const sy = center + (lamp.y - miniCamY) * scale;
+      const dist = Math.hypot(sx - center, sy - center);
+      if (dist < radarRadius - 2) {
+        mctx.fillRect(sx - 0.5, sy - 0.5, 1.5, 1.5);
+      }
+    });
+  }
+
+  // Hotspot / Indizi (blip dorati)
   hotspots.forEach(spot => {
     const sx = center + (spot.x - miniCamX) * scale;
     const sy = center + (spot.y - miniCamY) * scale;
     const dist = Math.hypot(sx - center, sy - center);
-    if (dist < radarRadius - 2) {
-      mctx.fillStyle = collectedClues.has(spot.clueId) ? '#68d391' : '#f59e0b';
-      mctx.fillRect(sx - 1, sy - 1, 2.5, 2.5);
+    if (dist < radarRadius - 3) {
+      mctx.fillStyle = collectedClues.has(spot.clueId) ? '#48bb78' : '#ecc94b';
+      mctx.fillRect(sx - 1.5, sy - 1.5, 3, 3);
     }
   });
 
@@ -1921,20 +2052,20 @@ function drawMinimap() {
     const sx = center + (npc.x - miniCamX) * scale;
     const sy = center + (npc.y - miniCamY) * scale;
     const dist = Math.hypot(sx - center, sy - center);
-    if (dist < radarRadius - 2) {
+    if (dist < radarRadius - 3) {
       mctx.fillStyle = '#38bdf8';
-      mctx.fillRect(sx - 1, sy - 1, 2.5, 2.5);
+      mctx.fillRect(sx - 1.5, sy - 1.5, 3, 3);
     }
   });
 
-  // Cerchi radar concentrici stile GTA
-  mctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+  // Reticolo radar concentrico
+  mctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
   mctx.lineWidth = 1;
   mctx.beginPath();
-  mctx.arc(center, center, radarRadius * 0.55, 0, Math.PI * 2);
+  mctx.arc(center, center, radarRadius * 0.5, 0, Math.PI * 2);
   mctx.stroke();
 
-  // Blip Centrale Giocatore con Freccia Direzionale
+  // Freccia direzionale detective Hayes
   mctx.save();
   mctx.translate(center, center);
   let rot = 0;
@@ -1946,23 +2077,26 @@ function drawMinimap() {
 
   mctx.fillStyle = '#ffffff';
   mctx.beginPath();
-  mctx.moveTo(0, -3.5);
-  mctx.lineTo(2.5, 3);
-  mctx.lineTo(-2.5, 3);
+  mctx.moveTo(0, -4.5);
+  mctx.lineTo(3, 4);
+  mctx.lineTo(-3, 4);
   mctx.closePath();
   mctx.fill();
   mctx.restore();
 
   mctx.restore();
 
-  // Bordo Radar
-  mctx.strokeStyle = 'rgba(120, 155, 135, 0.6)';
-  mctx.lineWidth = 1.5;
+  // Bordo Radar dorato/verde
+  mctx.strokeStyle = 'rgba(140, 180, 155, 0.7)';
+  mctx.lineWidth = 2;
   mctx.beginPath();
   mctx.arc(center, center, radarRadius, 0, Math.PI * 2);
   mctx.stroke();
 }
 
+// -------------------------------------------------------------
+// RENDERING PRINCIPALE
+// -------------------------------------------------------------
 function draw() {
   ctx.save();
   ctx.translate(-Math.floor(camera.x), -Math.floor(camera.y));
@@ -2009,11 +2143,11 @@ function draw() {
     }
   }
 
-  // Pontile e Barche
+  // Pontile in legno
   ctx.fillStyle = PAL.woodLight;
-  ctx.fillRect(35 * TILE_SIZE, 17 * TILE_SIZE, 5 * TILE_SIZE, 6);
+  ctx.fillRect(62 * TILE_SIZE, 23 * TILE_SIZE, 6 * TILE_SIZE, 7);
   ctx.fillStyle = '#5c412f';
-  ctx.fillRect(38 * TILE_SIZE, 19 * TILE_SIZE, 18, 8);
+  ctx.fillRect(66 * TILE_SIZE, 25 * TILE_SIZE, 18, 8);
 
   // Edifici
   buildings.forEach(b => {
@@ -2032,10 +2166,16 @@ function draw() {
       ctx.fillStyle = '#a1b2b5';
       ctx.fillRect(b.x + b.w / 2 - 1, b.y - 10, 3, 9);
       ctx.fillRect(b.x + b.w / 2 - 4, b.y - 7, 9, 2);
+    } else if (b.name.includes("Diner")) {
+      // Insegna Diner
+      ctx.fillStyle = '#cf3232';
+      ctx.fillRect(b.x + 4, b.y - 7, b.w - 8, 5);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(b.x + 8, b.y - 5, 4, 2);
     }
   });
 
-  // Auto Pattuglia
+  // Auto Polizia
   ctx.fillStyle = 'rgba(0,0,0,0.4)';
   ctx.fillRect(policeCar.x + 2, policeCar.y + 14, 32, 6);
   ctx.fillStyle = PAL.policeBlue;
@@ -2045,6 +2185,39 @@ function draw() {
   let flash = Math.floor(player.animTick * 3) % 2 === 0;
   ctx.fillStyle = flash ? '#ef3b3b' : '#3080f0';
   ctx.fillRect(policeCar.x + 16, policeCar.y - 2, 3, 2);
+
+  // Lampioni Stradali e Alone di Luce Fioco (tramonto/notte)
+  const lp = getLightingProfile();
+  streetLamps.forEach(lamp => {
+    // Palo in ferro battuto
+    ctx.fillStyle = '#1c2120';
+    ctx.fillRect(lamp.x + 2, lamp.y - 14, 2, 16);
+    ctx.fillRect(lamp.x, lamp.y - 16, 6, 3);
+
+    // Lanterna accesa se sera o notte
+    if (lp.lampPower > 0) {
+      // Bulbo luminoso
+      ctx.fillStyle = '#fff4ba';
+      ctx.fillRect(lamp.x + 1, lamp.y - 15, 4, 4);
+
+      // Suggestivo alone radiale fioco attorno al lampione
+      const lampGlow = ctx.createRadialGradient(
+        lamp.x + 3, lamp.y - 13, 2,
+        lamp.x + 3, lamp.y - 13, 34
+      );
+      lampGlow.addColorStop(0, `rgba(255, 230, 140, ${0.45 * lp.lampPower})`);
+      lampGlow.addColorStop(0.5, `rgba(240, 180, 70, ${0.18 * lp.lampPower})`);
+      lampGlow.addColorStop(1, 'rgba(240, 180, 70, 0)');
+
+      ctx.fillStyle = lampGlow;
+      ctx.beginPath();
+      ctx.arc(lamp.x + 3, lamp.y - 13, 34, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = '#594f3b';
+      ctx.fillRect(lamp.x + 1, lamp.y - 15, 4, 3);
+    }
+  });
 
   // Alberi Cipresso
   trees.forEach(t => {
@@ -2060,7 +2233,7 @@ function draw() {
     }
   });
 
-  // Hotspot Albero Vittima
+  // Hotspot Radura Albero
   let treeSpot = hotspots[0];
   ctx.fillStyle = PAL.bloodDark;
   ctx.fillRect(treeSpot.x + 4, treeSpot.y + 12, 14, 4);
@@ -2072,9 +2245,23 @@ function draw() {
   ctx.fillStyle = PAL.goldSymbol;
   ctx.fillRect(treeSpot.x + 10, treeSpot.y + 7, 2, 2);
 
-  // Animali
+  // Animali (Cani, Gatti, Alligatori, Corvi)
   animals.forEach(a => {
-    if (a.type === 'alligator') {
+    if (a.type === 'dog') {
+      ctx.fillStyle = '#7a5a3a';
+      ctx.fillRect(a.x, a.y + 2, 9, 5);
+      ctx.fillRect(a.x + (a.baseDir > 0 ? 7 : -1), a.y, 3, 4);
+      // zampette
+      let legBob = Math.sin(a.anim) * 1.5;
+      ctx.fillRect(a.x + 1, a.y + 7, 2, 2 + legBob);
+      ctx.fillRect(a.x + 6, a.y + 7, 2, 2 - legBob);
+    } else if (a.type === 'cat') {
+      ctx.fillStyle = a.color;
+      ctx.fillRect(a.x, a.y + 2, 6, 3);
+      ctx.fillRect(a.x + (a.dir > 0 ? 4 : 0), a.y, 2, 3);
+      // codina
+      ctx.fillRect(a.x + (a.dir > 0 ? -1 : 5), a.y + 1, 1, 3);
+    } else if (a.type === 'alligator') {
       ctx.fillStyle = '#2a4530';
       ctx.fillRect(a.x, a.y, 16, 5);
       ctx.fillStyle = '#f04330';
@@ -2094,6 +2281,18 @@ function draw() {
       ctx.fillRect(npc.x + 2, npc.y + 4, 8, 8);
       ctx.fillStyle = '#947a5b';
       ctx.fillRect(npc.x + 1, npc.y, 10, 2);
+    } else if (npc.id === 'sheriff') {
+      ctx.fillStyle = '#3a2d1d';
+      ctx.fillRect(npc.x + 2, npc.y + 4, 8, 8);
+      ctx.fillStyle = '#d4af37';
+      ctx.fillRect(npc.x + 4, npc.y + 6, 2, 2);
+      ctx.fillStyle = '#4a3b2c';
+      ctx.fillRect(npc.x, npc.y, 12, 3);
+    } else if (npc.id === 'waitress') {
+      ctx.fillStyle = '#2d5a7b';
+      ctx.fillRect(npc.x + 2, npc.y + 4, 8, 8);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(npc.x + 4, npc.y + 6, 4, 4);
     } else if (npc.id === 'preacher') {
       ctx.fillStyle = '#1c2022';
       ctx.fillRect(npc.x + 2, npc.y + 3, 8, 11);
@@ -2126,19 +2325,20 @@ function draw() {
   checkInteractionPrompt();
   ctx.restore();
 
-  // Rendering Atmosfera & Meteo
+  // Luce Atmosferica & Meteo
   drawAtmosphericLighting();
   drawWeatherEffects();
 
-  // Rendering Minimappa Radar GTA
+  // Minimappa Radar GTA
   drawMinimap();
 }
 
 function checkInteractionPrompt() {
   const pBox = { x: player.x, y: player.y, w: player.w, h: player.h };
-  let canInteract = npcs.some(n => getDistance(pBox, n) < 26) ||
+  let canInteract = npcs.some(n => getDistance(pBox, n) < 28) ||
                     hotspots.some(s => getDistance(pBox, s) < 28) ||
-                    buildings.some(b => getDistance(pBox, { x: b.doorX, y: b.doorY, w: 16, h: 16 }) < 24);
+                    animals.some(a => (a.type === 'dog' || a.type === 'cat') && getDistance(pBox, a) < 24) ||
+                    buildings.some(b => getDistance(pBox, { x: b.doorX, y: b.doorY, w: 16, h: 16 }) < 26);
   if (canInteract) {
     ctx.fillStyle = '#f5c842';
     ctx.fillRect(player.x + 5, player.y - 8, 3, 5);
@@ -2148,14 +2348,10 @@ function checkInteractionPrompt() {
 
 function drawAtmosphericLighting() {
   const lp = getLightingProfile();
-
-  // Tonalità globale del ciclo giorno/notte (nessuna cecità/alone buio)
   if (lp.alpha > 0) {
     ctx.fillStyle = `rgba(${lp.r}, ${lp.g}, ${lp.b}, ${lp.alpha})`;
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
   }
-
-  // Scanline CRT retro delicate
   ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
   for (let y = 0; y < VIEW_H; y += 2) {
     ctx.fillRect(0, y, VIEW_W, 1);
