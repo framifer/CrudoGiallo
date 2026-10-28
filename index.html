@@ -15,7 +15,7 @@
     }
 
     body {
-      background-color: #050a08;
+      background-color: #060b09;
       color: #e2d9c2;
       font-family: 'Courier New', Courier, monospace;
       display: flex;
@@ -34,7 +34,7 @@
       justify-content: center;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle, #15241d 0%, #050907 100%);
+      background: radial-gradient(circle, #192721 0%, #060b08 100%);
     }
 
     #viewport-container {
@@ -55,13 +55,14 @@
       width: 100%;
       height: 100%;
       display: block;
+      cursor: crosshair;
     }
 
-    /* HUD Superiore */
+    /* HUD Superiore con Minimappa GTA Ingrandita */
     #hud {
       position: absolute;
-      top: 5px;
-      left: 5px;
+      top: 6px;
+      left: 6px;
       right: 8px;
       display: flex;
       justify-content: space-between;
@@ -74,21 +75,20 @@
       z-index: 10;
     }
 
-    /* Minimappa GTA Ingrandita e Dettagliata */
     #hud-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     #minimap-frame {
       position: relative;
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      border: 2px solid #6b8f7b;
-      background: rgba(8, 16, 13, 0.92);
-      box-shadow: 0 0 8px rgba(0,0,0,0.95), inset 0 0 6px rgba(0,0,0,0.85);
+      border: 2px solid #638472;
+      background: #0f1c16;
+      box-shadow: 0 0 8px rgba(0,0,0,0.9), inset 0 0 4px rgba(0,0,0,0.8);
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -105,10 +105,10 @@
       top: 2px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 6.5px;
+      font-size: 7px;
       font-weight: bold;
-      color: #dfa84a;
-      text-shadow: 0 0 3px #000;
+      color: #e5aa2d;
+      text-shadow: 0 0 2px #000;
       pointer-events: none;
       line-height: 1;
     }
@@ -116,24 +116,20 @@
     #zone-info {
       display: flex;
       flex-direction: column;
-      gap: 1.5px;
-      background: rgba(10, 18, 14, 0.7);
-      padding: 2px 5px;
-      border-radius: 3px;
-      border-left: 2px solid #dfa84a;
+      gap: 1px;
     }
 
     #zone-title {
       font-weight: bold;
       letter-spacing: 0.6px;
       color: #dfa84a;
-      font-size: 8px;
+      font-size: 8.5px;
       text-shadow: 1px 1px 2px #000;
     }
 
     #zone-sub {
-      font-size: 6.5px;
-      color: #9cb5a6;
+      font-size: 7px;
+      color: #a4c4b2;
       letter-spacing: 0.4px;
     }
 
@@ -142,9 +138,6 @@
       gap: 8px;
       align-items: center;
       padding-top: 2px;
-      background: rgba(10, 18, 14, 0.65);
-      padding: 3px 6px;
-      border-radius: 3px;
     }
 
     #save-indicator {
@@ -154,7 +147,7 @@
       transition: opacity 0.4s;
     }
 
-    /* Finestra di Dialogo & Taccuino */
+    /* Finestra di Dialogo */
     #dialogue-box {
       position: absolute;
       bottom: 8px;
@@ -170,6 +163,7 @@
       display: none;
       z-index: 50;
       box-shadow: 0 4px 12px rgba(0,0,0,0.85);
+      cursor: pointer;
     }
 
     #dialogue-header {
@@ -208,11 +202,11 @@
       margin-top: 5px;
     }
 
-    /* Schermata Iniziale & Menu di Pausa */
+    /* Schermata Overlay / Pausa */
     .overlay-screen {
       position: absolute;
       inset: 0;
-      background: rgba(6, 12, 10, 0.96);
+      background: rgba(6, 12, 10, 0.94);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -220,22 +214,6 @@
       z-index: 70;
       padding: 16px;
       text-align: center;
-    }
-
-    #title-screen h1 {
-      font-size: 17px;
-      letter-spacing: 3px;
-      color: #dfa84a;
-      text-shadow: 0 0 10px rgba(223, 168, 74, 0.5);
-      margin-bottom: 2px;
-    }
-
-    #title-screen .subtitle {
-      font-size: 8.5px;
-      color: #8cb09e;
-      letter-spacing: 1.5px;
-      margin-bottom: 16px;
-      text-transform: uppercase;
     }
 
     #pause-menu {
@@ -279,66 +257,10 @@
       color: #fff;
     }
 
-    .menu-item:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      border-color: #222d28;
-    }
-
     .menu-tag {
       font-size: 9px;
       color: #dfa84a;
       font-weight: bold;
-    }
-
-    /* Modal Sovrascrittura Partita */
-    #confirm-modal {
-      position: absolute;
-      inset: 0;
-      background: rgba(4, 8, 7, 0.98);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 80;
-      padding: 16px;
-      border: 2px solid #8c3b3b;
-    }
-
-    #confirm-modal p {
-      font-size: 10.5px;
-      line-height: 1.4;
-      color: #e2c0be;
-      margin-bottom: 14px;
-      text-align: center;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-      width: 100%;
-      justify-content: center;
-    }
-
-    .modal-btn {
-      padding: 6px 14px;
-      font-family: inherit;
-      font-size: 10px;
-      font-weight: bold;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-
-    .btn-danger {
-      background: #6d2222;
-      color: #fff;
-      border: 1px solid #a83d3d;
-    }
-
-    .btn-cancel {
-      background: #25332c;
-      color: #d1c7af;
-      border: 1px solid #485c52;
     }
 
     @keyframes blink {
@@ -399,7 +321,6 @@
       border: 1px solid #2e443a;
     }
 
-    /* Raggruppamento Destra (A/B + START sotto) */
     .right-cluster {
       display: flex;
       flex-direction: column;
@@ -480,7 +401,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Orientamento Portrait vs Landscape */
     @media (orientation: portrait) {
       #game-wrapper {
         flex-direction: column;
@@ -525,7 +445,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         transform: scale(0.92);
       }
       .system-controls {
@@ -542,15 +462,15 @@
 
 <div id="game-wrapper">
   <div id="viewport-container">
-    <!-- HUD Superiore con Minimappa GTA Ingrandita -->
+    <!-- HUD con Minimappa Radar GTA -->
     <div id="hud">
       <div id="hud-left">
         <div id="minimap-frame">
-          <canvas id="minimapCanvas" width="50" height="50"></canvas>
+          <canvas id="minimapCanvas" width="48" height="48"></canvas>
           <div id="minimap-north">N</div>
         </div>
         <div id="zone-info">
-          <span id="zone-title">SACRIFICE GLADE</span>
+          <span id="zone-title">ROUTE 17 (PELICAN FORK)</span>
           <span id="zone-sub">VERMILION PARISH</span>
         </div>
       </div>
@@ -564,7 +484,7 @@
     <!-- Schermo di Gioco 160x144 -->
     <canvas id="gameCanvas" width="160" height="144"></canvas>
 
-    <!-- Dialogo / Fascicolo d'indagine -->
+    <!-- Dialogo / Fascicolo -->
     <div id="dialogue-box">
       <div id="dialogue-header">
         <span id="dialogue-speaker">DET. HAYES</span>
@@ -572,33 +492,6 @@
       </div>
       <div id="dialogue-text">...</div>
       <div id="dialogue-prompt">[Press (A) to continue]</div>
-    </div>
-
-    <!-- Schermata di Inizio Gioco -->
-    <div class="overlay-screen" id="title-screen">
-      <h1>BAYOU NOIR</h1>
-      <div class="subtitle">The King in the Marsh</div>
-      <button class="menu-item" id="title-continue-btn" disabled>
-        <span id="lbl-title-continue">CONTINUE</span>
-        <span class="menu-tag">▶</span>
-      </button>
-      <button class="menu-item" id="title-new-btn">
-        <span id="lbl-title-new">NEW GAME</span>
-        <span class="menu-tag">+</span>
-      </button>
-      <button class="menu-item" id="title-lang-btn">
-        <span id="lbl-title-lang">LANGUAGE</span>
-        <span class="menu-tag" id="title-lang-tag">ENGLISH</span>
-      </button>
-    </div>
-
-    <!-- Modal Conferma Sovrascrittura Salvataggio -->
-    <div id="confirm-modal">
-      <p id="confirm-msg">An existing save game was found.<br>Starting a new game will overwrite your progress.<br>Proceed?</p>
-      <div class="modal-actions">
-        <button class="modal-btn btn-danger" id="confirm-overwrite-btn">OVERWRITE</button>
-        <button class="modal-btn btn-cancel" id="confirm-cancel-btn">CANCEL</button>
-      </div>
     </div>
 
     <!-- Menu Pausa / START -->
@@ -620,14 +513,14 @@
         <span id="label-journal">DETECTIVE NOTES</span>
         <span class="menu-tag">B</span>
       </button>
-      <button class="menu-item" id="menu-quit-btn">
-        <span id="label-quit">MAIN MENU</span>
-        <span class="menu-tag">↩</span>
+      <button class="menu-item" id="menu-reset-btn">
+        <span id="label-reset">RESET POSITION</span>
+        <span class="menu-tag">⟲</span>
       </button>
     </div>
   </div>
 
-  <!-- Controlli Tattili Adattivi Mobile -->
+  <!-- Controlli Tattili Mobile -->
   <div id="touch-controls">
     <!-- D-Pad a Sinistra -->
     <div class="dpad">
@@ -662,20 +555,19 @@
 <script>
 /**
  * BAYOU NOIR: THE KING IN THE MARSH
- * Modifiche grafiche avanzate:
- * 1. Mappa del mondo raddoppiata (80x60 tile: 1280x960px) con una rete stradale completa, incroci e canali.
- * 2. Minimappa ingrandita che renderizza la vera mappa cartografica ad alta fedeltà con scala adattata.
- * 3. Nuovi edifici (Stazione Sceriffo, Diner Pelican, St. Agatha, Capanni, Emporio).
- * 4. Nuovi NPC con dialoghi dedicati.
- * 5. Animali domestici e selvatici: cani randagi animati, gatti che camminano sui muretti/strade, alligatori e corvi.
- * 6. Lampioni stradali in ferro battuto che al tramonto e di notte si accendono illuminando il fango e la ghiaia con un alone fioco dorato.
+ * Fix & Enhancements:
+ * 1. Movimento sbloccato: collisioni ad assi indipendenti (sliding) e recupero automatico anti-stuck.
+ * 2. Avvio diretto in gioco immediato con piena reattività a qualsiasi tasto o tocco.
+ * 3. Mappa espansa a 70x50 tile (1120x800px) con rete viaria estesa.
+ * 4. Minimappa GTA ingrandita (48px) con terreno reale, strade, edifici, lampioni, player e blip.
+ * 5. Lampioni stradali con luce calda dinamica accesa al tramonto e di notte.
+ * 6. Nuovi NPC (Sceriffo Childress, Cameriera Maeve), cani e gatti interattivi.
  */
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 
-// Minimappa Canvas Ingrandita a 50x50
 const minimapCanvas = document.getElementById('minimapCanvas');
 const mctx = minimapCanvas.getContext('2d');
 mctx.imageSmoothingEnabled = false;
@@ -683,9 +575,8 @@ mctx.imageSmoothingEnabled = false;
 const VIEW_W = 160;
 const VIEW_H = 144;
 const TILE_SIZE = 16;
-// MAPPA MOLTO PIÙ GRANDE: 80x60 = 1280px x 960px
-const MAP_COLS = 80;
-const MAP_ROWS = 60;
+const MAP_COLS = 70; // 1120px
+const MAP_ROWS = 50; // 800px
 const WORLD_W = MAP_COLS * TILE_SIZE;
 const WORLD_H = MAP_ROWS * TILE_SIZE;
 
@@ -700,32 +591,19 @@ const zoneSub = document.getElementById('zone-sub');
 const timeDisplay = document.getElementById('time-display');
 const cluesCounter = document.getElementById('clues-counter');
 const saveIndicator = document.getElementById('save-indicator');
-
-// Overlay Schermi
-const titleScreen = document.getElementById('title-screen');
 const pauseMenu = document.getElementById('pause-menu');
-const confirmModal = document.getElementById('confirm-modal');
-const confirmMsg = document.getElementById('confirm-msg');
-const titleContinueBtn = document.getElementById('title-continue-btn');
 
 // Bottoni UI Testi
 const lblBtnA = document.getElementById('lbl-btn-a');
 const lblBtnB = document.getElementById('lbl-btn-b');
 const currentLangTag = document.getElementById('current-lang-tag');
-const titleLangTag = document.getElementById('title-lang-tag');
 const currentMusicTag = document.getElementById('current-music-tag');
 const labelResume = document.getElementById('label-resume');
 const labelLanguage = document.getElementById('label-language');
 const labelMusic = document.getElementById('label-music');
 const labelJournal = document.getElementById('label-journal');
-const labelQuit = document.getElementById('label-quit');
-const lblTitleContinue = document.getElementById('lbl-title-continue');
-const lblTitleNew = document.getElementById('lbl-title-new');
-const lblTitleLang = document.getElementById('lbl-title-lang');
+const labelReset = document.getElementById('label-reset');
 
-// -------------------------------------------------------------
-// LOCALIZZAZIONE (EN / IT)
-// -------------------------------------------------------------
 let currentLang = 'en';
 
 const I18N = {
@@ -739,38 +617,32 @@ const I18N = {
     language: "LANGUAGE",
     music: "MUSIC",
     journal: "DETECTIVE NOTES",
-    quit: "MAIN MENU",
+    reset: "RESET POSITION",
     musicOn: "ON",
     musicOff: "OFF",
     saved: "AUTO-SAVED",
-    titleContinue: "CONTINUE",
-    titleNew: "NEW GAME",
-    titleLang: "LANGUAGE",
-    confirmOverwrite: "An existing save file was found.\nStarting a new game will overwrite your progress.\nDo you want to proceed?",
-    btnOverwrite: "OVERWRITE",
-    btnCancel: "CANCEL",
     parishName: "VERMILION PARISH",
     zones: {
       glade: "SACRIFICE GLADE",
       church: "BLACK SPRING CHURCH",
-      canal: "GHOST CANAL",
-      road: "ROUTE 17 (PELICAN CROSSING)",
-      station: "SHERIFF'S OUTPOST",
-      diner: "PELICAN FORK DINER",
-      reeds: "DEEP CANEBRAKE"
+      canal: "GHOST CANAL PIER",
+      road: "ROUTE 17 (PELICAN FORK)",
+      reeds: "DEEP CANEBRAKE",
+      station: "SHERIFF OUTPOST",
+      diner: "PELICAN FORK DINER"
     },
     defaultThought: {
       speaker: "DET. HAYES",
       role: "THOUGHT",
-      text: "The mud drinks everything here: oil, blood, secrets. Every shadow stretches toward Carcosa."
+      text: "The damp air smells of sulphur, wet oak and old sin. The sheriff knows more than he pretends."
     },
     emptyJournal: {
       title: "HAYES' NOTEBOOK",
       sub: "CASE FILE #95-04",
-      text: "No formal evidence collected yet.\nExplore the tree south, search the church archives, interrogate Sheriff Childress at the station, and question locals by the diner."
+      text: "No formal evidence collected yet.\nSearch the sacrificial tree south, question the deputy, inspect the old chapel, and visit the diner."
     },
     journalHeader: "--- CASE FILE: CLARA FONTENOT ({0}/7) ---\n\n",
-    inspectDoor: "Standing outside {0}.\nThe structure creaks against the damp wind. Faint whispers drift from inside."
+    inspectDoor: "Outside {0}.\nThe structure is sinking into the bog, but faint light and quiet echoes drift from within."
   },
   it: {
     btnExamine: "ESAMINA",
@@ -782,38 +654,32 @@ const I18N = {
     language: "LINGUA",
     music: "MUSICA",
     journal: "TACCUINO INDAGINE",
-    quit: "MENU PRINCIPALE",
+    reset: "RIPOSIZIONA DETECTIVE",
     musicOn: "ATTIVA",
     musicOff: "MUTATA",
     saved: "SALVATO",
-    titleContinue: "CONTINUA",
-    titleNew: "NUOVA PARTITA",
-    titleLang: "LINGUA",
-    confirmOverwrite: "È presente una partita salvata.\nIniziare una nuova partita sovrascriverà tutti i progressi.\nVuoi procedere?",
-    btnOverwrite: "SOVRASCRIVI",
-    btnCancel: "ANNULLA",
     parishName: "PARROCCHIA DI VERMILION",
     zones: {
       glade: "RADURA DEL SACRIFICIO",
       church: "CHIESA SORGENTE NERA",
-      canal: "CANALE DEGLI SPETTRI",
+      canal: "PONTILE DEL CANALE",
       road: "STATALE 17 (BIVIO PELICAN)",
+      reeds: "CANNETO PROFONDO",
       station: "POSTO SCERIFFO",
-      diner: "TAVOLA CALDA PELICAN",
-      reeds: "CANNETO PROFONDO"
+      diner: "TAVOLA CALDA PELICAN"
     },
     defaultThought: {
       speaker: "DET. HAYES",
       role: "PENSIERO",
-      text: "Il fango inghiotte ogni cosa: olio combustibile, sangue e segreti. Ogni ombra sembra allungarsi verso Carcosa."
+      text: "L'umidità penetra fino al midollo. C'è puzza di zolfo e marciume... e lo sceriffo sa molto più di quanto dichiari."
     },
     emptyJournal: {
       title: "TACCUINO DI HAYES",
       sub: "FASCICOLO DELITTO #95-04",
-      text: "Nessun indizio ancora formalizzato.\nEsplora il cipresso a sud, fruga negli archivi della chiesa, affronta lo sceriffo al posto di blocco e parla coi paesani alla tavola calda."
+      text: "Nessun indizio ancora formalizzato.\nEsamina il cipresso a sud, interroga il vice lungo la strada, ispeziona la chiesa e ascolta la cameriera al diner."
     },
     journalHeader: "--- RAPPORTO CASO CLARA FONTENOT ({0}/7) ---\n\n",
-    inspectDoor: "Davanti all'ingresso di: {0}.\nLe travi di legno scricchiolano contro il vento umido. Si percepiscono sussurri soffocati."
+    inspectDoor: "Davanti a: {0}.\nL'edificio affonda nel fango umido, ma si avverte una debole luce provenire dalle fessure delle travi."
   }
 };
 
@@ -827,143 +693,25 @@ function setLanguage(lang) {
   labelLanguage.innerText = t.language;
   labelMusic.innerText = t.music;
   labelJournal.innerText = t.journal;
-  labelQuit.innerText = t.quit;
+  labelReset.innerText = t.reset;
   currentLangTag.innerText = currentLang === 'en' ? 'ENGLISH' : 'ITALIANO';
-  titleLangTag.innerText = currentLang === 'en' ? 'ENGLISH' : 'ITALIANO';
   currentMusicTag.innerText = isMusicEnabled ? t.musicOn : t.musicOff;
   saveIndicator.innerText = t.saved;
-  lblTitleContinue.innerText = t.titleContinue;
-  lblTitleNew.innerText = t.titleNew;
-  lblTitleLang.innerText = t.titleLang;
-  confirmMsg.innerText = t.confirmOverwrite;
-  document.getElementById('confirm-overwrite-btn').innerText = t.btnOverwrite;
-  document.getElementById('confirm-cancel-btn').innerText = t.btnCancel;
   cluesCounter.innerText = t.cluesHud.replace('{0}', collectedClues.size);
   zoneSub.innerText = t.parishName;
   updateZoneTitle();
 }
 
 // -------------------------------------------------------------
-// SISTEMA DI SALVATAGGIO AUTOMATICO (localStorage)
+// STATO DI GIOCO & AVVIO DIRETTO
 // -------------------------------------------------------------
-const SAVE_KEY = "bayou_noir_save_slot_02";
-
-function hasSaveGame() {
-  return localStorage.getItem(SAVE_KEY) !== null;
-}
-
-function autoSaveGame() {
-  if (gameState !== 'PLAYING') return;
-  const savePayload = {
-    playerX: player.x,
-    playerY: player.y,
-    playerDir: player.dir,
-    worldTimeSeconds: worldTimeSeconds,
-    collectedClues: Array.from(collectedClues),
-    currentLang: currentLang,
-    weatherState: weather.current,
-    weatherTimer: weather.timer
-  };
-  try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(savePayload));
-    flashSaveIndicator();
-  } catch (err) {
-    console.warn("Storage auto-save not available:", err);
-  }
-}
-
-function loadSavedGame() {
-  const raw = localStorage.getItem(SAVE_KEY);
-  if (!raw) return false;
-  try {
-    const data = JSON.parse(raw);
-    player.x = data.playerX ?? 480;
-    player.y = data.playerY ?? 440;
-    player.dir = data.playerDir ?? 'down';
-    worldTimeSeconds = data.worldTimeSeconds ?? 60;
-    collectedClues.clear();
-    if (Array.isArray(data.collectedClues)) {
-      data.collectedClues.forEach(id => collectedClues.add(id));
-    }
-    if (data.currentLang) setLanguage(data.currentLang);
-    if (data.weatherState) weather.current = data.weatherState;
-    if (data.weatherTimer) weather.timer = data.weatherTimer;
-    camera.x = player.x - VIEW_W / 2;
-    camera.y = player.y - VIEW_H / 2;
-    updateTimeDisplay();
-    cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', collectedClues.size);
-    return true;
-  } catch (e) {
-    console.error("Save corrupted:", e);
-    return false;
-  }
-}
-
-function resetGameToFresh() {
-  player.x = 480;
-  player.y = 440;
-  player.dir = 'down';
-  worldTimeSeconds = 60;
-  collectedClues.clear();
-  weather.current = 'CLEAR';
-  weather.timer = 40;
-  camera.x = player.x - VIEW_W / 2;
-  camera.y = player.y - VIEW_H / 2;
-  updateTimeDisplay();
-  cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', 0);
-  autoSaveGame();
-}
-
-let saveIndicatorTimer = null;
-function flashSaveIndicator() {
-  saveIndicator.style.opacity = '1';
-  clearTimeout(saveIndicatorTimer);
-  saveIndicatorTimer = setTimeout(() => {
-    saveIndicator.style.opacity = '0';
-  }, 1400);
-}
-
-window.addEventListener('beforeunload', () => {
-  autoSaveGame();
-});
-
-// -------------------------------------------------------------
-// STATI DI GIOCO & AUDIO PROCEDURALE
-// -------------------------------------------------------------
-let gameState = 'TITLE';
-
-function checkContinueButton() {
-  titleContinueBtn.disabled = !hasSaveGame();
-}
-
-function startGameFromTitle(continueExisting) {
-  initAudio();
-  if (continueExisting) {
-    loadSavedGame();
-  } else {
-    resetGameToFresh();
-  }
-  titleScreen.style.display = 'none';
-  gameState = 'PLAYING';
-}
-
-function returnToTitleScreen() {
-  autoSaveGame();
-  pauseMenu.style.display = 'none';
-  dialogueBox.style.display = 'none';
-  isDialogueOpen = false;
-  gameState = 'TITLE';
-  titleScreen.style.display = 'flex';
-  checkContinueButton();
-}
+let gameState = 'PLAYING'; // Sempre giocabile direttamente all'avvio
 
 function togglePauseMenu() {
-  if (gameState === 'TITLE') return;
   initAudio();
   if (gameState === 'PLAYING') {
     gameState = 'PAUSED';
     pauseMenu.style.display = 'flex';
-    autoSaveGame();
     if (isDialogueOpen) dialogueBox.style.display = 'none';
   } else if (gameState === 'PAUSED') {
     gameState = 'PLAYING';
@@ -972,496 +720,36 @@ function togglePauseMenu() {
   }
 }
 
-let audioCtx = null;
-let isMusicEnabled = true;
-let musicTimer = null;
-let masterGain = null;
-
-function initAudio() {
-  if (audioCtx) return;
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  audioCtx = new AudioContext();
-  masterGain = audioCtx.createGain();
-  masterGain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-  masterGain.connect(audioCtx.destination);
-  startProceduralSoundtrack();
-}
-
-function playPluckNote(freq, time, decay = 2.4) {
-  if (!audioCtx || !isMusicEnabled) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(freq, time);
-  osc.frequency.linearRampToValueAtTime(freq * 0.992, time + decay);
-  gain.gain.setValueAtTime(0.25, time);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + decay);
-  osc.connect(gain);
-  gain.connect(masterGain);
-  osc.start(time);
-  osc.stop(time + decay);
-}
-
-function playSubDrone(freq, time, duration = 4.0) {
-  if (!audioCtx || !isMusicEnabled) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(freq, time);
-  const filter = audioCtx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(140, time);
-  gain.gain.setValueAtTime(0.01, time);
-  gain.gain.linearRampToValueAtTime(0.15, time + 1.2);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.connect(masterGain);
-  osc.start(time);
-  osc.stop(time + duration);
-}
-
-function startProceduralSoundtrack() {
-  const notes = [73.42, 110.00, 146.83, 174.61, 207.65, 220.00];
-  let step = 0;
-  function scheduleNext() {
-    if (!isMusicEnabled || gameState === 'PAUSED') {
-      musicTimer = setTimeout(scheduleNext, 1800);
-      return;
-    }
-    const now = audioCtx.currentTime;
-    if (step % 4 === 0) playSubDrone(55.0, now, 5.0);
-    const note = notes[step % notes.length];
-    playPluckNote(note, now + 0.1, 2.5);
-    step++;
-    const interval = 1200 + (Math.sin(step) * 300);
-    musicTimer = setTimeout(scheduleNext, interval);
-  }
-  scheduleNext();
-}
-
-function toggleMusic() {
-  isMusicEnabled = !isMusicEnabled;
-  if (isMusicEnabled) {
-    if (!audioCtx) initAudio();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-  }
-  const t = I18N[currentLang];
-  currentMusicTag.innerText = isMusicEnabled ? t.musicOn : t.musicOff;
-}
-
 // -------------------------------------------------------------
-// CICLO GIORNO / NOTTE & ILLUMINAZIONE
+// GIOCATORE, MAPPA & TELECAMERA
 // -------------------------------------------------------------
-const DAY_CYCLE_DURATION = 300;
-let worldTimeSeconds = 60;
-
-function updateDayNightCycle(deltaTime) {
-  if (gameState !== 'PLAYING') return;
-  worldTimeSeconds = (worldTimeSeconds + deltaTime) % DAY_CYCLE_DURATION;
-  updateTimeDisplay();
-}
-
-function updateTimeDisplay() {
-  const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
-  const virtualHour = Math.floor((progress * 24 + 6) % 24);
-  const virtualMin = Math.floor((progress * 24 * 60) % 60);
-  timeDisplay.innerText = `${String(virtualHour).padStart(2, '0')}:${String(virtualMin).padStart(2, '0')}`;
-}
-
-function getLightingProfile() {
-  const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
-  const virtualHour = (progress * 24 + 6) % 24;
-
-  if (virtualHour >= 6 && virtualHour < 12) {
-    return { type: 'MORNING', r: 255, g: 250, b: 235, alpha: 0.0, lampPower: 0 };
-  } else if (virtualHour >= 12 && virtualHour < 17.5) {
-    return { type: 'AFTERNOON', r: 255, g: 245, b: 215, alpha: 0.0, lampPower: 0 };
-  } else if (virtualHour >= 17.5 && virtualHour < 20.5) {
-    const f = (virtualHour - 17.5) / 3;
-    return {
-      type: 'SUNSET',
-      r: Math.floor(220 + f * 25),
-      g: Math.floor(110 - f * 20),
-      b: 30,
-      alpha: 0.14 + f * 0.10,
-      lampPower: f * 0.85
-    };
-  } else if (virtualHour >= 20.5 || virtualHour < 5) {
-    return {
-      type: 'NIGHT',
-      r: 20, g: 45, b: 90,
-      alpha: 0.22,
-      lampPower: 1.0
-    };
-  } else {
-    const f = virtualHour - 5;
-    return {
-      type: 'DAWN',
-      r: Math.floor(160 + f * 60),
-      g: Math.floor(140 + f * 80),
-      b: Math.floor(190 + f * 40),
-      alpha: 0.15 * (1 - f),
-      lampPower: (1 - f) * 0.7
-    };
-  }
-}
-
-// -------------------------------------------------------------
-// METEO DINAMICO
-// -------------------------------------------------------------
-const weather = {
-  current: 'CLEAR',
-  timer: 45,
-  rainDrops: [],
-  fogPatches: []
+const player = {
+  x: 320,
+  y: 340,
+  w: 12,
+  h: 15,
+  speed: 1.25,
+  dir: 'down',
+  isMoving: false,
+  animTick: 0
 };
 
-for (let i = 0; i < 40; i++) {
-  weather.rainDrops.push({
-    x: Math.random() * VIEW_W,
-    y: Math.random() * VIEW_H,
-    len: 4 + Math.random() * 4,
-    speed: 5 + Math.random() * 3
-  });
-}
-
-for (let i = 0; i < 6; i++) {
-  weather.fogPatches.push({
-    x: (i * 45) % VIEW_W,
-    y: 15 + i * 22,
-    w: 55 + (i % 3) * 20,
-    h: 18 + (i % 2) * 10,
-    speed: 0.2 + (i % 3) * 0.1
-  });
-}
-
-function updateWeather(deltaTime) {
-  if (gameState !== 'PLAYING') return;
-  weather.timer -= deltaTime;
-  if (weather.timer <= 0) {
-    const states = ['CLEAR', 'CLEAR', 'FOGGY', 'RAIN'];
-    const nextStates = states.filter(s => s !== weather.current);
-    weather.current = nextStates[Math.floor(Math.random() * nextStates.length)];
-    weather.timer = 50 + Math.random() * 45;
+const camera = {
+  x: 240,
+  y: 260,
+  update() {
+    let targetX = player.x + player.w / 2 - VIEW_W / 2;
+    let targetY = player.y + player.h / 2 - VIEW_H / 2;
+    this.x += (targetX - this.x) * 0.12;
+    this.y += (targetY - this.y) * 0.12;
+    if (this.x < 0) this.x = 0;
+    if (this.y < 0) this.y = 0;
+    if (this.x > WORLD_W - VIEW_W) this.x = WORLD_W - VIEW_W;
+    if (this.y > WORLD_H - VIEW_H) this.y = WORLD_H - VIEW_H;
   }
-
-  if (weather.current === 'RAIN') {
-    weather.rainDrops.forEach(d => {
-      d.y += d.speed;
-      d.x -= 1.2;
-      if (d.y > VIEW_H) {
-        d.y = -5;
-        d.x = Math.random() * (VIEW_W + 30);
-      }
-    });
-  }
-
-  if (weather.current === 'FOGGY' || weather.current === 'RAIN') {
-    weather.fogPatches.forEach(f => {
-      f.x += f.speed;
-      if (f.x > VIEW_W + 40) f.x = -f.w - 20;
-    });
-  }
-}
-
-function drawWeatherEffects() {
-  if (weather.current === 'RAIN') {
-    ctx.strokeStyle = 'rgba(180, 220, 245, 0.65)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    weather.rainDrops.forEach(d => {
-      ctx.moveTo(d.x, d.y);
-      ctx.lineTo(d.x - 2, d.y + d.len);
-    });
-    ctx.stroke();
-  }
-
-  if (weather.current === 'FOGGY' || weather.current === 'RAIN') {
-    const fogAlpha = weather.current === 'FOGGY' ? 0.16 : 0.09;
-    ctx.fillStyle = `rgba(190, 215, 205, ${fogAlpha})`;
-    weather.fogPatches.forEach(f => {
-      ctx.beginPath();
-      ctx.ellipse(f.x, f.y, f.w / 2, f.h / 2, 0, 0, Math.PI * 2);
-      ctx.fill();
-    });
-  }
-}
-
-// -------------------------------------------------------------
-// DATABASE INDIZI
-// -------------------------------------------------------------
-const cluesDatabase = [
-  {
-    id: 'corpse_tree',
-    zone: { en: 'Crime Scene (South Cypress)', it: 'Scena del Delitto (Cipresso a Sud)' },
-    title: { en: "Victim: Clara Fontenot", it: "Vittima: Clara Fontenot" },
-    text: {
-      en: "The victim is bound at the base of the ancient cypress. On her head is a crown of deer antlers laced with swamp briars. A black spiral is carved deeply into her back. No signs of struggle: brought here post-mortem.",
-      it: "La vittima è legata alla base del cipresso secolare. Sul capo ha una corona di corna di cervo intrecciate con rami palustri. Sulla schiena è incisa una spirale nera. Nessun segno di lotta: portata qui già morta."
-    }
-  },
-  {
-    id: 'devil_nets',
-    zone: { en: 'Canebrake Edge', it: 'Margine della Palude' },
-    title: { en: "Devil's Nests", it: "Trappole per Diavoli" },
-    text: {
-      en: "Geometric stick sculptures woven from swamp reeds, fishing twine, and mouse bones hanging from the branches. An old superstition meant to 'trap death in the mud'.",
-      it: "Sculture geometriche con canne, spago e teschi di topo appese ai rami. Una vecchia usanza cajun per 'intrappolare la morte nel fango'."
-    }
-  },
-  {
-    id: 'tire_tracks',
-    zone: { en: 'Route 17 Crossroads', it: 'Bivio Strada Statale' },
-    title: { en: "Heavy Tire Marks", it: "Tracce di Pneumatici Pesanti" },
-    text: {
-      en: "Deep ruts left by a heavy dually pickup truck. The rear right tire has an irregular diagonal cut in the tread. Traveled north toward the old parish before sunrise.",
-      it: "Solchi profondi lasciati da un furgone con ruote tassellate. La gomma posteriore destra ha un taglio diagonale. Si è diretto a nord verso la vecchia parrocchia prima dell'alba."
-    }
-  },
-  {
-    id: 'church_ledger',
-    zone: { en: 'Black Spring Church', it: 'Chiesa della Sorgente' },
-    title: { en: "Torn Church Registry", it: "Registro Parrocchiale Strappato" },
-    text: {
-      en: "Found beneath the rotting pews. Pages for the 1983 baptisms and 'St. Agatha Orphanage' are missing. A major benefactor signature repeatedly appears: The Tuttle Foundation.",
-      it: "Fra i banchi ammuffiti c'è il registro del 1983. Mancano le pagine dei battesimi e dei bambini della 'Missione Sant'Agata'. Spicca la firma della Fondazione Tuttle."
-    }
-  },
-  {
-    id: 'weird_shrine',
-    zone: { en: 'Secluded Cabin', it: 'Capanno Isolato a Ovest' },
-    title: { en: "Yellow King Altar", it: "Idolo del Re Giallo" },
-    text: {
-      en: "A cloak stitched from faded yellow rags draped over deer bones. Hidden within is a 1985 photograph: five masked figures wearing animal skulls beside the bayou.",
-      it: "Un mantello fatto di stracci ocra poggiato su un trespolo d'ossa. All'interno c'è una foto del 1985: cinque figure mascherate con teschi di animali nei canneti."
-    }
-  },
-  {
-    id: 'deputy_statement',
-    zone: { en: 'Sheriff Patrol Car', it: 'Auto di Pattuglia' },
-    title: { en: "Deputy Thibodeaux's Statement", it: "Dichiarazione del Vice Thibodeaux" },
-    text: {
-      en: "The deputy confesses that Sheriff Childress ordered the case treated as an accidental hunting incident and forbade notifying state authorities. His hands shake uncontrollably.",
-      it: "Il vice ammette che lo sceriffo ha ordinato di non avvisare la polizia di stato e di chiudere il caso come incidente di caccia. Le sue mani tremano."
-    }
-  },
-  {
-    id: 'fisherman_rumor',
-    zone: { en: 'Pier & Bait Shop', it: "Pontile dell'Emporio" },
-    title: { en: "Blind Gary's Testimony", it: "Testimonianza di Gary il Cieco" },
-    text: {
-      en: "'At night, I hear a flat-bottom skiff gliding with its lights dead toward Carcosa Bay. Men singing in old patois. Don't peer down that well, son.'",
-      it: "'Di notte sento il battello a chiglia piatta scivolare senza luci verso Carcosa Bay. Uomini che cantano in un francese arcaico. Non guardare dentro il pozzo, figliolo.'"
-    }
-  }
-];
-
-const collectedClues = new Set();
-
-// -------------------------------------------------------------
-// NPC AMPLIATI
-// -------------------------------------------------------------
-const npcs = [
-  {
-    id: 'deputy',
-    name: "Deputy Thibodeaux",
-    role: { en: "Vermilion Parish Deputy", it: "Vice Sceriffo Vermilion" },
-    x: 32 * TILE_SIZE,
-    y: 28 * TILE_SIZE,
-    w: 12, h: 15,
-    dialogues: {
-      en: [
-        "Detective Hayes... you shouldn't be out here. Sheriff Childress wanted this handled quietly before the New Orleans press caught wind.",
-        "That girl Clara had been missing two months. Folks said she ran off with a revival tent preacher into the gulf marshes.",
-        "Be careful around that ruined church to the north. Those grounds belong to old families who don't answer to state badges."
-      ],
-      it: [
-        "Detective Hayes... non dovreste essere qui. Lo Sceriffo voleva sbrigare la cosa prima che arrivasse la stampa di New Orleans.",
-        "Clara era sparita da due mesi. Si diceva fosse scappata con un predicatore verso le paludi del golfo.",
-        "Attento alla vecchia chiesa a nord. Quei terreni appartengono a famiglie che non amano rispondere a chi porta un distintivo."
-      ]
-    },
-    dialogueIndex: 0
-  },
-  {
-    id: 'sheriff',
-    name: "Sheriff Childress",
-    role: { en: "County Sheriff", it: "Sceriffo di Contea" },
-    x: 23 * TILE_SIZE,
-    y: 19 * TILE_SIZE,
-    w: 12, h: 15,
-    dialogues: {
-      en: [
-        "Hayes. You're far outside your jurisdiction. Pack up your notebook and head back to Baton Rouge before nightfall.",
-        "Girls wander into the swamp all the time. Gators, deep sinkholes, bad whiskey. There's no conspiracy here, son.",
-        "You keep digging around these pines and you won't like what crawls out of the black water."
-      ],
-      it: [
-        "Hayes. Sei lontano dalla tua giurisdizione. Raccogli i tuoi taccuini e torna a Baton Rouge prima del tramonto.",
-        "Le ragazze si perdono nella palude in continuazione. Alligatori, sabbie mobili, whisky scadente. Nessun complotto, figliolo.",
-        "Se continui a scavare attorno a questi pini, non ti piacerà cosa verrà fuori dalle acque nere."
-      ]
-    },
-    dialogueIndex: 0
-  },
-  {
-    id: 'preacher',
-    name: "Billy Lee",
-    role: { en: "Traveling Preacher", it: "Predicatore Itinerante" },
-    x: 18 * TILE_SIZE,
-    y: 8 * TILE_SIZE,
-    w: 12, h: 15,
-    dialogues: {
-      en: [
-        "Time is a flat circle, detective. Everything we have done or will do, we're gonna do over and over and over again.",
-        "She saw the King in Yellow with her own eyes. She walked upon the black stones of Carcosa before the waters took them.",
-        "You seek truth in the chapel? Look not at the altar, but beneath the rotting floorboards."
-      ],
-      it: [
-        "Il tempo è un cerchio piatto, detective. Tutto ciò che abbiamo fatto o faremo lo ripeteremo ancora e ancora per sempre.",
-        "Lei ha visto il Re in Giallo con i suoi occhi. Ha camminato sulle pietre nere di Carcosa prima che le acque le coprissero.",
-        "Cercate la verità nella chiesa? Le risposte non sono sull'altare, ma sotto le assi marce del pavimento."
-      ]
-    },
-    dialogueIndex: 0
-  },
-  {
-    id: 'fisherman',
-    name: "Gary 'One-Hand'",
-    role: { en: "Bait Shop Keeper", it: "Custode Pontile & Pescatore" },
-    x: 62 * TILE_SIZE,
-    y: 22 * TILE_SIZE,
-    w: 12, h: 15,
-    dialogues: {
-      en: [
-        "No catfish biting today. When the canal turns oily like that, even the water moccasins flee toward the salt bay.",
-        "I saw that black dually truck crawl past at 3 in the morning. Headlights cut. They stopped by the timber bridge and unloaded something heavy.",
-        "I fished out her spiral medallion three days ago in the weed bed. Those who wear that brand never truly sleep in the bayou."
-      ],
-      it: [
-        "Niente pesci oggi. Quando il canale diventa oleoso, perfino i mocassini d'acqua fuggono verso il mare.",
-        "Ho visto il furgone nero passare alle 3 del mattino. Fari spenti. Si sono fermati al ponte e hanno scaricato qualcosa di pesante.",
-        "Il suo ciondolo a spirale l'ho ripescato io tre giorni fa. Chi porta quel marchio non muore mai davvero nel Bayou."
-      ]
-    },
-    dialogueIndex: 0
-  },
-  {
-    id: 'waitress',
-    name: "Maeve",
-    role: { en: "Diner Waitress", it: "Cameriera del Diner" },
-    x: 52 * TILE_SIZE,
-    y: 33 * TILE_SIZE,
-    w: 12, h: 15,
-    dialogues: {
-      en: [
-        "Coffee's bitter, detective. Clara was sitting right at that booth two nights ago. She looked terrified, clutching a yellow ribbon.",
-        "Two men in suits picked her up in a black sedan. They didn't speak a word to anyone. The sheriff watched from across the street.",
-        "Stay away from the cypress glade south of here when the mist rises."
-      ],
-      it: [
-        "Il caffè è amaro, detective. Clara era seduta proprio a quel tavolo due sere fa. Era terrorizzata, stringeva un nastro giallo.",
-        "Due uomini eleganti sono passati a prenderla con una berlina scura. Non hanno detto una parola. Lo sceriffo guardava dall'altro lato della strada.",
-        "Stai lontano dalla radura dei cipressi a sud quando cala la nebbia."
-      ]
-    },
-    dialogueIndex: 0
-  }
-];
-
-// -------------------------------------------------------------
-// HOTSPOTS INDIZI
-// -------------------------------------------------------------
-const hotspots = [
-  {
-    id: 'corpse_tree',
-    x: 44 * TILE_SIZE,
-    y: 48 * TILE_SIZE,
-    w: 24, h: 24,
-    speaker: { en: "FORENSIC UNIT", it: "MEDICINA LEGALE" },
-    label: { en: "Tree Crime Scene", it: "Scena del Crimine" },
-    clueId: 'corpse_tree'
-  },
-  {
-    id: 'devil_nets',
-    x: 48 * TILE_SIZE,
-    y: 42 * TILE_SIZE,
-    w: 18, h: 18,
-    speaker: { en: "EVIDENCE RECOVERY", it: "REPERTO 02" },
-    label: { en: "Stick Totems", it: "Sculture di Rami" },
-    clueId: 'devil_nets'
-  },
-  {
-    id: 'tire_tracks',
-    x: 28 * TILE_SIZE,
-    y: 28 * TILE_SIZE,
-    w: 22, h: 16,
-    speaker: { en: "TIRE IMPRESSION", it: "RILIEVO STRADALE" },
-    label: { en: "Mud Tracks", it: "Tracce di Pneumatici" },
-    clueId: 'tire_tracks'
-  },
-  {
-    id: 'church_ledger',
-    x: 16 * TILE_SIZE,
-    y: 4 * TILE_SIZE,
-    w: 16, h: 16,
-    speaker: { en: "PARISH ARCHIVE", it: "ARCHIVIO PARROCCHIALE" },
-    label: { en: "Hidden Registry", it: "Registro Strappato" },
-    clueId: 'church_ledger'
-  },
-  {
-    id: 'weird_shrine',
-    x: 8 * TILE_SIZE,
-    y: 46 * TILE_SIZE,
-    w: 20, h: 20,
-    speaker: { en: "CULT SHRINE", it: "ALTARE OCCULTO" },
-    label: { en: "Yellow King Effigy", it: "Idolo del Re Giallo" },
-    clueId: 'weird_shrine'
-  }
-];
-
-// -------------------------------------------------------------
-// LAMPIONI STRADALI (Con alone luce fioco di sera/notte)
-// -------------------------------------------------------------
-const streetLamps = [
-  { x: 20 * TILE_SIZE, y: 26 * TILE_SIZE },
-  { x: 30 * TILE_SIZE, y: 26 * TILE_SIZE },
-  { x: 40 * TILE_SIZE, y: 26 * TILE_SIZE },
-  { x: 50 * TILE_SIZE, y: 26 * TILE_SIZE },
-  { x: 60 * TILE_SIZE, y: 26 * TILE_SIZE },
-  { x: 36 * TILE_SIZE, y: 16 * TILE_SIZE },
-  { x: 36 * TILE_SIZE, y: 36 * TILE_SIZE },
-  { x: 48 * TILE_SIZE, y: 34 * TILE_SIZE },
-  { x: 22 * TILE_SIZE, y: 16 * TILE_SIZE },
-  { x: 58 * TILE_SIZE, y: 18 * TILE_SIZE },
-  { x: 14 * TILE_SIZE, y: 10 * TILE_SIZE },
-  { x: 42 * TILE_SIZE, y: 45 * TILE_SIZE }
-];
-
-// Palette Rinnovata Viva e Calda
-const PAL = {
-  waterDeep: '#235971',
-  waterShallow: '#3d86a6',
-  grassDark: '#36693a',
-  grassLight: '#4f8a55',
-  dirtRoad: '#94724b',
-  dirtTrack: '#775734',
-  mud: '#52402e',
-  woodDark: '#3b2a20',
-  woodMid: '#5c412f',
-  woodLight: '#8f6848',
-  coatBrown: '#b8905a',
-  skin: '#f2cca0',
-  bloodDark: '#8a2020',
-  goldSymbol: '#e5aa2d',
-  policeBlue: '#2a4b73',
-  corpsePale: '#e3e4d8'
 };
 
-// -------------------------------------------------------------
-// GENERAZIONE MAPPA ESTESA (80x60 tile)
-// -------------------------------------------------------------
+// Generazione Mappa Vasta (70x50 Tile)
 const worldMap = new Uint8Array(MAP_COLS * MAP_ROWS);
 const T_GRASS = 0, T_MUD = 1, T_WATER = 2, T_ROAD = 3, T_WOODFLOOR = 4;
 
@@ -1470,202 +758,461 @@ function generateWorld() {
     for (let c = 0; c < MAP_COLS; c++) {
       let idx = r * MAP_COLS + c;
 
-      // Grande Canale a Est
-      let waterLine = 66 + Math.floor(Math.sin(r * 0.25) * 4);
-      let swampPocket = (c >= 6 && c <= 16 && r >= 38 && r <= 54 && Math.sin(c*0.5)*Math.cos(r*0.5) > 0.2);
-
-      if (c >= waterLine || swampPocket) {
+      // Grande canale navigabile a est
+      let riverCurve = Math.floor(Math.sin(r * 0.25) * 3);
+      if (c >= 54 + riverCurve) {
         worldMap[idx] = T_WATER;
       }
-      // Statale Principale Ovest-Est (Pelican Highway)
-      else if (r >= 26 && r <= 29) {
+      // Strada principale Highway 17 orizzontale
+      else if (r >= 20 && r <= 23) {
         worldMap[idx] = T_ROAD;
       }
-      // Bivio Nord verso Chiesa & Stazione
-      else if (c >= 35 && c <= 37 && r <= 26 && r >= 8) {
+      // Bivio nord verso Chiesa e Sceriffo
+      else if (c >= 18 && c <= 21 && r <= 20 && r >= 5) {
         worldMap[idx] = T_ROAD;
       }
-      // Bivio Sud verso Radura del Delitto
-      else if (c >= 42 && c <= 44 && r >= 29 && r <= 48) {
+      // Raccordo verso pontile e diner
+      else if (c >= 40 && c <= 43 && r >= 12 && r <= 28) {
+        worldMap[idx] = T_ROAD;
+      }
+      // Sentiero fangoso verso il cipresso del sacrificio
+      else if (c >= 30 && c <= 33 && r >= 23 && r <= 42) {
         worldMap[idx] = T_MUD;
       }
-      // Raccordo verso Diner & Pontile
-      else if (c >= 48 && c <= 62 && r >= 32 && r <= 34) {
-        worldMap[idx] = T_ROAD;
-      }
-      // Pavimento Chiesa
-      else if (c >= 12 && c <= 22 && r >= 3 && r <= 7) {
+      // Pavimento chiesa e avamposto
+      else if ((c >= 14 && c <= 25 && r >= 2 && r <= 5) || (c >= 32 && c <= 38 && r >= 5 && r <= 8)) {
         worldMap[idx] = T_WOODFLOOR;
       }
-      // Pavimento Stazione Sceriffo
-      else if (c >= 20 && c <= 28 && r >= 16 && r <= 20) {
-        worldMap[idx] = T_WOODFLOOR;
-      }
+      // Palude e zolle erbose
       else {
-        // Terreno naturale ondulato tra erba e fango
-        worldMap[idx] = (Math.sin(c * 0.35) * Math.cos(r * 0.35) > 0.38) ? T_MUD : T_GRASS;
+        worldMap[idx] = (Math.sin(c * 0.35) * Math.cos(r * 0.35) > 0.45) ? T_MUD : T_GRASS;
       }
     }
   }
 }
 generateWorld();
 
-// Telecamera
-const camera = {
-  x: 0, y: 0,
-  update() {
-    let targetX = player.x + player.w / 2 - VIEW_W / 2;
-    let targetY = player.y + player.h / 2 - VIEW_H / 2;
-    this.x += (targetX - this.x) * 0.1;
-    this.y += (targetY - this.y) * 0.1;
-    if (this.x < 0) this.x = 0;
-    if (this.y < 0) this.y = 0;
-    if (this.x > WORLD_W - VIEW_W) this.x = WORLD_W - VIEW_W;
-    if (this.y > WORLD_H - VIEW_H) this.y = WORLD_H - VIEW_H;
-  }
+// Palette Saturi & Vivi
+const PAL = {
+  waterDeep: '#215c7a',
+  waterShallow: '#3d8ea8',
+  grassDark: '#356939',
+  grassLight: '#518e56',
+  dirtRoad: '#98774f',
+  dirtTrack: '#775734',
+  mud: '#54412e',
+  woodDark: '#3a291f',
+  woodMid: '#5d412e',
+  woodLight: '#946d4c',
+  coatBrown: '#c2965d',
+  skin: '#f2cca0',
+  bloodDark: '#8a1f1f',
+  goldSymbol: '#e5aa2d',
+  policeBlue: '#254e7d',
+  corpsePale: '#e3e4d8'
 };
 
-// Detective Rust Hayes
-const player = {
-  x: 480,
-  y: 440,
-  w: 12,
-  h: 15,
-  speed: 1.15,
-  dir: 'down',
-  isMoving: false,
-  animTick: 0
-};
-
-// -------------------------------------------------------------
-// EDIFICI DEL BAYOU (Ampliati e Nuovi)
-// -------------------------------------------------------------
+// Edifici del Mondo
 const buildings = [
   {
     name: "Black Spring Church",
     nameIt: "Chiesa della Sorgente Nera",
-    x: 12 * TILE_SIZE,
-    y: 2 * TILE_SIZE,
+    x: 14 * TILE_SIZE,
+    y: 1 * TILE_SIZE,
     w: 11 * TILE_SIZE,
-    h: 6 * TILE_SIZE,
-    doorX: 17 * TILE_SIZE,
-    doorY: 8 * TILE_SIZE,
+    h: 5 * TILE_SIZE,
+    doorX: 19 * TILE_SIZE,
+    doorY: 6 * TILE_SIZE,
     roofColor: '#3c3027'
   },
   {
     name: "Sheriff's Outpost",
-    nameIt: "Stazione dello Sceriffo",
-    x: 20 * TILE_SIZE,
-    y: 15 * TILE_SIZE,
-    w: 9 * TILE_SIZE,
-    h: 6 * TILE_SIZE,
-    doorX: 24 * TILE_SIZE,
-    doorY: 21 * TILE_SIZE,
-    roofColor: '#2b3842'
+    nameIt: "Avamposto dello Sceriffo",
+    x: 31 * TILE_SIZE,
+    y: 4 * TILE_SIZE,
+    w: 7 * TILE_SIZE,
+    h: 5 * TILE_SIZE,
+    doorX: 34 * TILE_SIZE,
+    doorY: 9 * TILE_SIZE,
+    roofColor: '#4d3b2b'
   },
   {
     name: "Pelican Fork Diner",
-    nameIt: "Tavola Calda Pelican",
-    x: 49 * TILE_SIZE,
-    y: 30 * TILE_SIZE,
+    nameIt: "Tavola Calda Pelican Fork",
+    x: 43 * TILE_SIZE,
+    y: 13 * TILE_SIZE,
     w: 8 * TILE_SIZE,
-    h: 5 * TILE_SIZE,
-    doorX: 53 * TILE_SIZE,
-    doorY: 35 * TILE_SIZE,
-    roofColor: '#6e382d'
+    h: 6 * TILE_SIZE,
+    doorX: 43 * TILE_SIZE,
+    doorY: 17 * TILE_SIZE,
+    roofColor: '#6a3636'
   },
   {
-    name: "Gary's Bait & Tackle Pier",
-    nameIt: "Emporio & Ormeggio di Gary",
-    x: 59 * TILE_SIZE,
-    y: 19 * TILE_SIZE,
+    name: "Gary's Bait Pier",
+    nameIt: "Pontile di Gary",
+    x: 48 * TILE_SIZE,
+    y: 22 * TILE_SIZE,
     w: 6 * TILE_SIZE,
     h: 5 * TILE_SIZE,
-    doorX: 61 * TILE_SIZE,
-    doorY: 24 * TILE_SIZE,
-    roofColor: '#455948'
+    doorX: 48 * TILE_SIZE,
+    doorY: 25 * TILE_SIZE,
+    roofColor: '#3d4f40'
   },
   {
     name: "Secluded Swamp Shack",
-    nameIt: "Capanno Isolato nel Canneto",
+    nameIt: "Capanno della Palude",
     x: 6 * TILE_SIZE,
-    y: 44 * TILE_SIZE,
-    w: 5 * TILE_SIZE,
+    y: 35 * TILE_SIZE,
+    w: 6 * TILE_SIZE,
     h: 5 * TILE_SIZE,
-    doorX: 8 * TILE_SIZE,
-    doorY: 49 * TILE_SIZE,
+    doorX: 9 * TILE_SIZE,
+    doorY: 40 * TILE_SIZE,
     roofColor: '#2b221d'
   }
 ];
 
-const policeCar = { x: 30 * TILE_SIZE, y: 27 * TILE_SIZE, w: 36, h: 18 };
+const policeCar = { x: 23 * TILE_SIZE, y: 20 * TILE_SIZE + 4, w: 34, h: 16 };
 
-// -------------------------------------------------------------
-// FAUNA & ANIMALI DOMESTICI (Cani, Gatti, Alligatori, Corvi)
-// -------------------------------------------------------------
-const animals = [
-  // Cani randagi che si aggirano
-  { type: 'dog', x: 26 * TILE_SIZE, y: 28 * TILE_SIZE, baseDir: 1, vx: 0.15, anim: 0, name: "Stray hound" },
-  { type: 'dog', x: 55 * TILE_SIZE, y: 36 * TILE_SIZE, baseDir: -1, vx: 0.2, anim: 0, name: "Swamp dog" },
-  // Gatti che camminano sui recinti o sostano
-  { type: 'cat', x: 19 * TILE_SIZE, y: 14 * TILE_SIZE, dir: 1, timer: 0, color: '#1a1918' },
-  { type: 'cat', x: 57 * TILE_SIZE, y: 29 * TILE_SIZE, dir: -1, timer: 0, color: '#9c6838' },
-  { type: 'cat', x: 9 * TILE_SIZE, y: 43 * TILE_SIZE, dir: 1, timer: 0, color: '#dedcd7' },
-  // Alligatori nelle acque del bayou
-  { type: 'alligator', x: 69 * TILE_SIZE, y: 18 * TILE_SIZE, dir: -1 },
-  { type: 'alligator', x: 71 * TILE_SIZE, y: 38 * TILE_SIZE, dir: 1 },
-  { type: 'alligator', x: 67 * TILE_SIZE, y: 50 * TILE_SIZE, dir: -1 },
-  // Corvi sui rami e a terra
-  { type: 'crow', x: 28 * TILE_SIZE, y: 24 * TILE_SIZE },
-  { type: 'crow', x: 41 * TILE_SIZE, y: 44 * TILE_SIZE },
-  { type: 'crow', x: 15 * TILE_SIZE, y: 12 * TILE_SIZE },
-  { type: 'crow', x: 50 * TILE_SIZE, y: 25 * TILE_SIZE }
+// Lampioni Stradali (con alone di luce notturno)
+const streetLamps = [
+  { x: 17 * TILE_SIZE, y: 19 * TILE_SIZE },
+  { x: 23 * TILE_SIZE, y: 19 * TILE_SIZE },
+  { x: 30 * TILE_SIZE, y: 19 * TILE_SIZE },
+  { x: 39 * TILE_SIZE, y: 19 * TILE_SIZE },
+  { x: 45 * TILE_SIZE, y: 19 * TILE_SIZE },
+  { x: 20 * TILE_SIZE, y: 7 * TILE_SIZE },
+  { x: 42 * TILE_SIZE, y: 13 * TILE_SIZE },
+  { x: 48 * TILE_SIZE, y: 21 * TILE_SIZE }
 ];
 
+// NPC & Personaggi
+const npcs = [
+  {
+    id: 'deputy',
+    name: "Deputy Thibodeaux",
+    role: { en: "Vermilion Parish Police", it: "Polizia Contea di Vermilion" },
+    x: 25 * TILE_SIZE,
+    y: 21 * TILE_SIZE,
+    w: 12, h: 15,
+    dialogues: {
+      en: [
+        "Detective Hayes... stay off the marshes tonight. Sheriff Childress gave strict orders to close this route.",
+        "The Fontenot family was involved in the old revival tents. People who vanish out here don't come back."
+      ],
+      it: [
+        "Detective Hayes... allontanatevi dalla palude stanotte. Lo Sceriffo Childress ha dato ordine di chiudere questa strada.",
+        "La famiglia Fontenot frequentava le tende dei vecchi predicatori. Chi scompare qui non fa mai ritorno."
+      ]
+    },
+    dialogueIndex: 0
+  },
+  {
+    id: 'sheriff',
+    name: "Sheriff Childress",
+    role: { en: "Parish Sheriff", it: "Sceriffo della Contea" },
+    x: 35 * TILE_SIZE,
+    y: 10 * TILE_SIZE,
+    w: 12, h: 15,
+    dialogues: {
+      en: [
+        "State Police has no jurisdiction meddling in our local folk, Hayes. File your paperwork and head back to Baton Rouge.",
+        "Clara Fontenot's death was a stray bullet accident. Stop looking for spirals in the mud."
+      ],
+      it: [
+        "La Polizia di Stato non ha giurisdizione qui, Hayes. Compilate il rapporto e tornatevene a Baton Rouge.",
+        "La morte di Clara Fontenot è stato un incidente di caccia. Smettetela di cercare spirali nel fango."
+      ]
+    },
+    dialogueIndex: 0
+  },
+  {
+    id: 'preacher',
+    name: "Billy Lee",
+    role: { en: "Traveling Preacher", it: "Predicatore Itinerante" },
+    x: 20 * TILE_SIZE,
+    y: 7 * TILE_SIZE,
+    w: 12, h: 15,
+    dialogues: {
+      en: [
+        "Time is a flat circle, detective. She saw the King in Yellow beside the black waters of Carcosa.",
+        "Search beneath the church floorboards if you dare face what was baptized in 1983."
+      ],
+      it: [
+        "Il tempo è un cerchio piatto, detective. Lei ha visto il Re in Giallo presso le acque nere di Carcosa.",
+        "Cercate sotto le assi marce della chiesa, se avete il coraggio di scoprire chi fu battezzato nel 1983."
+      ]
+    },
+    dialogueIndex: 0
+  },
+  {
+    id: 'waitress',
+    name: "Maeve",
+    role: { en: "Diner Waitress", it: "Cameriera Tavola Calda" },
+    x: 44 * TILE_SIZE,
+    y: 18 * TILE_SIZE,
+    w: 12, h: 15,
+    dialogues: {
+      en: [
+        "Clara was here the night she vanished. She was terrified, clutching a diary wrapped in yellow ribbon.",
+        "A black pickup truck was idling outside with the lights killed. The driver wore an animal mask."
+      ],
+      it: [
+        "Clara era qui la notte della scomparsa. Era spaventata a morte, stringeva un diario legato con un nastro giallo.",
+        "Fuori c'era un pesante furgone nero coi fari spenti. Il guidatore indossava una maschera da animale."
+      ]
+    },
+    dialogueIndex: 0
+  },
+  {
+    id: 'fisherman',
+    name: "Gary 'One-Hand'",
+    role: { en: "Bait Shop Keeper", it: "Custode Pontile" },
+    x: 50 * TILE_SIZE,
+    y: 24 * TILE_SIZE,
+    w: 12, h: 15,
+    dialogues: {
+      en: [
+        "I fished out her spiral medallion three days ago in the canal. Flat-bottom boats are running dead-light at midnight.",
+        "Don't peer into that well south, son. The things feeding down there have ancient names."
+      ],
+      it: [
+        "Ho ripescato il suo medaglione a spirale tre giorni fa. Di notte scivolano barche senza luci.",
+        "Non guardare nel pozzo a sud, ragazzo. Le cose che vi dimorano hanno nomi più antichi delle nostre leggi."
+      ]
+    },
+    dialogueIndex: 0
+  }
+];
+
+// Cani e Gatti
+const animals = [
+  { type: 'dog', x: 26 * TILE_SIZE, y: 22 * TILE_SIZE, vx: 0.2, name: "Rusty (Hound)" },
+  { type: 'cat', x: 45 * TILE_SIZE, y: 16 * TILE_SIZE, vx: 0, color: '#111', name: "Midnight (Cat)" },
+  { type: 'cat', x: 16 * TILE_SIZE, y: 6 * TILE_SIZE, vx: 0, color: '#d9822b', name: "Chapel Cat" },
+  { type: 'alligator', x: 58 * TILE_SIZE, y: 16 * TILE_SIZE, dir: 1 },
+  { type: 'alligator', x: 56 * TILE_SIZE, y: 32 * TILE_SIZE, dir: -1 },
+  { type: 'crow', x: 21 * TILE_SIZE, y: 18 * TILE_SIZE },
+  { type: 'crow', x: 33 * TILE_SIZE, y: 28 * TILE_SIZE }
+];
+
+// Indizi & Hotspots
+const cluesDatabase = [
+  {
+    id: 'corpse_tree',
+    zone: { en: 'Crime Scene (Cypress)', it: 'Scena del Delitto' },
+    title: { en: "Victim: Clara Fontenot", it: "Vittima: Clara Fontenot" },
+    text: {
+      en: "The victim is tied to the swamp cypress with deer antlers woven into her hair. A spiral glyph is carved into her skin.",
+      it: "La vittima è legata al cipresso con corna di cervo intrecciate tra i capelli. Una spirale rituale è incisa nella carne."
+    }
+  },
+  {
+    id: 'devil_nets',
+    zone: { en: 'Canebrake Edge', it: 'Margine della Palude' },
+    title: { en: "Devil's Nests", it: "Trappole per Diavoli" },
+    text: {
+      en: "Twig and bone geometric totems swaying in the wind to 'catch death'.",
+      it: "Sculture di canne e ossa intrecciate appese ai rami per 'intrappolare la morte'."
+    }
+  },
+  {
+    id: 'tire_tracks',
+    zone: { en: 'Route 17 Crossroads', it: 'Bivio Strada Statale' },
+    title: { en: "Heavy Tire Marks", it: "Tracce di Pneumatici" },
+    text: {
+      en: "Deep ruts left by a heavy pickup. Irregular diagonal tread mark on the rear wheel.",
+      it: "Solchi profondi lasciati da un grosso fuoristrada con gomma posteriore intagliata."
+    }
+  },
+  {
+    id: 'church_ledger',
+    zone: { en: 'Black Spring Church', it: 'Chiesa della Sorgente' },
+    title: { en: "Torn Church Registry", it: "Registro Strappato" },
+    text: {
+      en: "Beneath the floor: records of 1983 baptisms funded by the Tuttle Foundation are torn away.",
+      it: "Sotto il pavimento: i registri dei battesimi del 1983 finanziati dalla Fondazione Tuttle sono stati asportati."
+    }
+  },
+  {
+    id: 'weird_shrine',
+    zone: { en: 'Secluded Cabin', it: 'Capanno Isolato' },
+    title: { en: "Yellow King Altar", it: "Idolo del Re Giallo" },
+    text: {
+      en: "Rags of saffron cloth and skulls. An archival photograph of five masked elders by the marsh.",
+      it: "Brandelli di seta gialla e teschi. Una foto d'epoca di cinque notabili mascherati nella palude."
+    }
+  },
+  {
+    id: 'deputy_statement',
+    zone: { en: 'Patrol Cruiser', it: 'Auto Pattuglia' },
+    title: { en: "Deputy's Confession", it: "Confessione del Vice" },
+    text: {
+      en: "The deputy admits the Sheriff ordered no phone calls to State Troopers or reporters.",
+      it: "Il vice ammette che lo Sceriffo ha intimato di insabbiare il caso evitando di chiamare i federali."
+    }
+  },
+  {
+    id: 'diner_receipt',
+    zone: { en: 'Pelican Diner', it: 'Tavola Calda' },
+    title: { en: "Maeve's Diary Note", it: "Biglietto di Clara" },
+    text: {
+      en: "'They have taken the parish keys. Look for the black skiff where the reeds weep.'",
+      it: "'Hanno preso le chiavi della parrocchia. Cercate il battello nero dove piangono i canneti.'"
+    }
+  }
+];
+
+const collectedClues = new Set();
+
+const hotspots = [
+  {
+    id: 'corpse_tree',
+    x: 31 * TILE_SIZE,
+    y: 42 * TILE_SIZE,
+    w: 24, h: 24,
+    speaker: { en: "FORENSIC UNIT", it: "MEDICINA LEGALE" },
+    label: { en: "Tree Crime Scene", it: "Scena del Crimine" },
+    clueId: 'corpse_tree'
+  },
+  {
+    id: 'devil_nets',
+    x: 34 * TILE_SIZE,
+    y: 35 * TILE_SIZE,
+    w: 18, h: 18,
+    speaker: { en: "EVIDENCE RECOVERY", it: "REPERTO 02" },
+    label: { en: "Devil Nets", it: "Sculture di Canne" },
+    clueId: 'devil_nets'
+  },
+  {
+    id: 'tire_tracks',
+    x: 21 * TILE_SIZE,
+    y: 20 * TILE_SIZE,
+    w: 22, h: 16,
+    speaker: { en: "ROAD MARK", it: "RILIEVO STRADA" },
+    label: { en: "Tire Impressions", it: "Tracce di Furgone" },
+    clueId: 'tire_tracks'
+  },
+  {
+    id: 'church_ledger',
+    x: 18 * TILE_SIZE,
+    y: 3 * TILE_SIZE,
+    w: 16, h: 16,
+    speaker: { en: "PARISH ARCHIVE", it: "ARCHIVIO CHIESA" },
+    label: { en: "Registry", it: "Registro Nascosto" },
+    clueId: 'church_ledger'
+  },
+  {
+    id: 'weird_shrine',
+    x: 8 * TILE_SIZE,
+    y: 38 * TILE_SIZE,
+    w: 20, h: 20,
+    speaker: { en: "CULT SHRINE", it: "ALTARE OCCULTO" },
+    label: { en: "Yellow King Effigy", it: "Idolo Giallo" },
+    clueId: 'weird_shrine'
+  }
+];
+
+// Alberi
 const trees = [];
-for (let i = 0; i < 70; i++) {
-  let tx = Math.floor((i * 187.3) % (WORLD_W - 100)) + 40;
-  let ty = Math.floor((i * 263.7) % (WORLD_H - 100)) + 40;
-  // Non posizionare alberi sopra le strade principali
-  if (ty > 400 && ty < 490) continue;
-  if (tx > 540 && tx < 620 && ty < 420) continue;
-  trees.push({ x: tx, y: ty, size: 20 + (i % 3) * 6 });
+for (let i = 0; i < 60; i++) {
+  let tx = Math.floor((i * 157.3) % (WORLD_W - 80)) + 30;
+  let ty = Math.floor((i * 263.7) % (WORLD_H - 80)) + 30;
+  if ((ty > 290 && ty < 390) || (tx > 260 && tx < 360 && ty < 120)) continue;
+  trees.push({ x: tx, y: ty, size: 22 + (i % 4) * 5 });
 }
 
 // -------------------------------------------------------------
-// INPUT & INTERAZIONE
+// SISTEMA DI MOVIMENTO & COLLISIONI FLUIDE (SLIDE COLLISION)
 // -------------------------------------------------------------
-let isDialogueOpen = false;
-let currentDialogueQueue = [];
-let currentQueueIndex = 0;
-
 const keys = { up: false, down: false, left: false, right: false };
 
+function canMoveTo(x, y) {
+  // Limiti mappa
+  if (x < 6 || x > WORLD_W - player.w - 6) return false;
+  if (y < 6 || y > WORLD_H - player.h - 6) return false;
+
+  // Collisioni Edifici
+  for (let b of buildings) {
+    if (x < b.x + b.w && x + player.w > b.x &&
+        y < b.y + b.h && y + player.h > b.y) {
+      return false;
+    }
+  }
+
+  // Collisione Auto Pattuglia
+  if (x < policeCar.x + policeCar.w && x + player.w > policeCar.x &&
+      y < policeCar.y + policeCar.h && y + player.h > policeCar.y) {
+    return false;
+  }
+
+  // Collisione Acqua (controllo sui piedi del detective)
+  let footY = y + player.h - 1;
+  let c1 = Math.floor((x + 2) / TILE_SIZE);
+  let c2 = Math.floor((x + player.w - 2) / TILE_SIZE);
+  let r = Math.floor(footY / TILE_SIZE);
+
+  if (r >= 0 && r < MAP_ROWS) {
+    if (c1 >= 0 && c1 < MAP_COLS && worldMap[r * MAP_COLS + c1] === T_WATER) return false;
+    if (c2 >= 0 && c2 < MAP_COLS && worldMap[r * MAP_COLS + c2] === T_WATER) return false;
+  }
+
+  return true;
+}
+
+function resetPlayerPosition() {
+  player.x = 320;
+  player.y = 340;
+  player.dir = 'down';
+  camera.x = player.x - VIEW_W / 2;
+  camera.y = player.y - VIEW_H / 2;
+  if (gameState === 'PAUSED') togglePauseMenu();
+}
+
+// -------------------------------------------------------------
+// INPUT GESTITI (TASTIERA, TOUCH, CLICK)
+// -------------------------------------------------------------
 window.addEventListener('keydown', (e) => {
   initAudio();
-  if (['ArrowUp', 'KeyW'].includes(e.code)) keys.up = true;
-  if (['ArrowDown', 'KeyS'].includes(e.code)) keys.down = true;
-  if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = true;
-  if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = true;
-  if (['KeyE', 'Space'].includes(e.code)) handleActionButton();
-  if (['KeyB', 'KeyN', 'KeyJ'].includes(e.code)) openJournal();
-  if (['Enter', 'Escape'].includes(e.code)) togglePauseMenu();
+  const k = (e.key || '').toLowerCase();
+  const c = (e.code || '').toLowerCase();
+
+  if (['arrowup', 'w', 'z'].includes(k) || ['arrowup', 'keyw', 'keyz'].includes(c)) keys.up = true;
+  if (['arrowdown', 's'].includes(k) || ['arrowdown', 'keys'].includes(c)) keys.down = true;
+  if (['arrowleft', 'a', 'q'].includes(k) || ['arrowleft', 'keya', 'keyq'].includes(c)) keys.left = true;
+  if (['arrowright', 'd'].includes(k) || ['arrowright', 'keyd'].includes(c)) keys.right = true;
+
+  if (['e', ' '].includes(k) || ['keye', 'space'].includes(c)) handleActionButton();
+  if (['b', 'n', 'j'].includes(k) || ['keyb', 'keyn', 'keyj'].includes(c)) openJournal();
+  if (['enter', 'escape'].includes(k) || ['enter', 'escape'].includes(c)) togglePauseMenu();
 });
 
 window.addEventListener('keyup', (e) => {
-  if (['ArrowUp', 'KeyW'].includes(e.code)) keys.up = false;
-  if (['ArrowDown', 'KeyS'].includes(e.code)) keys.down = false;
-  if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = false;
-  if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = false;
+  const k = (e.key || '').toLowerCase();
+  const c = (e.code || '').toLowerCase();
+
+  if (['arrowup', 'w', 'z'].includes(k) || ['arrowup', 'keyw', 'keyz'].includes(c)) keys.up = false;
+  if (['arrowdown', 's'].includes(k) || ['arrowdown', 'keys'].includes(c)) keys.down = false;
+  if (['arrowleft', 'a', 'q'].includes(k) || ['arrowleft', 'keya', 'keyq'].includes(c)) keys.left = false;
+  if (['arrowright', 'd'].includes(k) || ['arrowright', 'keyd'].includes(c)) keys.right = false;
 });
 
 function bindTouch(id, k) {
   const el = document.getElementById(id);
   if (!el) return;
-  const start = (e) => { e.preventDefault(); initAudio(); keys[k] = true; el.classList.add('pressed'); };
-  const end = (e) => { e.preventDefault(); keys[k] = false; el.classList.remove('pressed'); };
+  const start = (e) => {
+    e.preventDefault();
+    initAudio();
+    keys[k] = true;
+    el.classList.add('pressed');
+  };
+  const end = (e) => {
+    e.preventDefault();
+    keys[k] = false;
+    el.classList.remove('pressed');
+  };
   el.addEventListener('touchstart', start, { passive: false });
   el.addEventListener('touchend', end, { passive: false });
+  el.addEventListener('touchcancel', end, { passive: false });
   el.addEventListener('mousedown', start);
   el.addEventListener('mouseup', end);
   el.addEventListener('mouseleave', end);
@@ -1693,36 +1240,32 @@ document.getElementById('btn-log').addEventListener('click', (e) => {
   openJournal();
 });
 
-titleContinueBtn.addEventListener('click', () => startGameFromTitle(true));
-document.getElementById('title-new-btn').addEventListener('click', () => {
-  if (hasSaveGame()) confirmModal.style.display = 'flex';
-  else startGameFromTitle(false);
-});
-document.getElementById('title-lang-btn').addEventListener('click', () => {
-  setLanguage(currentLang === 'en' ? 'it' : 'en');
-});
-
-document.getElementById('confirm-overwrite-btn').addEventListener('click', () => {
-  confirmModal.style.display = 'none';
-  startGameFromTitle(false);
-});
-document.getElementById('confirm-cancel-btn').addEventListener('click', () => {
-  confirmModal.style.display = 'none';
-});
-
-document.getElementById('menu-resume-btn').addEventListener('click', () => togglePauseMenu());
+// Menu Pausa Handlers
+document.getElementById('menu-resume-btn').addEventListener('click', togglePauseMenu);
 document.getElementById('menu-lang-btn').addEventListener('click', () => {
   setLanguage(currentLang === 'en' ? 'it' : 'en');
 });
-document.getElementById('menu-music-btn').addEventListener('click', () => toggleMusic());
+document.getElementById('menu-music-btn').addEventListener('click', toggleMusic);
 document.getElementById('menu-notes-btn').addEventListener('click', () => {
   togglePauseMenu();
   openJournal();
 });
-document.getElementById('menu-quit-btn').addEventListener('click', () => returnToTitleScreen());
+document.getElementById('menu-reset-btn').addEventListener('click', resetPlayerPosition);
+
+dialogueBox.addEventListener('click', () => {
+  nextDialogue();
+});
+
+// -------------------------------------------------------------
+// DIALOGHI & INTERAZIONI
+// -------------------------------------------------------------
+let isDialogueOpen = false;
+let currentDialogueQueue = [];
+let currentQueueIndex = 0;
 
 function handleActionButton() {
   if (gameState !== 'PLAYING') return;
+
   if (isDialogueOpen) {
     nextDialogue();
     return;
@@ -1737,26 +1280,26 @@ function handleActionButton() {
       let speech = lines[npc.dialogueIndex % lines.length];
       npc.dialogueIndex++;
       if (npc.id === 'deputy') unlockClue('deputy_statement');
-      if (npc.id === 'fisherman') unlockClue('fisherman_rumor');
+      if (npc.id === 'waitress') unlockClue('diner_receipt');
       startDialogue(npc.name, npc.role[currentLang], [speech]);
       return;
     }
   }
 
-  // 2. Cani e Gatti (Interazione amichevole)
-  for (let an of animals) {
-    if ((an.type === 'dog' || an.type === 'cat') && getDistance(pBox, an) < 24) {
-      const petText = an.type === 'dog' 
-        ? (currentLang === 'en' ? "A scruffy hound sniffs your trench coat cautiously, then wags its tail." : "Un segugio infangato fiuta il tuo impermeabile e scodinzola piano.")
-        : (currentLang === 'en' ? "The bayou cat stares at you with emerald eyes and purrs softly." : "Il gatto del bayou ti fissa con occhi smeraldo e fa le fusa.");
-      startDialogue(an.type === 'dog' ? "BAYOU HOUND" : "SWAMP CAT", "ANIMAL", [petText]);
+  // 2. Cani e Gatti
+  for (let animal of animals) {
+    if (['dog', 'cat'].includes(animal.type) && getDistance(pBox, animal) < 26) {
+      const msg = animal.type === 'dog'
+        ? (currentLang === 'en' ? "The bayou hound whines softly and points toward the south trail." : "Il segugio della palude guaisce piano e fissa il sentiero verso sud.")
+        : (currentLang === 'en' ? "The stray cat watches you with pale yellow eyes before licking its paw." : "Il gatto randagio ti fissa con occhi gialli prima di leccarsi la zampa.");
+      startDialogue(animal.name, "ANIMAL", [msg]);
       return;
     }
   }
 
-  // 3. Hotspots Scena Crimine
+  // 3. Hotspots Scena del Crimine
   for (let spot of hotspots) {
-    if (getDistance(pBox, spot) < 28) {
+    if (getDistance(pBox, spot) < 30) {
       unlockClue(spot.clueId);
       const cData = cluesDatabase.find(c => c.id === spot.clueId);
       startDialogue(spot.speaker[currentLang], spot.label[currentLang], [cData.text[currentLang]]);
@@ -1776,7 +1319,7 @@ function handleActionButton() {
     }
   }
 
-  // 5. Pensiero
+  // 5. Pensiero Libero
   const def = I18N[currentLang].defaultThought;
   startDialogue(def.speaker, def.role, [def.text]);
 }
@@ -1785,7 +1328,7 @@ function unlockClue(id) {
   if (!collectedClues.has(id)) {
     collectedClues.add(id);
     cluesCounter.innerText = I18N[currentLang].cluesHud.replace('{0}', collectedClues.size);
-    autoSaveGame();
+    flashSaveIndicator();
   }
 }
 
@@ -1842,87 +1385,171 @@ function getDistance(a, b) {
   return Math.hypot(ax - bx, ay - by);
 }
 
+function flashSaveIndicator() {
+  saveIndicator.style.opacity = '1';
+  setTimeout(() => { saveIndicator.style.opacity = '0'; }, 1200);
+}
+
 // -------------------------------------------------------------
-// UPDATE & LOGICA
+// AUDIO PROCEDURALE
+// -------------------------------------------------------------
+let audioCtx = null;
+let isMusicEnabled = true;
+let musicTimer = null;
+let masterGain = null;
+
+function initAudio() {
+  if (audioCtx) return;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  audioCtx = new AudioContext();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+  masterGain.connect(audioCtx.destination);
+  startProceduralSoundtrack();
+}
+
+function playPluckNote(freq, time, decay = 2.4) {
+  if (!audioCtx || !isMusicEnabled) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, time);
+  gain.gain.setValueAtTime(0.25, time);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + decay);
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start(time);
+  osc.stop(time + decay);
+}
+
+function startProceduralSoundtrack() {
+  const notes = [73.42, 110.00, 146.83, 174.61, 207.65, 220.00];
+  let step = 0;
+  function scheduleNext() {
+    if (!isMusicEnabled || gameState === 'PAUSED') {
+      musicTimer = setTimeout(scheduleNext, 1800);
+      return;
+    }
+    const now = audioCtx.currentTime;
+    playPluckNote(notes[step % notes.length], now + 0.1, 2.5);
+    step++;
+    musicTimer = setTimeout(scheduleNext, 1300 + Math.sin(step) * 200);
+  }
+  scheduleNext();
+}
+
+function toggleMusic() {
+  isMusicEnabled = !isMusicEnabled;
+  if (isMusicEnabled && audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  currentMusicTag.innerText = isMusicEnabled ? I18N[currentLang].musicOn : I18N[currentLang].musicOff;
+}
+
+// -------------------------------------------------------------
+// CICLO GIORNO / NOTTE & METEO
+// -------------------------------------------------------------
+const DAY_CYCLE_DURATION = 300;
+let worldTimeSeconds = 60;
+
+function updateDayNightCycle(deltaTime) {
+  if (gameState !== 'PLAYING') return;
+  worldTimeSeconds = (worldTimeSeconds + deltaTime) % DAY_CYCLE_DURATION;
+  const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
+  const virtualHour = Math.floor((progress * 24 + 6) % 24);
+  const virtualMin = Math.floor((progress * 24 * 60) % 60);
+  timeDisplay.innerText = `${String(virtualHour).padStart(2, '0')}:${String(virtualMin).padStart(2, '0')}`;
+}
+
+function getLightingProfile() {
+  const progress = worldTimeSeconds / DAY_CYCLE_DURATION;
+  const hour = (progress * 24 + 6) % 24;
+
+  if (hour >= 6 && hour < 12) {
+    return { type: 'MORNING', r: 255, g: 250, b: 235, alpha: 0.0, lamps: false };
+  } else if (hour >= 12 && hour < 17.5) {
+    return { type: 'AFTERNOON', r: 255, g: 245, b: 215, alpha: 0.0, lamps: false };
+  } else if (hour >= 17.5 && hour < 20.5) {
+    const f = (hour - 17.5) / 3;
+    return {
+      type: 'SUNSET',
+      r: Math.floor(220 + f * 25),
+      g: Math.floor(110 - f * 20),
+      b: 30,
+      alpha: 0.12 + f * 0.08,
+      lamps: true
+    };
+  } else if (hour >= 20.5 || hour < 5) {
+    return {
+      type: 'NIGHT',
+      r: 20, g: 45, b: 90,
+      alpha: 0.22,
+      lamps: true
+    };
+  } else {
+    const f = hour - 5;
+    return {
+      type: 'DAWN',
+      r: Math.floor(160 + f * 60),
+      g: Math.floor(140 + f * 80),
+      b: Math.floor(190 + f * 40),
+      alpha: 0.14 * (1 - f),
+      lamps: false
+    };
+  }
+}
+
+// -------------------------------------------------------------
+// UPDATE PRINCIPALE (CON SLIDE COLLISION & ANTI-STUCK)
 // -------------------------------------------------------------
 let lastTimestamp = performance.now();
-let periodicAutoSaveTimer = 0;
 
 function update(deltaTime) {
   updateDayNightCycle(deltaTime);
-  updateWeather(deltaTime);
 
   if (gameState !== 'PLAYING') return;
 
-  periodicAutoSaveTimer += deltaTime;
-  if (periodicAutoSaveTimer >= 10) {
-    periodicAutoSaveTimer = 0;
-    autoSaveGame();
+  // Protezione anti-stuck: se il player è dentro una collisione non valida, recuperalo
+  if (!canMoveTo(player.x, player.y)) {
+    player.x = 320;
+    player.y = 340;
   }
 
-  if (isDialogueOpen) return;
+  if (!isDialogueOpen) {
+    let dx = 0;
+    let dy = 0;
+    if (keys.up)    { dy -= player.speed; player.dir = 'up'; }
+    if (keys.down)  { dy += player.speed; player.dir = 'down'; }
+    if (keys.left)  { dx -= player.speed; player.dir = 'left'; }
+    if (keys.right) { dx += player.speed; player.dir = 'right'; }
 
-  let dx = 0;
-  let dy = 0;
-  if (keys.up)    { dy -= player.speed; player.dir = 'up'; }
-  if (keys.down)  { dy += player.speed; player.dir = 'down'; }
-  if (keys.left)  { dx -= player.speed; player.dir = 'left'; }
-  if (keys.right) { dx += player.speed; player.dir = 'right'; }
+    player.isMoving = (dx !== 0 || dy !== 0);
 
-  player.isMoving = (dx !== 0 || dy !== 0);
-  if (dx !== 0 && dy !== 0) {
-    dx *= 0.7071;
-    dy *= 0.7071;
-  }
-
-  let nextX = player.x + dx;
-  let nextY = player.y + dy;
-
-  if (nextX < 8) nextX = 8;
-  if (nextX > WORLD_W - player.w - 8) nextX = WORLD_W - player.w - 8;
-  if (nextY < 8) nextY = 8;
-  if (nextY > WORLD_H - player.h - 8) nextY = WORLD_H - player.h - 8;
-
-  let collidesBuilding = false;
-  for (let b of buildings) {
-    if (nextX < b.x + b.w && nextX + player.w > b.x &&
-        nextY < b.y + b.h && nextY + player.h > b.y) {
-      collidesBuilding = true;
-      break;
+    if (dx !== 0 && dy !== 0) {
+      dx *= 0.7071;
+      dy *= 0.7071;
     }
+
+    // Movimento assi separati: scivola sui muri senza bloccarsi
+    if (dx !== 0 && canMoveTo(player.x + dx, player.y)) {
+      player.x += dx;
+    }
+    if (dy !== 0 && canMoveTo(player.x, player.y + dy)) {
+      player.y += dy;
+    }
+
+    if (player.isMoving) player.animTick += 0.2;
   }
-
-  let tileCol = Math.floor((nextX + player.w / 2) / TILE_SIZE);
-  let tileRow = Math.floor((nextY + player.h) / TILE_SIZE);
-  let isWater = (worldMap[tileRow * MAP_COLS + tileCol] === T_WATER);
-
-  let collidesCar = (nextX < policeCar.x + policeCar.w && nextX + player.w > policeCar.x &&
-                     nextY < policeCar.y + policeCar.h && nextY + player.h > policeCar.y);
-
-  if (!collidesBuilding && !isWater && !collidesCar) {
-    player.x = nextX;
-    player.y = nextY;
-  }
-
-  if (player.isMoving) player.animTick += 0.2;
 
   camera.update();
 
-  // Movimento Cani e Animali
+  // Movimento piccoli animali
   animals.forEach(a => {
     if (a.type === 'dog') {
-      a.anim += 0.15;
-      a.x += a.vx * a.baseDir;
-      if (Math.random() < 0.01) a.baseDir *= -1;
-    } else if (a.type === 'cat') {
-      a.timer += 0.05;
-      if (Math.sin(a.timer) > 0.8) a.x += a.dir * 0.1;
-      if (Math.random() < 0.008) a.dir *= -1;
+      a.x += a.vx;
+      if (a.x > 30 * TILE_SIZE || a.x < 24 * TILE_SIZE) a.vx = -a.vx;
     } else if (a.type === 'alligator') {
-      a.y += Math.sin(player.animTick * 0.4) * 0.2;
-      a.x += a.dir * 0.12;
-      if (a.x > WORLD_W - 20) a.dir = -1;
-      if (a.x < 65 * TILE_SIZE) a.dir = 1;
+      a.x += a.dir * 0.15;
+      if (a.x > WORLD_W - 30) a.dir = -1;
+      if (a.x < 54 * TILE_SIZE) a.dir = 1;
     }
   });
 
@@ -1931,17 +1558,17 @@ function update(deltaTime) {
 
 function updateZoneTitle() {
   const z = I18N[currentLang].zones;
-  if (player.y > 640 && player.x > 500) {
+  if (player.y > 580 && player.x > 400) {
     zoneTitle.innerText = z.glade;
-  } else if (player.y < 200 && player.x < 420) {
+  } else if (player.y < 120 && player.x < 360) {
     zoneTitle.innerText = z.church;
-  } else if (player.x > 950) {
-    zoneTitle.innerText = z.canal;
-  } else if (player.x > 750 && player.y > 450) {
-    zoneTitle.innerText = z.diner;
-  } else if (player.x < 480 && player.y > 220 && player.y < 360) {
+  } else if (player.y < 180 && player.x >= 360 && player.x < 640) {
     zoneTitle.innerText = z.station;
-  } else if (player.y >= 380 && player.y <= 490) {
+  } else if (player.x > 620 && player.y > 200 && player.y < 420) {
+    zoneTitle.innerText = z.diner;
+  } else if (player.x > 750) {
+    zoneTitle.innerText = z.canal;
+  } else if (player.y >= 300 && player.y <= 400) {
     zoneTitle.innerText = z.road;
   } else {
     zoneTitle.innerText = z.reeds;
@@ -1949,123 +1576,115 @@ function updateZoneTitle() {
 }
 
 // -------------------------------------------------------------
-// RENDERING MINIMAPPA GTA VERA (INGRANDITA A 50x50)
-// Mostra la vera conformazione della mappa cartografica
+// RENDERING MINIMAPPA RADAR GTA FEDELE (48px)
 // -------------------------------------------------------------
 function drawMinimap() {
   const mw = minimapCanvas.width;
   const mh = minimapCanvas.height;
   const center = mw / 2;
-  const radarRadius = center - 1;
+  const radius = center - 1.5;
 
   mctx.clearRect(0, 0, mw, mh);
 
   mctx.save();
   mctx.beginPath();
-  mctx.arc(center, center, radarRadius, 0, Math.PI * 2);
+  mctx.arc(center, center, radius, 0, Math.PI * 2);
   mctx.clip();
 
-  // Sfondo base palude
-  mctx.fillStyle = '#234427';
+  // Sfondo palude
+  mctx.fillStyle = '#2c5332';
   mctx.fillRect(0, 0, mw, mh);
 
-  // Scala: copre un raggio di 260px attorno al detective
-  const scale = 0.16;
-  const miniCamX = player.x + player.w / 2;
-  const miniCamY = player.y + player.h / 2;
+  const scale = 0.22;
+  const mcx = player.x + player.w / 2;
+  const mcy = player.y + player.h / 2;
 
-  const tileRadius = Math.ceil((mw / scale) / TILE_SIZE / 2) + 2;
-  const centerTileC = Math.floor(miniCamX / TILE_SIZE);
-  const centerTileR = Math.floor(miniCamY / TILE_SIZE);
+  const tileRadius = Math.ceil((mw / scale) / TILE_SIZE / 2) + 1;
+  const centerC = Math.floor(mcx / TILE_SIZE);
+  const centerR = Math.floor(mcy / TILE_SIZE);
 
-  const startCol = Math.max(0, centerTileC - tileRadius);
-  const endCol = Math.min(MAP_COLS, centerTileC + tileRadius);
-  const startRow = Math.max(0, centerTileR - tileRadius);
-  const endRow = Math.min(MAP_ROWS, centerTileR + tileRadius);
+  const startC = Math.max(0, centerC - tileRadius);
+  const endC = Math.min(MAP_COLS, centerC + tileRadius);
+  const startR = Math.max(0, centerR - tileRadius);
+  const endR = Math.min(MAP_ROWS, centerR + tileRadius);
 
-  // Renderizza il vero terreno cartografico
-  for (let r = startRow; r < endRow; r++) {
-    for (let c = startCol; c < endCol; c++) {
+  // Mappa topografica vera
+  for (let r = startR; r < endR; r++) {
+    for (let c = startC; c < endC; c++) {
       const t = worldMap[r * MAP_COLS + c];
-      const wx = c * TILE_SIZE;
-      const wy = r * TILE_SIZE;
-
-      const sx = center + (wx - miniCamX) * scale;
-      const sy = center + (wy - miniCamY) * scale;
+      const sx = center + (c * TILE_SIZE - mcx) * scale;
+      const sy = center + (r * TILE_SIZE - mcy) * scale;
       const sw = TILE_SIZE * scale + 0.6;
       const sh = TILE_SIZE * scale + 0.6;
 
       if (t === T_WATER) {
-        mctx.fillStyle = '#206380';
+        mctx.fillStyle = '#256b8f';
         mctx.fillRect(sx, sy, sw, sh);
       } else if (t === T_ROAD) {
-        mctx.fillStyle = '#c7a77e';
+        mctx.fillStyle = '#caa477';
         mctx.fillRect(sx, sy, sw, sh);
       } else if (t === T_MUD) {
-        mctx.fillStyle = '#423324';
+        mctx.fillStyle = '#4f3c2c';
         mctx.fillRect(sx, sy, sw, sh);
       } else if (t === T_WOODFLOOR) {
-        mctx.fillStyle = '#7a5a41';
+        mctx.fillStyle = '#7a5a40';
         mctx.fillRect(sx, sy, sw, sh);
       }
     }
   }
 
-  // Disegna edifici reali
+  // Edifici sulla minimappa
   buildings.forEach(b => {
-    const sx = center + (b.x - miniCamX) * scale;
-    const sy = center + (b.y - miniCamY) * scale;
-    mctx.fillStyle = '#18120e';
+    const sx = center + (b.x - mcx) * scale;
+    const sy = center + (b.y - mcy) * scale;
+    mctx.fillStyle = '#1c1510';
     mctx.fillRect(sx, sy, b.w * scale, b.h * scale);
-    mctx.strokeStyle = '#dfa84a';
-    mctx.lineWidth = 0.6;
+    mctx.strokeStyle = '#c49748';
+    mctx.lineWidth = 0.8;
     mctx.strokeRect(sx, sy, b.w * scale, b.h * scale);
   });
 
-  // Lampioni (punti luce delicati)
+  // Lampioni accesi (blip dorati)
   const lp = getLightingProfile();
-  if (lp.lampPower > 0) {
-    mctx.fillStyle = 'rgba(255, 220, 110, 0.7)';
-    streetLamps.forEach(lamp => {
-      const sx = center + (lamp.x - miniCamX) * scale;
-      const sy = center + (lamp.y - miniCamY) * scale;
-      const dist = Math.hypot(sx - center, sy - center);
-      if (dist < radarRadius - 2) {
-        mctx.fillRect(sx - 0.5, sy - 0.5, 1.5, 1.5);
+  if (lp.lamps) {
+    mctx.fillStyle = '#ffea75';
+    streetLamps.forEach(l => {
+      const sx = center + (l.x - mcx) * scale;
+      const sy = center + (l.y - mcy) * scale;
+      if (Math.hypot(sx - center, sy - center) < radius) {
+        mctx.fillRect(sx - 0.7, sy - 0.7, 1.5, 1.5);
       }
     });
   }
 
-  // Hotspot / Indizi (blip dorati)
+  // Blip Indizi (gialli/verdi)
   hotspots.forEach(spot => {
-    const sx = center + (spot.x - miniCamX) * scale;
-    const sy = center + (spot.y - miniCamY) * scale;
-    const dist = Math.hypot(sx - center, sy - center);
-    if (dist < radarRadius - 3) {
-      mctx.fillStyle = collectedClues.has(spot.clueId) ? '#48bb78' : '#ecc94b';
-      mctx.fillRect(sx - 1.5, sy - 1.5, 3, 3);
+    const sx = center + (spot.x - mcx) * scale;
+    const sy = center + (spot.y - mcy) * scale;
+    if (Math.hypot(sx - center, sy - center) < radius - 2) {
+      mctx.fillStyle = collectedClues.has(spot.clueId) ? '#5eead4' : '#f59e0b';
+      mctx.fillRect(sx - 1.2, sy - 1.2, 2.5, 2.5);
     }
   });
 
-  // NPC (blip azzurri ciano)
+  // Blip NPC (ciano)
   npcs.forEach(npc => {
-    const sx = center + (npc.x - miniCamX) * scale;
-    const sy = center + (npc.y - miniCamY) * scale;
-    const dist = Math.hypot(sx - center, sy - center);
-    if (dist < radarRadius - 3) {
+    const sx = center + (npc.x - mcx) * scale;
+    const sy = center + (npc.y - mcy) * scale;
+    if (Math.hypot(sx - center, sy - center) < radius - 2) {
       mctx.fillStyle = '#38bdf8';
-      mctx.fillRect(sx - 1.5, sy - 1.5, 3, 3);
+      mctx.fillRect(sx - 1.2, sy - 1.2, 2.5, 2.5);
     }
   });
 
-  // Reticolo radar concentrico
-  mctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+  // Cerchi radar concentrici GTA
+  mctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
   mctx.lineWidth = 1;
   mctx.beginPath();
-  mctx.arc(center, center, radarRadius * 0.5, 0, Math.PI * 2);
+  mctx.arc(center, center, radius * 0.55, 0, Math.PI * 2);
   mctx.stroke();
 
-  // Freccia direzionale detective Hayes
+  // Freccia direzionale player
   mctx.save();
   mctx.translate(center, center);
   let rot = 0;
@@ -2086,22 +1705,22 @@ function drawMinimap() {
 
   mctx.restore();
 
-  // Bordo Radar dorato/verde
-  mctx.strokeStyle = 'rgba(140, 180, 155, 0.7)';
+  // Bordo metallico radar
+  mctx.strokeStyle = 'rgba(110, 150, 130, 0.8)';
   mctx.lineWidth = 2;
   mctx.beginPath();
-  mctx.arc(center, center, radarRadius, 0, Math.PI * 2);
+  mctx.arc(center, center, radius, 0, Math.PI * 2);
   mctx.stroke();
 }
 
 // -------------------------------------------------------------
-// RENDERING PRINCIPALE
+// RENDERING MONDO DI GIOCO
 // -------------------------------------------------------------
 function draw() {
   ctx.save();
   ctx.translate(-Math.floor(camera.x), -Math.floor(camera.y));
 
-  // Terreno
+  // 1. Terreno
   let startCol = Math.floor(camera.x / TILE_SIZE);
   let endCol = Math.min(MAP_COLS, startCol + Math.ceil(VIEW_W / TILE_SIZE) + 2);
   let startRow = Math.floor(camera.y / TILE_SIZE);
@@ -2143,13 +1762,13 @@ function draw() {
     }
   }
 
-  // Pontile in legno
+  // 2. Pontile & Barche
   ctx.fillStyle = PAL.woodLight;
-  ctx.fillRect(62 * TILE_SIZE, 23 * TILE_SIZE, 6 * TILE_SIZE, 7);
+  ctx.fillRect(48 * TILE_SIZE, 22 * TILE_SIZE, 6 * TILE_SIZE, 6);
   ctx.fillStyle = '#5c412f';
-  ctx.fillRect(66 * TILE_SIZE, 25 * TILE_SIZE, 18, 8);
+  ctx.fillRect(52 * TILE_SIZE, 24 * TILE_SIZE, 18, 8);
 
-  // Edifici
+  // 3. Edifici
   buildings.forEach(b => {
     ctx.fillStyle = PAL.woodDark;
     ctx.fillRect(b.x, b.y, b.w, b.h);
@@ -2159,67 +1778,37 @@ function draw() {
     ctx.fillRect(b.doorX - 2, b.doorY - 6, 12, 14);
 
     const lp = getLightingProfile();
-    ctx.fillStyle = (lp.type === 'NIGHT' || lp.type === 'SUNSET') ? '#ffe27a' : '#ebb344';
-    ctx.fillRect(b.x + 10, b.y + 14, 4, 4);
+    ctx.fillStyle = lp.lamps ? '#ffe27a' : '#ebb344';
+    ctx.fillRect(b.x + 8, b.y + 12, 4, 4);
 
     if (b.name.includes("Church")) {
       ctx.fillStyle = '#a1b2b5';
       ctx.fillRect(b.x + b.w / 2 - 1, b.y - 10, 3, 9);
       ctx.fillRect(b.x + b.w / 2 - 4, b.y - 7, 9, 2);
-    } else if (b.name.includes("Diner")) {
-      // Insegna Diner
-      ctx.fillStyle = '#cf3232';
-      ctx.fillRect(b.x + 4, b.y - 7, b.w - 8, 5);
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(b.x + 8, b.y - 5, 4, 2);
     }
   });
 
-  // Auto Polizia
+  // 4. Auto Pattuglia
   ctx.fillStyle = 'rgba(0,0,0,0.4)';
-  ctx.fillRect(policeCar.x + 2, policeCar.y + 14, 32, 6);
+  ctx.fillRect(policeCar.x + 2, policeCar.y + 12, 30, 6);
   ctx.fillStyle = PAL.policeBlue;
-  ctx.fillRect(policeCar.x, policeCar.y + 4, 36, 12);
+  ctx.fillRect(policeCar.x, policeCar.y + 2, 34, 12);
   ctx.fillStyle = '#f2f4f7';
-  ctx.fillRect(policeCar.x + 8, policeCar.y + 4, 18, 12);
+  ctx.fillRect(policeCar.x + 7, policeCar.y + 2, 18, 12);
   let flash = Math.floor(player.animTick * 3) % 2 === 0;
   ctx.fillStyle = flash ? '#ef3b3b' : '#3080f0';
-  ctx.fillRect(policeCar.x + 16, policeCar.y - 2, 3, 2);
+  ctx.fillRect(policeCar.x + 15, policeCar.y - 2, 3, 2);
 
-  // Lampioni Stradali e Alone di Luce Fioco (tramonto/notte)
-  const lp = getLightingProfile();
-  streetLamps.forEach(lamp => {
-    // Palo in ferro battuto
-    ctx.fillStyle = '#1c2120';
-    ctx.fillRect(lamp.x + 2, lamp.y - 14, 2, 16);
-    ctx.fillRect(lamp.x, lamp.y - 16, 6, 3);
-
-    // Lanterna accesa se sera o notte
-    if (lp.lampPower > 0) {
-      // Bulbo luminoso
-      ctx.fillStyle = '#fff4ba';
-      ctx.fillRect(lamp.x + 1, lamp.y - 15, 4, 4);
-
-      // Suggestivo alone radiale fioco attorno al lampione
-      const lampGlow = ctx.createRadialGradient(
-        lamp.x + 3, lamp.y - 13, 2,
-        lamp.x + 3, lamp.y - 13, 34
-      );
-      lampGlow.addColorStop(0, `rgba(255, 230, 140, ${0.45 * lp.lampPower})`);
-      lampGlow.addColorStop(0.5, `rgba(240, 180, 70, ${0.18 * lp.lampPower})`);
-      lampGlow.addColorStop(1, 'rgba(240, 180, 70, 0)');
-
-      ctx.fillStyle = lampGlow;
-      ctx.beginPath();
-      ctx.arc(lamp.x + 3, lamp.y - 13, 34, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      ctx.fillStyle = '#594f3b';
-      ctx.fillRect(lamp.x + 1, lamp.y - 15, 4, 3);
-    }
+  // 5. Lampioni Stradali (Struttura in ferro)
+  streetLamps.forEach(l => {
+    ctx.fillStyle = '#222624';
+    ctx.fillRect(l.x, l.y, 2, 14);
+    ctx.fillRect(l.x - 3, l.y, 8, 2);
+    ctx.fillStyle = '#dcd4b8';
+    ctx.fillRect(l.x - 1, l.y + 2, 4, 4);
   });
 
-  // Alberi Cipresso
+  // 6. Alberi Cipresso
   trees.forEach(t => {
     ctx.fillStyle = '#2d2017';
     ctx.fillRect(t.x + t.size / 2 - 3, t.y + t.size * 0.4, 6, t.size * 0.6);
@@ -2233,7 +1822,7 @@ function draw() {
     }
   });
 
-  // Hotspot Radura Albero
+  // 7. Hotspot Albero Rituale
   let treeSpot = hotspots[0];
   ctx.fillStyle = PAL.bloodDark;
   ctx.fillRect(treeSpot.x + 4, treeSpot.y + 12, 14, 4);
@@ -2245,22 +1834,17 @@ function draw() {
   ctx.fillStyle = PAL.goldSymbol;
   ctx.fillRect(treeSpot.x + 10, treeSpot.y + 7, 2, 2);
 
-  // Animali (Cani, Gatti, Alligatori, Corvi)
+  // 8. Animali (Cani, Gatti, Alligatori)
   animals.forEach(a => {
     if (a.type === 'dog') {
-      ctx.fillStyle = '#7a5a3a';
-      ctx.fillRect(a.x, a.y + 2, 9, 5);
-      ctx.fillRect(a.x + (a.baseDir > 0 ? 7 : -1), a.y, 3, 4);
-      // zampette
-      let legBob = Math.sin(a.anim) * 1.5;
-      ctx.fillRect(a.x + 1, a.y + 7, 2, 2 + legBob);
-      ctx.fillRect(a.x + 6, a.y + 7, 2, 2 - legBob);
+      ctx.fillStyle = '#8a623c';
+      ctx.fillRect(a.x, a.y + 4, 10, 5);
+      ctx.fillStyle = '#5c4127';
+      ctx.fillRect(a.x + (a.vx > 0 ? 8 : -1), a.y + 2, 3, 3);
     } else if (a.type === 'cat') {
       ctx.fillStyle = a.color;
-      ctx.fillRect(a.x, a.y + 2, 6, 3);
-      ctx.fillRect(a.x + (a.dir > 0 ? 4 : 0), a.y, 2, 3);
-      // codina
-      ctx.fillRect(a.x + (a.dir > 0 ? -1 : 5), a.y + 1, 1, 3);
+      ctx.fillRect(a.x, a.y + 3, 6, 4);
+      ctx.fillRect(a.x + 4, a.y + 1, 2, 2);
     } else if (a.type === 'alligator') {
       ctx.fillStyle = '#2a4530';
       ctx.fillRect(a.x, a.y, 16, 5);
@@ -2272,7 +1856,7 @@ function draw() {
     }
   });
 
-  // NPC
+  // 9. NPC
   npcs.forEach(npc => {
     ctx.fillStyle = 'rgba(0,0,0,0.3)';
     ctx.fillRect(npc.x + 2, npc.y + 13, 8, 3);
@@ -2282,16 +1866,16 @@ function draw() {
       ctx.fillStyle = '#947a5b';
       ctx.fillRect(npc.x + 1, npc.y, 10, 2);
     } else if (npc.id === 'sheriff') {
-      ctx.fillStyle = '#3a2d1d';
+      ctx.fillStyle = '#443224';
       ctx.fillRect(npc.x + 2, npc.y + 4, 8, 8);
-      ctx.fillStyle = '#d4af37';
+      ctx.fillStyle = '#c9a444';
       ctx.fillRect(npc.x + 4, npc.y + 6, 2, 2);
-      ctx.fillStyle = '#4a3b2c';
-      ctx.fillRect(npc.x, npc.y, 12, 3);
+      ctx.fillStyle = '#8a6a43';
+      ctx.fillRect(npc.x, npc.y - 1, 12, 3);
     } else if (npc.id === 'waitress') {
-      ctx.fillStyle = '#2d5a7b';
+      ctx.fillStyle = '#2a6b5a';
       ctx.fillRect(npc.x + 2, npc.y + 4, 8, 8);
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = '#fff';
       ctx.fillRect(npc.x + 4, npc.y + 6, 4, 4);
     } else if (npc.id === 'preacher') {
       ctx.fillStyle = '#1c2022';
@@ -2306,7 +1890,7 @@ function draw() {
     ctx.fillRect(npc.x + 4, npc.y + 2, 4, 2);
   });
 
-  // Detective Rust Hayes
+  // 10. Detective Rust Hayes
   const bob = player.isMoving ? Math.sin(player.animTick) * 1 : 0;
   ctx.fillStyle = 'rgba(0,0,0,0.35)';
   ctx.fillRect(player.x + 2, player.y + 13, 8, 3);
@@ -2322,39 +1906,51 @@ function draw() {
   ctx.fillStyle = '#2b211a';
   ctx.fillRect(player.x + 3, player.y + bob, 6, 2);
 
+  // 11. Alone di luce calda attorno ai lampioni di sera/notte
+  const lp = getLightingProfile();
+  if (lp.lamps) {
+    streetLamps.forEach(l => {
+      const grad = ctx.createRadialGradient(l.x + 1, l.y + 4, 4, l.x + 1, l.y + 4, 34);
+      grad.addColorStop(0, 'rgba(255, 230, 140, 0.45)');
+      grad.addColorStop(0.5, 'rgba(230, 180, 80, 0.18)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(l.x + 1, l.y + 4, 34, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  // Prompt interazione
   checkInteractionPrompt();
+
   ctx.restore();
 
-  // Luce Atmosferica & Meteo
-  drawAtmosphericLighting();
-  drawWeatherEffects();
+  // 12. Grading Notturno & Scanline
+  if (lp.alpha > 0) {
+    ctx.fillStyle = `rgba(${lp.r}, ${lp.g}, ${lp.b}, ${lp.alpha})`;
+    ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+  }
 
-  // Minimappa Radar GTA
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  for (let y = 0; y < VIEW_H; y += 2) {
+    ctx.fillRect(0, y, VIEW_W, 1);
+  }
+
+  // 13. Minimappa Radar GTA
   drawMinimap();
 }
 
 function checkInteractionPrompt() {
   const pBox = { x: player.x, y: player.y, w: player.w, h: player.h };
   let canInteract = npcs.some(n => getDistance(pBox, n) < 28) ||
-                    hotspots.some(s => getDistance(pBox, s) < 28) ||
-                    animals.some(a => (a.type === 'dog' || a.type === 'cat') && getDistance(pBox, a) < 24) ||
+                    animals.some(a => ['dog', 'cat'].includes(a.type) && getDistance(pBox, a) < 26) ||
+                    hotspots.some(s => getDistance(pBox, s) < 30) ||
                     buildings.some(b => getDistance(pBox, { x: b.doorX, y: b.doorY, w: 16, h: 16 }) < 26);
   if (canInteract) {
     ctx.fillStyle = '#f5c842';
     ctx.fillRect(player.x + 5, player.y - 8, 3, 5);
     ctx.fillRect(player.x + 5, player.y - 2, 3, 2);
-  }
-}
-
-function drawAtmosphericLighting() {
-  const lp = getLightingProfile();
-  if (lp.alpha > 0) {
-    ctx.fillStyle = `rgba(${lp.r}, ${lp.g}, ${lp.b}, ${lp.alpha})`;
-    ctx.fillRect(0, 0, VIEW_W, VIEW_H);
-  }
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-  for (let y = 0; y < VIEW_H; y += 2) {
-    ctx.fillRect(0, y, VIEW_W, 1);
   }
 }
 
@@ -2370,7 +1966,6 @@ function gameLoop(currentTimestamp) {
 }
 
 setLanguage('en');
-checkContinueButton();
 requestAnimationFrame((ts) => {
   lastTimestamp = ts;
   requestAnimationFrame(gameLoop);
